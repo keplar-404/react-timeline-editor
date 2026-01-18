@@ -1,0 +1,6 @@
+releases:
+  "@xzdarcy/react-timeline-editor": patch
+  "@xzdarcy/timeline-engine": patch
+
+declined:
+  - docs
