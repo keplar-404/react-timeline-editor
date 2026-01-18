@@ -1,5 +1,5 @@
 import React, { useEffect, useImperativeHandle, useLayoutEffect, useRef, useState, useCallback } from 'react';
-import { AutoSizer, Grid, GridCellRenderer, OnScrollParams } from 'react-virtualized';
+import { AutoSizer, Grid, GridCellRenderer, OnScrollParams, ScrollParams } from 'react-virtualized';
 import { TimelineRow } from '@xzdarcy/timeline-engine';
 import { CommonProp } from '../../interface/common_prop';
 import { EditData } from '../../interface/timeline';
@@ -9,7 +9,7 @@ import { DragLines } from './drag_lines';
 import './edit_area.less';
 import { EditRow } from './edit_row';
 import { useDragLine } from './hooks/use_drag_line';
-import { calculateRowAccumulatedHeight, calculateTotalHeight, getRowHeights, calculateInsertionLineTop, isValidDragTarget } from './drag_utils';
+import { calculateTotalHeight, getRowHeights, isValidDragTarget } from './drag_utils';
 import { InsertionLine } from './insertion_line';
 import { DragPreview } from './drag_preview';
 
@@ -104,6 +104,9 @@ export const EditArea = React.forwardRef<EditAreaState, EditAreaProps>((props, r
   const editAreaRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<Grid>(null);
   const heightRef = useRef(-1);
+  const scrollToPositionRef = useRef({ scrollLeft, scrollTop });
+  // 可选
+  const onScrollParamsRef = useRef<ScrollParams>({ clientHeight: 0, clientWidth: 0, scrollHeight: 0, scrollLeft: 0, scrollTop: 0, scrollWidth: 0 });
 
   // 拖拽状态管理
   const [dragState, setDragState] = useState<DragState>(initialDragState);
@@ -133,10 +136,11 @@ export const EditArea = React.forwardRef<EditAreaState, EditAreaProps>((props, r
   // 计算目标位置 - 基于鼠标距离最近的行边界
   const calculateTargetIndex = useCallback(
     (clientY: number): { index: number; position: 'top' | 'bottom' } => {
-      if (!editAreaRef.current || !gridRef.current) return { index: -1, position: 'top' };
+      if (!editAreaRef.current) return { index: -1, position: 'top' };
 
       const rect = editAreaRef.current.getBoundingClientRect();
-      const viewportTop = clientY - rect.top + scrollTop;
+      // 使用props.scrollTop，因为Grid组件的scrollTop通过onScroll回调同步到了props
+      const viewportTop = clientY - rect.top + scrollToPositionRef.current.scrollTop;
 
       const rowCount = editorData.length;
       let currentTop = 0;
@@ -145,14 +149,13 @@ export const EditArea = React.forwardRef<EditAreaState, EditAreaProps>((props, r
       if (rowCount > 0 && viewportTop < 0) {
         return { index: 0, position: 'top' };
       }
-
       for (let i = 0; i < rowCount; i++) {
-        const rowHeight = editorData[i]?.rowHeight || props.rowHeight;
-        const rowBottom = currentTop + rowHeight;
+        const currentRowHeight = editorData[i]?.rowHeight || rowHeight;
+        const currentRowBottom = currentTop + currentRowHeight;
 
-        if (viewportTop >= currentTop && viewportTop <= rowBottom) {
+        if (viewportTop >= currentTop && viewportTop <= currentRowBottom) {
           const distanceToTop = Math.abs(viewportTop - currentTop);
-          const distanceToBottom = Math.abs(viewportTop - rowBottom);
+          const distanceToBottom = Math.abs(viewportTop - currentRowBottom);
 
           if (distanceToTop < distanceToBottom) {
             return { index: i, position: 'top' };
@@ -161,12 +164,12 @@ export const EditArea = React.forwardRef<EditAreaState, EditAreaProps>((props, r
           }
         }
 
-        currentTop = rowBottom;
+        currentTop = currentRowBottom;
       }
 
       return { index: rowCount, position: 'top' };
     },
-    [editorData, props.rowHeight, scrollTop],
+    [editorData, rowHeight],
   );
 
   // 计算拖拽预览位置
@@ -175,8 +178,8 @@ export const EditArea = React.forwardRef<EditAreaState, EditAreaProps>((props, r
       if (!editAreaRef.current) return 0;
 
       const rect = editAreaRef.current.getBoundingClientRect();
-      // 计算鼠标在编辑区域内的相对Y坐标，加上当前滚动位置
-      let previewTop = clientY - rect.top + scrollTop;
+      // 使用props.scrollTop，因为Grid组件的scrollTop通过onScroll回调同步到了props
+      let previewTop = clientY - rect.top;
       // 调整为元素中心对齐鼠标
       previewTop -= dragPreviewHeight / 2;
 
@@ -188,15 +191,25 @@ export const EditArea = React.forwardRef<EditAreaState, EditAreaProps>((props, r
     [scrollTop],
   );
 
+  const calculateRowAccumulatedHeight = useCallback(
+    (rowIndex: number): number => {
+      let accumulatedHeight = 0;
+      for (let i = 0; i < rowIndex; i++) {
+        accumulatedHeight += editorData[i]?.rowHeight || rowHeight;
+      }
+      return Math.max(0, accumulatedHeight - scrollTop);
+    },
+    [editorData, scrollTop, rowHeight],
+  );
+
   // 初始化拖拽状态
   const initializeDragState = useCallback(
     (row: TimelineRow, rowIndex: number) => {
       const originalData = [...editorData];
-      const dragPreviewHeight = row.rowHeight || props.rowHeight;
+      const dragPreviewHeight = row.rowHeight || rowHeight;
 
       // 使用工具函数计算拖拽预览位置
-      const dragPreviewTop = calculateRowAccumulatedHeight(editorData, rowIndex, props.rowHeight);
-
+      const dragPreviewTop = calculateRowAccumulatedHeight(rowIndex);
       return {
         isDragging: true,
         draggedRow: row,
@@ -218,7 +231,7 @@ export const EditArea = React.forwardRef<EditAreaState, EditAreaProps>((props, r
         },
       };
     },
-    [editorData, props.rowHeight, calculateRowAccumulatedHeight],
+    [editorData, rowHeight, calculateRowAccumulatedHeight],
   );
 
   // 更新拖拽状态
@@ -271,12 +284,73 @@ export const EditArea = React.forwardRef<EditAreaState, EditAreaProps>((props, r
 
       // 防抖机制控制变量
       let animationFrameId: number | null = null;
+      let autoScrollAnimationFrameId: number | null = null;
       let lastUpdateTime = 0;
       const UPDATE_INTERVAL = 16; // 约60fps，与浏览器刷新率匹配
 
+      // 记录当前鼠标位置，用于持续滚动检查
+      let currentMouseY = 0;
+      let isDragging = false;
+
+      const updateDragPosition = (currentMouseY: number) => {
+        const currentTime = Date.now();
+        // 检查时间间隔，控制更新频率
+        if (currentTime - lastUpdateTime >= UPDATE_INTERVAL) {
+          const targetInfo = calculateTargetIndex(currentMouseY);
+          const targetIndex = targetInfo.index;
+          const previewTop = calculateDragPreviewPosition(currentMouseY, initialDragState.dragPreview.height);
+          // 直接更新状态，避免setTimeout延迟
+          setDragState((prev) => updateDragState(prev, targetIndex, previewTop, rowIndex));
+
+          lastUpdateTime = currentTime;
+        }
+      };
+
+      // 持续滚动检查函数 - 独立于鼠标移动事件
+      const checkAndScroll = () => {
+        if (!isDragging) {
+          // 直接下一帧检查
+          return (autoScrollAnimationFrameId = requestAnimationFrame(checkAndScroll));
+        }
+
+        if (editAreaRef.current && gridRef.current) {
+          const editAreaElement = editAreaRef.current;
+          const gridElement = editAreaElement.querySelector('.ReactVirtualized__Grid') as HTMLElement;
+
+          if (gridElement) {
+            const gridRect = gridElement.getBoundingClientRect();
+            const scrollThreshold = 50; // 触发滚动的阈值距离
+            const scrollSpeed = 10; // 滚动速度
+
+            // 鼠标位置相对于grid元素的位置
+            const mouseY = currentMouseY - gridRect.top;
+            // 检查是否需要向上滚动
+            if (mouseY < scrollThreshold) {
+              const newScrollTop = gridElement.scrollTop - scrollSpeed;
+              onScroll({ ...onScrollParamsRef.current, scrollTop: Math.max(0, newScrollTop) });
+              updateDragPosition(currentMouseY);
+            }
+            // 检查是否需要向下滚动
+            else if (mouseY > gridRect.height - scrollThreshold) {
+              const newScrollTop = gridElement.scrollTop + scrollSpeed;
+              onScroll({ ...onScrollParamsRef.current, scrollTop: Math.min(newScrollTop, gridElement.scrollHeight - gridRect.height) });
+              updateDragPosition(currentMouseY);
+            }
+          }
+        }
+
+        // 继续下一帧检查
+        autoScrollAnimationFrameId = requestAnimationFrame(checkAndScroll);
+      };
+
+      // 启动持续滚动检查
+      autoScrollAnimationFrameId = requestAnimationFrame(checkAndScroll);
+
       // 鼠标移动处理函数
       const handleMouseMove = (moveEvent: MouseEvent) => {
-        const currentTime = Date.now();
+        isDragging = true;
+        // 更新当前鼠标位置
+        currentMouseY = moveEvent.clientY;
 
         // 取消之前的动画帧
         if (animationFrameId) {
@@ -285,26 +359,25 @@ export const EditArea = React.forwardRef<EditAreaState, EditAreaProps>((props, r
 
         // 使用requestAnimationFrame确保与浏览器渲染同步
         animationFrameId = requestAnimationFrame(() => {
-          // 检查时间间隔，控制更新频率
-          if (currentTime - lastUpdateTime >= UPDATE_INTERVAL) {
-            const targetInfo = calculateTargetIndex(moveEvent.clientY);
-            const targetIndex = targetInfo.index;
-            const previewTop = calculateDragPreviewPosition(moveEvent.clientY, initialDragState.dragPreview.height);
-
-            // 直接更新状态，避免setTimeout延迟
-            setDragState((prev) => updateDragState(prev, targetIndex, previewTop, rowIndex));
-            lastUpdateTime = currentTime;
-          }
+          updateDragPosition(currentMouseY);
           animationFrameId = null;
         });
       };
 
       // 鼠标抬起处理函数
       const handleMouseUp = () => {
+        // 停止拖拽和滚动检查
+        isDragging = false;
+
         // 清理动画帧
         if (animationFrameId) {
           cancelAnimationFrame(animationFrameId);
           animationFrameId = null;
+        }
+
+        if (autoScrollAnimationFrameId) {
+          cancelAnimationFrame(autoScrollAnimationFrameId);
+          autoScrollAnimationFrameId = null;
         }
 
         // 使用函数式更新确保获取最新状态
@@ -314,6 +387,7 @@ export const EditArea = React.forwardRef<EditAreaState, EditAreaProps>((props, r
           // 立即重置拖拽状态，确保视觉反馈立即消失
           const resetState = {
             ...initialDragState,
+            isDragging: false,
             draggedIndex: -1,
             dragPreview: {
               ...initialDragState.dragPreview,
@@ -333,6 +407,7 @@ export const EditArea = React.forwardRef<EditAreaState, EditAreaProps>((props, r
           return resetState;
         });
 
+        // 移除事件监听
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
       };
@@ -340,7 +415,7 @@ export const EditArea = React.forwardRef<EditAreaState, EditAreaProps>((props, r
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
     },
-    [enableRowDrag, onRowDragStart, initializeDragState, calculateTargetIndex, calculateDragPreviewPosition, updateDragState, handleDragEnd],
+    [enableRowDrag, onRowDragStart, initializeDragState, calculateTargetIndex, calculateDragPreviewPosition, updateDragState, handleDragEnd, scrollTop],
   );
 
   const handleInitDragLine: EditData['onActionMoveStart'] = (data) => {
@@ -435,6 +510,7 @@ export const EditArea = React.forwardRef<EditAreaState, EditAreaProps>((props, r
 
   useLayoutEffect(() => {
     gridRef.current?.scrollToPosition({ scrollTop, scrollLeft });
+    scrollToPositionRef.current = { scrollTop, scrollLeft };
   }, [scrollTop, scrollLeft]);
 
   useEffect(() => {
@@ -475,11 +551,12 @@ export const EditArea = React.forwardRef<EditAreaState, EditAreaProps>((props, r
                 overscanRowCount={10}
                 overscanColumnCount={0}
                 onScroll={(param) => {
+                  onScrollParamsRef.current = param;
                   onScroll(param);
                 }}
               />
               {/* 插入线指示器 */}
-              <InsertionLine editorData={editorData} rowHeight={rowHeight} insertionLineIndex={dragState.insertionLine.index} visible={dragState.insertionLine.visible} />
+              <InsertionLine top={calculateRowAccumulatedHeight(dragState.insertionLine.index)} visible={dragState.insertionLine.visible} />
               {/* 拖拽预览元素 */}
               <DragPreview top={dragState.dragPreview.top} height={dragState.dragPreview.height} visible={dragState.dragPreview.visible} />
             </>

@@ -4,12 +4,8 @@ import { TimelineRow } from '@xzdarcy/timeline-engine';
 import { calculateInsertionLineTop } from './drag_utils';
 
 interface InsertionLineProps {
-  /** 编辑器数据 */
-  editorData: TimelineRow[];
-  /** 默认行高 */
-  rowHeight: number;
-  /** 插入线索引 */
-  insertionLineIndex: number;
+  /** 距离顶部高度 */
+  top: number;
   /** 插入线是否可见 */
   visible: boolean;
 }
@@ -17,18 +13,13 @@ interface InsertionLineProps {
 /**
  * 插入线组件 - 显示拖拽插入位置
  */
-export const InsertionLine: FC<InsertionLineProps> = ({
-  editorData,
-  rowHeight,
-  insertionLineIndex,
-  visible,
-}) => {
-  if (!visible || insertionLineIndex < 0) {
+export const InsertionLine: FC<InsertionLineProps> = ({ top, visible }) => {
+  if (!visible || top < 0) {
     return null;
   }
 
   // 计算插入线位置
-  const top = calculateInsertionLineTop(editorData, insertionLineIndex, rowHeight);
+  // const top = calculateInsertionLineTop(editorData, insertionLineIndex, rowHeight);
 
   return (
     <div
