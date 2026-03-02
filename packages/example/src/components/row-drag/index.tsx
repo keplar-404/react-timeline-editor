@@ -27,7 +27,7 @@ const EFFECT_COLORS: Record<string, { bg: string; border: string; label: string 
   effect1: { bg: '#3b1a4a', border: '#a855f7', label: 'FX-B' },
 };
 
-const CustomBlockRender = (action: TimelineAction, row: TimelineRow) => {
+const CustomBlockRender = (action: TimelineAction, _row: TimelineRow) => {
   const colors = EFFECT_COLORS[action.effectId] || { bg: '#333', border: '#666', label: action.effectId };
   return (
     <div
@@ -373,7 +373,7 @@ const FeatureDemo: React.FC = () => {
                 setData([...editorData]);
                 log(`Row drag end: row ${row.id} → new position`);
               }}
-              onClickAction={(e, { action, row }) => {
+              onClickAction={(_e, { action, row }) => {
                 log(`Click: ${action.id} in row ${row.id}`);
               }}
               onActionCut={({ action, leftAction, rightAction }) => {
