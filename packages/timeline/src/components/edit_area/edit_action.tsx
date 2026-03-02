@@ -378,8 +378,6 @@ export const EditAction: FC<EditActionProps> = ({
       <div
         onMouseDown={(e) => {
           isDragWhenClick.current = false;
-          // In cut mode with Alt held, skip drag so the click can cut
-          if (enableCut && e.altKey) return;
           // Initiate cross-row drag from the whole block
           if (enableCrossRowDrag && movable && !disableDrag) {
             handleBlockMouseDown(e);

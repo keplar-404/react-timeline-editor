@@ -412,14 +412,12 @@
 
       &-action {
         background-color: #1e2a3a;
-        // Use inset box-shadow instead of border-left so adjacent cut pieces
-        // have no layout gap (border-left takes physical space; box-shadow does not)
-        box-shadow: inset 2px 0 0 0 #3b82f6;
+        border-left: 2px solid #3b82f6;
         border-radius: 3px;
 
         &-effect-effect1 {
           background-color: #2a1e3a;
-          box-shadow: inset 2px 0 0 0 #a855f7;
+          border-left-color: #a855f7;
         }
       }
 
