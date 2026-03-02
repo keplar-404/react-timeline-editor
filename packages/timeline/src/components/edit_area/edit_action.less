@@ -1,10 +1,25 @@
 .timeline-editor {
-
   &-action {
     position: absolute;
     left: 0;
     top: 0;
     background-color: #2f3134;
+    cursor: default;
+    transition: box-shadow 0.15s ease;
+
+    /** Glow effect when the block is in an active drag state (cross-row) */
+    &.action-cross-row-dragging {
+      box-shadow:
+        0 0 0 2px rgba(99, 179, 237, 0.8),
+        0 0 16px rgba(99, 179, 237, 0.6),
+        0 0 32px rgba(99, 179, 237, 0.3);
+      opacity: 0.75;
+      z-index: 10;
+    }
+
+    &.action-movable {
+      cursor: move;
+    }
 
     & &-left-stretch,
     & &-right-stretch {
@@ -28,20 +43,22 @@
 
     & &-left-stretch {
       left: 0;
+      cursor: w-resize;
       &::after {
         left: 0;
-        content: "";
-        border-left: 7px solid rgba(255, 255, 255, .1);
+        content: '';
+        border-left: 7px solid rgba(255, 255, 255, 0.1);
         border-right: 7px solid transparent;
       }
     }
 
     & &-right-stretch {
       right: 0;
+      cursor: e-resize;
       &::after {
         right: 0;
-        content: "";
-        border-right: 7px solid rgba(255, 255, 255, .1);
+        content: '';
+        border-right: 7px solid rgba(255, 255, 255, 0.1);
         border-left: 7px solid transparent;
       }
     }

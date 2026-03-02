@@ -13,26 +13,45 @@ export type EditRowProps = CommonProp & {
   style?: React.CSSProperties;
   dragLineData: DragLineData;
   setEditorData: (params: TimelineRow[]) => void;
-  /** 距离左侧滚动距离 */
+  /** Horizontal scroll offset */
   scrollLeft: number;
-  /** 设置scroll left */
+  /** Horizontal scroll delta */
   deltaScrollLeft: (scrollLeft: number) => void;
-  /** 拖拽相关属性 */
+  /** Row index in the editor data array */
   rowIndex?: number;
-  /** 当前拖拽状态 */
+  /** Current row-reorder drag state */
   dragState?: {
     isDragging: boolean;
     draggedIndex: number;
   };
+  /** Enable cross-row block drag */
+  enableCrossRowDrag?: boolean;
+  /** Show ghost preview while block dragging across rows */
+  enableGhostPreview?: boolean;
 };
 
 export const EditRow: FC<EditRowProps> = (props) => {
-  const { rowData, style = {}, onClickRow, onDoubleClickRow, onContextMenuRow, areaRef, scrollLeft, startLeft, scale, scaleWidth, enableRowDrag, onRowDragStart, rowIndex = -1, dragState } = props;
+  const {
+    rowData,
+    style = {},
+    onClickRow,
+    onDoubleClickRow,
+    onContextMenuRow,
+    areaRef,
+    scrollLeft,
+    startLeft,
+    scale,
+    scaleWidth,
+    enableRowDrag,
+    onRowDragStart,
+    rowIndex = -1,
+    dragState,
+    enableCrossRowDrag,
+    enableGhostPreview,
+  } = props;
 
   const classNames = ['edit-row'];
   if (rowData?.selected) classNames.push('edit-row-selected');
-
-  // 如果当前行正在被拖拽，添加拖拽样式
   if (dragState?.isDragging && dragState.draggedIndex === rowIndex) {
     classNames.push('edit-row-dragging');
   }
@@ -44,19 +63,15 @@ export const EditRow: FC<EditRowProps> = (props) => {
     const rect = areaRef.current.getBoundingClientRect();
     const position = e.clientX - rect.x;
     const left = position + scrollLeft;
-    const time = parserPixelToTime(left, { startLeft, scale, scaleWidth });
-    return time;
+    return parserPixelToTime(left, { startLeft, scale, scaleWidth });
   };
 
-  // 拖拽手柄鼠标按下事件
+  // Row-reorder drag handle
   const handleDragHandleMouseDown = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (!enableRowDrag || !rowData || rowIndex === -1) return;
-
       e.preventDefault();
       e.stopPropagation();
-
-      // 触发拖拽开始回调 - 传递给EditArea组件处理
       onRowDragStart?.({ row: rowData });
     },
     [enableRowDrag, rowData, rowIndex, onRowDragStart],
@@ -69,31 +84,44 @@ export const EditRow: FC<EditRowProps> = (props) => {
       onClick={(e) => {
         if (rowData && onClickRow) {
           const time = handleTime(e);
-          onClickRow(e, { row: rowData, time: time });
+          onClickRow(e, { row: rowData, time });
         }
       }}
       onDoubleClick={(e) => {
         if (rowData && onDoubleClickRow) {
           const time = handleTime(e);
-          onDoubleClickRow(e, { row: rowData, time: time });
+          onDoubleClickRow(e, { row: rowData, time });
         }
       }}
       onContextMenu={(e) => {
         if (rowData && onContextMenuRow) {
           const time = handleTime(e);
-          onContextMenuRow(e, { row: rowData, time: time });
+          onContextMenuRow(e, { row: rowData, time });
         }
       }}
     >
-      {/* 拖拽手柄 */}
+      {/* Row-reorder drag handle */}
       {enableRowDrag && rowData && (
-        <div ref={dragHandleRef} className={prefix('edit-row-drag-handle')} onMouseDown={handleDragHandleMouseDown} title="拖拽调整行顺序">
+        <div
+          ref={dragHandleRef}
+          className={prefix('edit-row-drag-handle')}
+          onMouseDown={handleDragHandleMouseDown}
+          title="Drag to reorder row"
+        >
           ⋮⋮
         </div>
       )}
 
       {(rowData?.actions || []).map((action: TimelineAction) => (
-        <EditAction key={action.id} {...props} handleTime={handleTime} row={rowData!} action={action} />
+        <EditAction
+          key={action.id}
+          {...props}
+          handleTime={handleTime}
+          row={rowData!}
+          action={action}
+          enableCrossRowDrag={enableCrossRowDrag}
+          enableGhostPreview={enableGhostPreview}
+        />
       ))}
     </div>
   );

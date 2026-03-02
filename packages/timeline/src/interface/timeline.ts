@@ -74,6 +74,16 @@ export interface EditData {
    */
   enableRowDrag?: boolean;
   /**
+   * @description Enable dragging action blocks between different rows
+   * @default false
+   */
+  enableCrossRowDrag?: boolean;
+  /**
+   * @description Show a ghost/preview element following the cursor during cross-row block drag
+   * @default true
+   */
+  enableGhostPreview?: boolean;
+  /**
    * @description timeline运行器，不传则使用内置运行器
    */
   engine?: ITimelineEngine;

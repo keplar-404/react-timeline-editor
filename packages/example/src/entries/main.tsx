@@ -24,8 +24,8 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        {/* 默认路由重定向到主页面 */}
-        <Route path="/" element={<Navigate to="/main" replace />} />
+        {/* Default route goes directly to the feature demo */}
+        <Route path="/" element={<Navigate to="/row-drag" replace />} />
 
         {/* 动态渲染所有路由 */}
         {routes.map((route) => {
