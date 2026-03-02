@@ -41,6 +41,11 @@ export type EditAreaProps = CommonProp & {
   enableCrossRowDrag?: boolean;
   /** Show ghost preview while block dragging across rows */
   enableGhostPreview?: boolean;
+  /**
+   * Custom render function for the drag ghost element.
+   * Replaces the default blue glowing box with your own component.
+   */
+  getGhostPreview?: (params: { action: TimelineAction; row: TimelineRow }) => React.ReactNode;
 };
 
 /** Edit area ref data */
@@ -105,6 +110,7 @@ const EditAreaInner = React.forwardRef<EditAreaState, EditAreaProps>((props, ref
     setEditorData,
     enableCrossRowDrag = false,
     enableGhostPreview = true,
+    getGhostPreview,
   } = props;
 
   const { dragLineData, initDragLine, updateDragLine, disposeDragLine, defaultGetAssistPosition, defaultGetMovePosition } =
@@ -556,7 +562,11 @@ const EditAreaInner = React.forwardRef<EditAreaState, EditAreaProps>((props, ref
               {/* Row drag preview (row reorder) */}
               <DragPreview top={dragState.dragPreview.top} height={dragState.dragPreview.height} visible={dragState.dragPreview.visible} />
               {/* Block ghost preview (cross-row block drag) */}
-              <CrossRowGhost state={ghostState} enableGhostPreview={enableGhostPreview} />
+              <CrossRowGhost
+                state={ghostState}
+                enableGhostPreview={enableGhostPreview}
+                getGhostPreview={getGhostPreview}
+              />
             </>
           );
         }}

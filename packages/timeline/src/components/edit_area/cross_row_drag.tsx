@@ -121,13 +121,25 @@ export const CrossRowDragProvider: React.FC<{ children: React.ReactNode }> = ({ 
 interface GhostProps {
   state: CrossRowDragState;
   enableGhostPreview: boolean;
+  /** Optional custom render function; receives the dragged action + source row */
+  getGhostPreview?: (params: { action: TimelineAction; row: TimelineRow }) => React.ReactNode;
 }
 
-export const CrossRowGhost: React.FC<GhostProps> = ({ state, enableGhostPreview }) => {
+export const CrossRowGhost: React.FC<GhostProps> = ({
+  state,
+  enableGhostPreview,
+  getGhostPreview,
+}) => {
   if (!state.isDragging || !enableGhostPreview) return null;
+  if (!state.action || !state.sourceRow) return null;
 
   const left = state.cursorX - state.grabOffsetX;
   const top = state.cursorY - state.ghostHeight / 2;
+
+  // Render custom preview if provided, otherwise use default glowing box
+  const customContent = getGhostPreview
+    ? getGhostPreview({ action: state.action, row: state.sourceRow })
+    : null;
 
   return (
     <div
@@ -137,15 +149,26 @@ export const CrossRowGhost: React.FC<GhostProps> = ({ state, enableGhostPreview 
         top,
         width: state.ghostWidth,
         height: state.ghostHeight,
-        background: 'rgba(99, 179, 237, 0.55)',
-        border: '2px solid rgba(99, 179, 237, 0.9)',
-        borderRadius: 4,
-        boxShadow: '0 0 16px rgba(99,179,237,0.7), 0 0 4px rgba(99,179,237,0.9)',
         pointerEvents: 'none',
         zIndex: 9999,
-        backdropFilter: 'blur(2px)',
         transition: 'none',
+        // Default appearance only when no custom content provided
+        ...(customContent == null && {
+          background: 'rgba(99, 179, 237, 0.55)',
+          border: '2px solid rgba(99, 179, 237, 0.9)',
+          borderRadius: 4,
+          boxShadow: '0 0 16px rgba(99,179,237,0.7), 0 0 4px rgba(99,179,237,0.9)',
+          backdropFilter: 'blur(2px)',
+        }),
+        // When custom: just a transparent, sized container
+        ...(customContent != null && {
+          overflow: 'hidden',
+          opacity: 0.85,
+        }),
       }}
-    />
+    >
+      {customContent}
+    </div>
   );
 };
+

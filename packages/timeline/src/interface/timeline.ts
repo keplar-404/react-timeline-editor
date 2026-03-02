@@ -79,10 +79,34 @@ export interface EditData {
    */
   enableCrossRowDrag?: boolean;
   /**
-   * @description Show a ghost/preview element following the cursor during cross-row block drag
+   * @description Show a ghost/preview element following the cursor during cross-row block drag.
+   * Set to `false` to disable the ghost entirely, or use `getGhostPreview` for a custom component.
    * @default true
    */
   enableGhostPreview?: boolean;
+  /**
+   * @description Custom render function for the drag ghost/preview element shown while
+   * dragging a block across rows. When provided, replaces the default blue glowing box.
+   *
+   * The function receives the action being dragged and its source row, so you can
+   * render a fully custom preview that matches your block's actual appearance.
+   *
+   * @param params - The action being dragged and the row it originated from
+   * @returns A React node to render inside the ghost container
+   *
+   * @example
+   * ```tsx
+   * <Timeline
+   *   enableCrossRowDrag
+   *   getGhostPreview={({ action, row }) => (
+   *     <div style={{ background: '#1a3a5c', border: '2px solid #3b82f6', height: '100%', borderRadius: 4, padding: '0 8px', display: 'flex', alignItems: 'center' }}>
+   *       <span style={{ color: '#3b82f6', fontSize: 12 }}>{action.id}</span>
+   *     </div>
+   *   )}
+   * />
+   * ```
+   */
+  getGhostPreview?: (params: { action: TimelineAction; row: TimelineRow }) => ReactNode;
   /**
    * @description timeline运行器，不传则使用内置运行器
    */

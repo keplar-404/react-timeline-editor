@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback } from 'react';
 import './index.less';
 import { mockData, mockEffect } from './mock';
 import { Timeline } from '@xzdarcy/react-timeline-editor';
@@ -55,12 +55,77 @@ const CustomBlockRender = (action: TimelineAction, row: TimelineRow) => {
 };
 
 // ─────────────────────────────────────────────
+// Custom Ghost Preview Components
+// These are what a consumer of your npm package would build.
+// ─────────────────────────────────────────────
+
+/**
+ * Example A: Rich ghost — mirrors the block's actual appearance.
+ * Consumers can make their ghost look exactly like their block.
+ */
+const RichGhostPreview = ({ action, row }: { action: TimelineAction; row: TimelineRow }) => {
+  const colors = EFFECT_COLORS[action.effectId] || { bg: '#333', border: '#666', label: action.effectId };
+  return (
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        background: `linear-gradient(135deg, ${colors.bg}cc 0%, ${colors.bg}88 100%)`,
+        border: `2px dashed ${colors.border}`,
+        borderRadius: 4,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0 10px',
+        boxSizing: 'border-box',
+        boxShadow: `0 0 18px ${colors.border}66, 0 0 6px ${colors.border}99`,
+      }}
+    >
+      <span style={{ fontSize: 11, fontWeight: 700, color: colors.border, letterSpacing: '0.05em' }}>
+        {colors.label}
+      </span>
+      <span style={{ fontSize: 10, color: `${colors.border}bb` }}>
+        {action.id} · row {row.id}
+      </span>
+    </div>
+  );
+};
+
+/**
+ * Example B: Minimal ghost — just a semi-transparent label pill.
+ * Shows that the ghost can be anything — even very simple.
+ */
+const MinimalGhostPreview = ({ action }: { action: TimelineAction }) => (
+  <div
+    style={{
+      width: '100%',
+      height: '100%',
+      background: 'rgba(255,255,255,0.06)',
+      border: '1px solid rgba(255,255,255,0.2)',
+      borderRadius: 4,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      boxSizing: 'border-box',
+    }}
+  >
+    <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)', fontStyle: 'italic' }}>
+      Moving {action.id}…
+    </span>
+  </div>
+);
+
+// ─────────────────────────────────────────────
 // Main demo component
 // ─────────────────────────────────────────────
+
+// Ghost preview style modes
+type GhostStyle = 'default' | 'custom-rich' | 'custom-minimal';
 
 const FeatureDemo: React.FC = () => {
   const [data, setData] = useState<TimelineRow[]>(() => cloneDeep(mockData));
   const [useCustomRender, setUseCustomRender] = useState(false);
+  const [ghostStyle, setGhostStyle] = useState<GhostStyle>('default');
   const [features, setFeatures] = useState<FeatureToggles>({
     enableCrossRowDrag: true,
     enableGhostPreview: true,
@@ -161,6 +226,32 @@ const FeatureDemo: React.FC = () => {
                 badgeColor="#10b981"
               />
             </div>
+
+            {/* ── Ghost Preview Style Selector ── */}
+            <div style={{ marginTop: 12, opacity: features.enableCrossRowDrag && features.enableGhostPreview ? 1 : 0.4 }}>
+              <div className="sidebar-sub-title">Ghost Preview Style</div>
+              <div className="ghost-style-list">
+                {([
+                  { value: 'default', label: 'Default', desc: 'Built-in blue glow' },
+                  { value: 'custom-rich', label: 'Custom: Rich', desc: 'Mirrors block appearance' },
+                  { value: 'custom-minimal', label: 'Custom: Minimal', desc: 'Simple text label' },
+                ] as { value: GhostStyle; label: string; desc: string }[]).map(({ value, label, desc }) => (
+                  <label
+                    key={value}
+                    className={`ghost-style-option ${ghostStyle === value ? 'ghost-style-option--active' : ''}`}
+                    onClick={() => features.enableCrossRowDrag && features.enableGhostPreview && setGhostStyle(value)}
+                  >
+                    <div className="ghost-style-radio">
+                      {ghostStyle === value && <div className="ghost-style-radio-dot" />}
+                    </div>
+                    <div>
+                      <div className="ghost-style-label">{label}</div>
+                      <div className="ghost-style-desc">{desc}</div>
+                    </div>
+                  </label>
+                ))}
+              </div>
+            </div>
           </section>
 
           <section className="sidebar-section">
@@ -228,6 +319,14 @@ const FeatureDemo: React.FC = () => {
               enableRowDrag={features.enableRowReorder}
               gridSnap={features.enableGridSnap}
               dragLine={features.showDragLines}
+              // Custom ghost preview (only wired when not using the default)
+              getGhostPreview={
+                features.enableCrossRowDrag && features.enableGhostPreview && ghostStyle !== 'default'
+                  ? ghostStyle === 'custom-rich'
+                    ? ({ action, row }) => <RichGhostPreview action={action} row={row} />
+                    : ({ action }) => <MinimalGhostPreview action={action} />
+                  : undefined
+              }
               // Visual / behaviour
               autoScroll={true}
               hideCursor={false}
