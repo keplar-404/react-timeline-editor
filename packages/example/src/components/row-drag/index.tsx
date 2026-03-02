@@ -15,6 +15,7 @@ interface FeatureToggles {
   enableRowReorder: boolean;
   enableGridSnap: boolean;
   showDragLines: boolean;
+  enableCut: boolean;
 }
 
 // ─────────────────────────────────────────────
@@ -132,6 +133,7 @@ const FeatureDemo: React.FC = () => {
     enableRowReorder: false,
     enableGridSnap: false,
     showDragLines: false,
+    enableCut: false,
   });
   const [eventLog, setEventLog] = useState<string[]>([]);
 
@@ -210,6 +212,15 @@ const FeatureDemo: React.FC = () => {
                 checked={features.showDragLines}
                 onChange={() => toggleFeature('showDragLines')}
               />
+              <ToggleItem
+                id="cutMode"
+                label="Cut Mode"
+                description="Alt+Click a block to split it in two"
+                checked={features.enableCut}
+                onChange={() => toggleFeature('enableCut')}
+                badge="New"
+                badgeColor="#f59e0b"
+              />
             </div>
           </section>
 
@@ -285,6 +296,13 @@ const FeatureDemo: React.FC = () => {
                   <p>Enable Row Reordering, then drag the handle</p>
                 </div>
               </div>
+              <div className="how-to-item">
+                <span className="how-to-icon">✂️</span>
+                <div>
+                  <strong>Cut block</strong>
+                  <p>Enable Cut Mode, then Alt+Click any block to split it</p>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -319,6 +337,7 @@ const FeatureDemo: React.FC = () => {
               enableRowDrag={features.enableRowReorder}
               gridSnap={features.enableGridSnap}
               dragLine={features.showDragLines}
+              enableCut={features.enableCut}
               // Custom ghost preview (only wired when not using the default)
               getGhostPreview={
                 features.enableCrossRowDrag && features.enableGhostPreview && ghostStyle !== 'default'
@@ -356,6 +375,9 @@ const FeatureDemo: React.FC = () => {
               }}
               onClickAction={(e, { action, row }) => {
                 log(`Click: ${action.id} in row ${row.id}`);
+              }}
+              onActionCut={({ action, leftAction, rightAction }) => {
+                log(`✂ Cut: ${action.id} → ${leftAction.id} [${leftAction.start.toFixed(2)}–${leftAction.end.toFixed(2)}s] + ${rightAction.id} [${rightAction.start.toFixed(2)}–${rightAction.end.toFixed(2)}s]`);
               }}
             />
           </div>

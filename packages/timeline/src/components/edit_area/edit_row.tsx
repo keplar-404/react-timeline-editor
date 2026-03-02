@@ -28,6 +28,10 @@ export type EditRowProps = CommonProp & {
   enableCrossRowDrag?: boolean;
   /** Show ghost preview while block dragging across rows */
   enableGhostPreview?: boolean;
+  /** Enable cut mode — Alt+Click splits block at cursor point */
+  enableCut?: boolean;
+  /** Fired after a successful cut */
+  onActionCut?: (params: { action: import('@xzdarcy/timeline-engine').TimelineAction; row: import('@xzdarcy/timeline-engine').TimelineRow; leftAction: import('@xzdarcy/timeline-engine').TimelineAction; rightAction: import('@xzdarcy/timeline-engine').TimelineAction }) => void;
 };
 
 export const EditRow: FC<EditRowProps> = (props) => {

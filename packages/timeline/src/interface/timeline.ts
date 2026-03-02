@@ -79,6 +79,16 @@ export interface EditData {
    */
   enableCrossRowDrag?: boolean;
   /**
+   * @description Enable cut mode — Alt+Click on a block splits it into two at the cursor position.
+   * @default false
+   */
+  enableCut?: boolean;
+  /**
+   * @description Callback fired after a block is successfully cut. Receives the original action,
+   * the row it belongs to, and the two resulting actions (left and right halves).
+   */
+  onActionCut?: (params: { action: TimelineAction; row: TimelineRow; leftAction: TimelineAction; rightAction: TimelineAction }) => void;
+  /**
    * @description Show a ghost/preview element following the cursor during cross-row block drag.
    * Set to `false` to disable the ghost entirely, or use `getGhostPreview` for a custom component.
    * @default true

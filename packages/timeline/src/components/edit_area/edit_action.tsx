@@ -31,6 +31,10 @@ export type EditActionProps = CommonProp & {
   enableCrossRowDrag?: boolean;
   /** Show ghost element while dragging */
   enableGhostPreview?: boolean;
+  /** Enable cut mode — Alt+Click splits block at cursor point */
+  enableCut?: boolean;
+  /** Fired after a successful cut */
+  onActionCut?: (params: { action: TimelineAction; row: TimelineRow; leftAction: TimelineAction; rightAction: TimelineAction }) => void;
 };
 
 export const EditAction: FC<EditActionProps> = ({
@@ -68,6 +72,8 @@ export const EditAction: FC<EditActionProps> = ({
   deltaScrollLeft,
   enableCrossRowDrag = false,
   enableGhostPreview = true,
+  enableCut = false,
+  onActionCut,
 }) => {
   const rowRnd = useRef<RowRndApi>(null);
   const isDragWhenClick = useRef(false);
@@ -75,6 +81,8 @@ export const EditAction: FC<EditActionProps> = ({
   const isCrossRowDragging = useRef(false);
   // Visual glow while this specific block is being cross-row dragged
   const [isGlowing, setIsGlowing] = useState(false);
+  // Track whether Alt is currently pressed (for scissors cursor)
+  const [isAltPressed, setIsAltPressed] = useState(false);
 
   const { id, maxEnd, minStart, end, start, selected, flexible = true, movable = true, effectId } = action;
 
@@ -111,6 +119,54 @@ export const EditAction: FC<EditActionProps> = ({
   } catch {
     // not inside provider, cross-row drag is disabled
   }
+
+  // ───── Alt-key tracking for scissors cursor ─────
+  useEffect(() => {
+    if (!enableCut) return;
+    const onKeyDown = (e: KeyboardEvent) => { if (e.altKey) setIsAltPressed(true); };
+    const onKeyUp = (e: KeyboardEvent) => { if (!e.altKey) setIsAltPressed(false); };
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keyup', onKeyUp);
+    // Also reset on window blur (user alt-tabs)
+    window.addEventListener('blur', () => setIsAltPressed(false));
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('keyup', onKeyUp);
+    };
+  }, [enableCut]);
+
+  // ───── Cut action ─────
+  const handleCut = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      const cutTime = handleTime(e);
+
+      // Guard: cut point must be strictly inside the block (not at edges)
+      if (cutTime <= action.start || cutTime >= action.end) return;
+
+      const leftAction: TimelineAction = {
+        ...action,
+        end: cutTime,
+        // Give the right half a stable unique id
+      };
+      const rightAction: TimelineAction = {
+        ...action,
+        id: `${action.id}_cut_${Date.now()}`,
+        start: cutTime,
+      };
+
+      const newData = editorData.map((r) => {
+        if (r.id !== row.id) return r;
+        const newActions = r.actions.flatMap((a) =>
+          a.id === action.id ? [leftAction, rightAction] : [a],
+        );
+        return { ...r, actions: newActions };
+      });
+
+      setEditorData(newData);
+      onActionCut?.({ action, row, leftAction, rightAction });
+    },
+    [action, row, editorData, setEditorData, handleTime, onActionCut],
+  );
 
   // ───── scale count helper ─────
   const handleScaleCount = (left: number, width: number) => {
@@ -328,6 +384,12 @@ export const EditAction: FC<EditActionProps> = ({
           }
         }}
         onClick={(e) => {
+          // ── Cut mode: Alt+Click splits the block ──
+          if (enableCut && e.altKey) {
+            e.stopPropagation();
+            handleCut(e);
+            return;
+          }
           let time: number | undefined;
           if (onClickAction) {
             time = handleTime(e);
@@ -351,7 +413,14 @@ export const EditAction: FC<EditActionProps> = ({
           }
         }}
         className={prefix((classNames || []).join(' '))}
-        style={{ height: rowHeight, cursor: enableCrossRowDrag && movable && !disableDrag ? 'grab' : undefined }}
+        style={{
+          height: rowHeight,
+          cursor: (() => {
+            if (enableCut && isAltPressed) return 'crosshair';
+            if (enableCrossRowDrag && movable && !disableDrag) return 'grab';
+            return undefined;
+          })(),
+        }}
       >
         {getActionRender && getActionRender(nowAction, nowRow)}
         {flexible && <div className={prefix('action-left-stretch')} />}
