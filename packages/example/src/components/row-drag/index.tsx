@@ -4,7 +4,7 @@ import { mockData, mockEffect } from './mock';
 import { Timeline } from '@xzdarcy/react-timeline-editor';
 import { TimelineAction, TimelineRow } from '@xzdarcy/timeline-engine';
 import { cloneDeep } from 'lodash';
-import CutOverlay from './CutOverlay';
+import CutOverlay, { CutOverlayConfig } from './CutOverlay';
 
 // ─────────────────────────────────────────────
 // Feature toggle state
@@ -167,6 +167,16 @@ const FeatureDemo: React.FC = () => {
     showDragLines: false,
     enableCut: false,
   });
+  const [cutConfig, setCutConfig] = useState<Required<CutOverlayConfig>>({
+    bladeColor: '#ef4444',
+    showPill: true,
+    formatPillLabel: (t) => `✂ ${t.toFixed(2)}s`,
+    pillColor: '#ef4444',
+    pillTextColor: '#ffffff',
+    showBlockHighlight: true,
+    blockHighlightColor: 'rgba(239,68,68,0.08)',
+    blockHighlightBorderColor: 'rgba(239,68,68,0.3)',
+  });
   const [eventLog, setEventLog] = useState<string[]>([]);
 
   const log = useCallback((msg: string) => {
@@ -175,6 +185,10 @@ const FeatureDemo: React.FC = () => {
 
   const toggleFeature = (key: keyof FeatureToggles) => {
     setFeatures((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const updateCutConfig = (key: keyof CutOverlayConfig, value: any) => {
+    setCutConfig((prev) => ({ ...prev, [key]: value }));
   };
 
   const resetData = () => {
@@ -297,6 +311,74 @@ const FeatureDemo: React.FC = () => {
             </div>
           </section>
 
+          {/* ── Cut Configuration ── */}
+          {features.enableCut && (
+            <section className="sidebar-section">
+              <h3 className="sidebar-title">✦ Cut Configuration</h3>
+              <div className="toggle-list">
+                <ToggleItem
+                  id="showPill"
+                  label="Show Time Pill"
+                  description="Display time tooltip above blade"
+                  checked={cutConfig.showPill}
+                  onChange={() => updateCutConfig('showPill', !cutConfig.showPill)}
+                />
+                <ToggleItem
+                  id="showHighlight"
+                  label="Show Block Highlight"
+                  description="Highlight the block hovered"
+                  checked={cutConfig.showBlockHighlight}
+                  onChange={() => updateCutConfig('showBlockHighlight', !cutConfig.showBlockHighlight)}
+                />
+
+                <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: 13, color: '#9ca3af' }}>Blade Color</span>
+                    <input 
+                      type="color" 
+                      value={cutConfig.bladeColor} 
+                      onChange={(e) => updateCutConfig('bladeColor', e.target.value)} 
+                      style={{ background: 'transparent', border: 'none', cursor: 'pointer', height: 24, width: 24, padding: 0 }}
+                    />
+                  </div>
+                  {cutConfig.showPill && (
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: 13, color: '#9ca3af' }}>Pill Background</span>
+                      <input 
+                        type="color" 
+                        value={cutConfig.pillColor} 
+                        onChange={(e) => updateCutConfig('pillColor', e.target.value)} 
+                        style={{ background: 'transparent', border: 'none', cursor: 'pointer', height: 24, width: 24, padding: 0 }}
+                      />
+                    </div>
+                  )}
+                  {cutConfig.showBlockHighlight && (
+                    <>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ fontSize: 13, color: '#9ca3af', minWidth: 100 }}>Fill (rgba)</span>
+                        <input 
+                          type="text" 
+                          value={cutConfig.blockHighlightColor} 
+                          onChange={(e) => updateCutConfig('blockHighlightColor', e.target.value)} 
+                          style={{ width: '100%', maxWidth: 120, background: '#1f2937', border: '1px solid #374151', color: '#fff', borderRadius: 4, padding: '2px 6px', fontSize: 12 }}
+                        />
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ fontSize: 13, color: '#9ca3af', minWidth: 100 }}>Border (rgba)</span>
+                        <input 
+                          type="text" 
+                          value={cutConfig.blockHighlightBorderColor} 
+                          onChange={(e) => updateCutConfig('blockHighlightBorderColor', e.target.value)} 
+                          style={{ width: '100%', maxWidth: 120, background: '#1f2937', border: '1px solid #374151', color: '#fff', borderRadius: 4, padding: '2px 6px', fontSize: 12 }}
+                        />
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </section>
+          )}
+
           <section className="sidebar-section">
             <h3 className="sidebar-title">✦ How to Use</h3>
             <div className="how-to-list">
@@ -414,22 +496,9 @@ const FeatureDemo: React.FC = () => {
                 gridSnap={features.enableGridSnap}
                 editAreaTopOffset={42}
                 /**
-                 * config is fully typed — hover any prop for JSDoc.
-                 * Remove or adjust these to customize the look for your project.
+                 * Dynamically driven by the Sidebar form
                  */
-                config={{
-                  // Blade
-                  bladeColor: '#ef4444',
-                  // Pill
-                  showPill: true,
-                  formatPillLabel: (t) => `✂ ${t.toFixed(2)}s`,
-                  pillColor: '#ef4444',
-                  pillTextColor: '#ffffff',
-                  // Block highlight
-                  showBlockHighlight: true,
-                  blockHighlightColor: 'rgba(239,68,68,0.08)',
-                  blockHighlightBorderColor: 'rgba(239,68,68,0.3)',
-                }}
+                config={cutConfig}
                 onCut={(rowId, actionId, cutTime) => {
                   setData((prev) => splitActionInRow(prev, rowId, actionId, cutTime));
                   log(`✂ Cut: ${actionId} at ${cutTime.toFixed(2)}s`);
