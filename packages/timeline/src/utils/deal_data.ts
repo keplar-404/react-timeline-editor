@@ -111,3 +111,49 @@ export function parserActionsToPositions(
   });
   return positions;
 }
+
+/**
+ * Split an action in a row at a given time.
+ * Automatically updates start/end times and creates a new adjacent action.
+ */
+export function splitActionInRow(
+  data: TimelineRow[],
+  rowId: string,
+  actionId: string,
+  cutTime: number
+): TimelineRow[] {
+  const rowIdx = data.findIndex((r) => r.id === rowId);
+  if (rowIdx === -1) return data;
+
+  const row = data[rowIdx];
+  const actIdx = row.actions.findIndex((a) => a.id === actionId);
+  if (actIdx === -1) return data;
+
+  const action = row.actions[actIdx];
+
+  // Validate the cut time is within the block boundaries
+  if (cutTime <= action.start || cutTime >= action.end) {
+    return data;
+  }
+
+  // Clone immutably
+  const newData = [...data];
+  const targetRow = { ...row, actions: [...row.actions] };
+  newData[rowIdx] = targetRow;
+
+  const targetAction = { ...action };
+  const originalEnd = targetAction.end;
+  targetAction.end = cutTime;
+  targetRow.actions[actIdx] = targetAction;
+
+  const newAction = {
+    ...targetAction,
+    id: `${targetAction.id}_split_${Date.now()}`,
+    start: cutTime,
+    end: originalEnd,
+  };
+
+  targetRow.actions.splice(actIdx + 1, 0, newAction);
+
+  return newData;
+}

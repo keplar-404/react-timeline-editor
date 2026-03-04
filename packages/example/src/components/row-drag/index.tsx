@@ -1,11 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import './index.less';
 import { mockData, mockEffect } from './mock';
-import { Timeline } from '@xzdarcy/react-timeline-editor';
+import { Timeline, CutOverlay, CutOverlayConfig, splitActionInRow } from '@xzdarcy/react-timeline-editor';
 import { TimelineAction, TimelineRow } from '@xzdarcy/timeline-engine';
 import { cloneDeep } from 'lodash';
-import CutOverlay, { CutOverlayConfig } from './CutOverlay';
-
 // ─────────────────────────────────────────────
 // Feature toggle state
 // ─────────────────────────────────────────────
@@ -17,37 +15,6 @@ interface FeatureToggles {
   enableGridSnap: boolean;
   showDragLines: boolean;
   enableCut: boolean;
-}
-
-// ─────────────────────────────────────────────
-// Split utility
-// ─────────────────────────────────────────────
-
-function splitActionInRow(
-  data: TimelineRow[],
-  rowId: string,
-  actionId: string,
-  cutTime: number,
-): TimelineRow[] {
-  return data.map((row) => {
-    if (row.id !== rowId) return row;
-    const newActions: TimelineAction[] = [];
-    for (const action of row.actions) {
-      if (action.id !== actionId) {
-        newActions.push(action);
-      } else {
-        // Left piece
-        newActions.push({ ...action, end: cutTime });
-        // Right piece
-        newActions.push({
-          ...action,
-          id: `${action.id}-cut-${Date.now()}`,
-          start: cutTime,
-        });
-      }
-    }
-    return { ...row, actions: newActions };
-  });
 }
 
 // ─────────────────────────────────────────────
