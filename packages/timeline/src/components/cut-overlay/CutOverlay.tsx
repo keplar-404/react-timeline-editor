@@ -107,6 +107,28 @@ export interface CutOverlayConfig {
    * @default 'rgba(239,68,68,0.3)'
    */
   blockHighlightBorderColor?: string;
+
+  // ── Interactivity ──────────────────────────────────────────────────────────
+
+  /**
+   * Custom CSS cursor to display when hovering over the active cut overlay.
+   * Standard CSS cursors like 'crosshair', 'copy', or 'default' are supported.
+   * @default 'col-resize'
+   */
+  cursor?: string;
+
+  /**
+   * A specific keyboard key that must be held down to activate the cut blade.
+   * When defined, standard timeline interactions (dragging, selecting) pass through
+   * normally until this precise key is physically held down.
+   *
+   * Supports standard modifier keys ('Alt', 'Control', 'Shift', 'Meta') or any
+   * exact literal character key (e.g. 'c' or 'x'). 
+   * 
+   * Note: The `string & {}` union hack preserves autocomplete for common keys 
+   * while allowing custom exact string matches.
+   */
+  keyboardModifier?: 'Alt' | 'Control' | 'Shift' | 'Meta' | (string & {});
 }
 
 /**
@@ -217,7 +239,7 @@ interface BladeState {
 // Defaults
 // ─────────────────────────────────────────────
 
-const DEFAULT_CONFIG: Required<CutOverlayConfig> = {
+const DEFAULT_CONFIG: Omit<Required<CutOverlayConfig>, 'keyboardModifier'> & { keyboardModifier?: CutOverlayConfig['keyboardModifier'] } = {
   bladeColor: '#ef4444',
   showPill: true,
   formatPillLabel: (t) => `✂ ${t.toFixed(2)}s`,
@@ -226,6 +248,7 @@ const DEFAULT_CONFIG: Required<CutOverlayConfig> = {
   showBlockHighlight: true,
   blockHighlightColor: 'rgba(239,68,68,0.08)',
   blockHighlightBorderColor: 'rgba(239,68,68,0.3)',
+  cursor: 'col-resize',
 };
 
 // ─────────────────────────────────────────────
@@ -270,12 +293,60 @@ const CutOverlay: React.FC<CutOverlayProps> = ({
 }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const [blade, setBlade] = useState<BladeState | null>(null);
+  const [isModifierHeld, setIsModifierHeld] = useState(false);
 
   // Merge user config with defaults
-  const cfg: Required<CutOverlayConfig> = { ...DEFAULT_CONFIG, ...config };
+  const cfg = { 
+    ...DEFAULT_CONFIG, 
+    ...config,
+    // We safely preserve undefined for keyboardModifier if not passed
+    keyboardModifier: config?.keyboardModifier,
+  };
+
+  React.useEffect(() => {
+    if (!cfg.keyboardModifier) {
+      // If no modifier is required, we treat it as always held
+      setIsModifierHeld(true);
+      return;
+    }
+
+    const modifierTarget = cfg.keyboardModifier.toLowerCase();
+    setIsModifierHeld(false); // Reset when config changes
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Match key gracefully (e.g. 'c' matches 'C' or 'c')
+      if (e.key.toLowerCase() === modifierTarget) {
+        setIsModifierHeld(true);
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() === modifierTarget) {
+        setIsModifierHeld(false);
+        setBlade(null);
+      }
+    };
+
+    const handleBlur = () => {
+      setIsModifierHeld(false);
+      setBlade(null);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener('blur', handleBlur);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener('blur', handleBlur);
+    };
+  }, [cfg.keyboardModifier]);
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!isModifierHeld) return;
+
       const rect = overlayRef.current?.getBoundingClientRect();
       if (!rect) return;
 
@@ -329,6 +400,12 @@ const CutOverlay: React.FC<CutOverlayProps> = ({
     <div
       ref={overlayRef}
       className={`cut-overlay${blade ? ' cut-overlay--active' : ''}`}
+      style={{
+        cursor: isModifierHeld ? cfg.cursor : 'default',
+        // Make the overlay pass-through mouse events when the modifier isn't held,
+        // so actual timeline interactions can happen natively.
+        pointerEvents: isModifierHeld ? 'auto' : 'none',
+      }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}

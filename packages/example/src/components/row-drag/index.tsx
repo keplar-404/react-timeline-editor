@@ -143,6 +143,8 @@ const FeatureDemo: React.FC = () => {
     showBlockHighlight: true,
     blockHighlightColor: 'rgba(239,68,68,0.08)',
     blockHighlightBorderColor: 'rgba(239,68,68,0.3)',
+    cursor: 'col-resize',
+    keyboardModifier: '',
   });
   const [eventLog, setEventLog] = useState<string[]>([]);
 
@@ -299,6 +301,36 @@ const FeatureDemo: React.FC = () => {
                 />
 
                 <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: 13, color: '#9ca3af', minWidth: 100 }}>Cursor Style</span>
+                    <select 
+                      value={cutConfig.cursor} 
+                      onChange={(e) => updateCutConfig('cursor', e.target.value)} 
+                      style={{ width: '100%', maxWidth: 120, background: '#1f2937', border: '1px solid #374151', color: '#fff', borderRadius: 4, padding: '2px 6px', fontSize: 12 }}
+                    >
+                      <option value="col-resize">col-resize</option>
+                      <option value="crosshair">crosshair</option>
+                      <option value="copy">copy</option>
+                      <option value="pointer">pointer</option>
+                      <option value="default">default</option>
+                    </select>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: 13, color: '#9ca3af', minWidth: 100 }}>Hold Key to Cut</span>
+                    <select 
+                      value={cutConfig.keyboardModifier || ''} 
+                      onChange={(e) => updateCutConfig('keyboardModifier', e.target.value)} 
+                      style={{ width: '100%', maxWidth: 120, background: '#1f2937', border: '1px solid #374151', color: '#fff', borderRadius: 4, padding: '2px 6px', fontSize: 12 }}
+                    >
+                      <option value="">None (Always Active)</option>
+                      <option value="Alt">Alt / Option</option>
+                      <option value="Control">Control</option>
+                      <option value="Shift">Shift</option>
+                      <option value="Meta">Meta / Cmd</option>
+                      <option value="c">Letter 'C'</option>
+                      <option value="x">Letter 'X'</option>
+                    </select>
+                  </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontSize: 13, color: '#9ca3af' }}>Blade Color</span>
                     <input 
