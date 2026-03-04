@@ -4,6 +4,7 @@ import { mockData, mockEffect } from './mock';
 import { Timeline } from '@xzdarcy/react-timeline-editor';
 import { TimelineAction, TimelineRow } from '@xzdarcy/timeline-engine';
 import { cloneDeep } from 'lodash';
+import CutOverlay from './CutOverlay';
 
 // ─────────────────────────────────────────────
 // Feature toggle state
@@ -15,6 +16,38 @@ interface FeatureToggles {
   enableRowReorder: boolean;
   enableGridSnap: boolean;
   showDragLines: boolean;
+  enableCut: boolean;
+}
+
+// ─────────────────────────────────────────────
+// Split utility
+// ─────────────────────────────────────────────
+
+function splitActionInRow(
+  data: TimelineRow[],
+  rowId: string,
+  actionId: string,
+  cutTime: number,
+): TimelineRow[] {
+  return data.map((row) => {
+    if (row.id !== rowId) return row;
+    const newActions: TimelineAction[] = [];
+    for (const action of row.actions) {
+      if (action.id !== actionId) {
+        newActions.push(action);
+      } else {
+        // Left piece
+        newActions.push({ ...action, end: cutTime });
+        // Right piece
+        newActions.push({
+          ...action,
+          id: `${action.id}-cut-${Date.now()}`,
+          start: cutTime,
+        });
+      }
+    }
+    return { ...row, actions: newActions };
+  });
 }
 
 // ─────────────────────────────────────────────
@@ -26,7 +59,7 @@ const EFFECT_COLORS: Record<string, { bg: string; border: string; label: string 
   effect1: { bg: '#3b1a4a', border: '#a855f7', label: 'FX-B' },
 };
 
-const CustomBlockRender = (action: TimelineAction, row: TimelineRow) => {
+const CustomBlockRender = (action: TimelineAction, _row: TimelineRow) => {
   const colors = EFFECT_COLORS[action.effectId] || { bg: '#333', border: '#666', label: action.effectId };
   return (
     <div
@@ -132,6 +165,7 @@ const FeatureDemo: React.FC = () => {
     enableRowReorder: false,
     enableGridSnap: false,
     showDragLines: false,
+    enableCut: false,
   });
   const [eventLog, setEventLog] = useState<string[]>([]);
 
@@ -209,6 +243,15 @@ const FeatureDemo: React.FC = () => {
                 description="Show alignment guides while dragging"
                 checked={features.showDragLines}
                 onChange={() => toggleFeature('showDragLines')}
+              />
+              <ToggleItem
+                id="bladeCut"
+                label="Blade Cut Mode"
+                description="Hover block to preview cut · click to split"
+                checked={features.enableCut}
+                onChange={() => toggleFeature('enableCut')}
+                badge="New"
+                badgeColor="#ef4444"
               />
             </div>
           </section>
@@ -314,11 +357,12 @@ const FeatureDemo: React.FC = () => {
                 setData([...newData]);
               }}
               // Feature props
-              enableCrossRowDrag={features.enableCrossRowDrag}
-              enableGhostPreview={features.enableGhostPreview && features.enableCrossRowDrag}
+              enableCrossRowDrag={features.enableCrossRowDrag && !features.enableCut}
+              enableGhostPreview={features.enableGhostPreview && features.enableCrossRowDrag && !features.enableCut}
               enableRowDrag={features.enableRowReorder}
               gridSnap={features.enableGridSnap}
               dragLine={features.showDragLines}
+              disableDrag={features.enableCut}
               // Custom ghost preview (only wired when not using the default)
               getGhostPreview={
                 features.enableCrossRowDrag && features.enableGhostPreview && ghostStyle !== 'default'
@@ -341,10 +385,10 @@ const FeatureDemo: React.FC = () => {
               onActionMoveEnd={({ action, row, start, end }) => {
                 log(`Move end: ${action.id} → row ${row.id} [${start.toFixed(2)}s – ${end.toFixed(2)}s]`);
               }}
-              onActionResizeStart={({ action, row, dir }) => {
+              onActionResizeStart={({ action, dir }) => {
                 log(`Resize start: ${action.id} (${dir})`);
               }}
-              onActionResizeEnd={({ action, row, start, end }) => {
+              onActionResizeEnd={({ action, start, end }) => {
                 log(`Resize end: ${action.id} [${start.toFixed(2)}s – ${end.toFixed(2)}s]`);
               }}
               onRowDragStart={({ row }) => {
@@ -354,13 +398,50 @@ const FeatureDemo: React.FC = () => {
                 setData([...editorData]);
                 log(`Row drag end: row ${row.id} → new position`);
               }}
-              onClickAction={(e, { action, row }) => {
-                log(`Click: ${action.id} in row ${row.id}`);
+              onClickAction={(_e, { action, row }) => {
+                if (!features.enableCut) log(`Click: ${action.id} in row ${row.id}`);
               }}
             />
+            {/* ── Cut Overlay ── */}
+            {features.enableCut && (
+              <CutOverlay
+                data={data}
+                scale={1}
+                scaleSplitCount={10}
+                scaleWidth={160}
+                startLeft={20}
+                rowHeight={40}
+                gridSnap={features.enableGridSnap}
+                editAreaTopOffset={42}
+                /**
+                 * config is fully typed — hover any prop for JSDoc.
+                 * Remove or adjust these to customize the look for your project.
+                 */
+                config={{
+                  // Blade
+                  bladeColor: '#ef4444',
+                  // Pill
+                  showPill: true,
+                  formatPillLabel: (t) => `✂ ${t.toFixed(2)}s`,
+                  pillColor: '#ef4444',
+                  pillTextColor: '#ffffff',
+                  // Block highlight
+                  showBlockHighlight: true,
+                  blockHighlightColor: 'rgba(239,68,68,0.08)',
+                  blockHighlightBorderColor: 'rgba(239,68,68,0.3)',
+                }}
+                onCut={(rowId, actionId, cutTime) => {
+                  setData((prev) => splitActionInRow(prev, rowId, actionId, cutTime));
+                  log(`✂ Cut: ${actionId} at ${cutTime.toFixed(2)}s`);
+                }}
+              />
+            )}
           </div>
           <div className="row-count-bar">
             {data.length} rows · {data.reduce((s, r) => s + r.actions.length, 0)} total blocks
+            {features.enableCut && (
+              <span style={{ color: '#ef4444', marginLeft: 10, fontWeight: 600 }}>✂ CUT MODE ACTIVE</span>
+            )}
           </div>
         </main>
       </div>

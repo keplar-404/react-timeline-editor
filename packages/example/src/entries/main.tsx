@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { routes } from '../config/app-config';
+import { Agentation } from "agentation";
 
 // 导入所有组件
 import MainPage from '../components/main';
@@ -22,7 +23,8 @@ const componentMap: Record<string, React.FC> = {
 
 const App: React.FC = () => {
   return (
-    <Router>
+    <>
+      <Router>
       <Routes>
         {/* Default route goes directly to the feature demo */}
         <Route path="/" element={<Navigate to="/row-drag" replace />} />
@@ -37,6 +39,8 @@ const App: React.FC = () => {
         <Route path="*" element={<Navigate to="/main" replace />} />
       </Routes>
     </Router>
+      {process.env.NODE_ENV === "development" && <Agentation />}
+    </>
   );
 };
 
