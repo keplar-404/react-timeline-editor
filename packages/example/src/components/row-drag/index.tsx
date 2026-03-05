@@ -147,17 +147,38 @@ const FeatureDemo: React.FC = () => {
     keyboardModifier: '',
   });
   const [eventLog, setEventLog] = useState<string[]>([]);
+  // When a keyboardModifier is set, drag is only disabled while the key is held.
+  // When no modifier is set (always-cut mode), drag stays permanently disabled.
+  const [isDragDisabled, setIsDragDisabled] = useState(false);
 
   const log = useCallback((msg: string) => {
     setEventLog((prev) => [`[${new Date().toLocaleTimeString()}] ${msg}`, ...prev.slice(0, 19)]);
   }, []);
 
   const toggleFeature = (key: keyof FeatureToggles) => {
-    setFeatures((prev) => ({ ...prev, [key]: !prev[key] }));
+    setFeatures((prev) => {
+      const next = { ...prev, [key]: !prev[key] };
+      // When enabling cut mode, initialise isDragDisabled based on whether a modifier is required.
+      // No modifier (always-cut) → drag disabled immediately.
+      // Modifier configured → drag stays on until key is pressed.
+      if (key === 'enableCut') {
+        if (next.enableCut) {
+          setIsDragDisabled(!cutConfig.keyboardModifier);
+        } else {
+          setIsDragDisabled(false);
+        }
+      }
+      return next;
+    });
   };
 
   const updateCutConfig = (key: keyof CutOverlayConfig, value: any) => {
     setCutConfig((prev) => ({ ...prev, [key]: value }));
+    // When modifier config changes, reset drag-disabled to the appropriate default:
+    // no modifier = always disabled; modifier set = not disabled (until key pressed)
+    if (key === 'keyboardModifier') {
+      setIsDragDisabled(!value);
+    }
   };
 
   const resetData = () => {
@@ -438,12 +459,12 @@ const FeatureDemo: React.FC = () => {
                 setData([...newData]);
               }}
               // Feature props
-              enableCrossRowDrag={features.enableCrossRowDrag && !features.enableCut}
-              enableGhostPreview={features.enableGhostPreview && features.enableCrossRowDrag && !features.enableCut}
+              enableCrossRowDrag={features.enableCrossRowDrag && !(features.enableCut && isDragDisabled)}
+              enableGhostPreview={features.enableGhostPreview && features.enableCrossRowDrag && !(features.enableCut && isDragDisabled)}
               enableRowDrag={features.enableRowReorder}
               gridSnap={features.enableGridSnap}
               dragLine={features.showDragLines}
-              disableDrag={features.enableCut}
+              disableDrag={features.enableCut && isDragDisabled}
               // Custom ghost preview (only wired when not using the default)
               getGhostPreview={
                 features.enableCrossRowDrag && features.enableGhostPreview && ghostStyle !== 'default'
@@ -498,6 +519,9 @@ const FeatureDemo: React.FC = () => {
                  * Dynamically driven by the Sidebar form
                  */
                 config={cutConfig}
+                onModifierChange={(held) => {
+                  setIsDragDisabled(held);
+                }}
                 onCut={(rowId, actionId, cutTime) => {
                   setData((prev) => splitActionInRow(prev, rowId, actionId, cutTime));
                   log(`✂ Cut: ${actionId} at ${cutTime.toFixed(2)}s`);

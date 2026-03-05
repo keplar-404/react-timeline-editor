@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { TimelineAction, TimelineRow } from '@xzdarcy/timeline-engine';
 import './CutOverlay.less';
 
@@ -219,6 +219,21 @@ export interface CutOverlayProps {
    * @param cutTime  - The time value (in seconds) at the cut point.
    */
   onCut: (rowId: string, actionId: string, cutTime: number) => void;
+
+  /**
+   * Called whenever the keyboard modifier state changes.
+   * Fires with `true` when the modifier is pressed (blade active)
+   * and `false` when released (blade inactive, pointer events pass through).
+   *
+   * Use this to dynamically control `disableDrag` on the sibling `<Timeline>`:
+   * when the modifier is held → disable drag; when released → re-enable.
+   *
+   * Not called when no `keyboardModifier` is configured — in that case
+   * the blade is always active and drag should always be disabled.
+   *
+   * @param held - Whether the modifier key is currently pressed.
+   */
+  onModifierChange?: (held: boolean) => void;
 }
 
 // ─────────────────────────────────────────────
@@ -290,10 +305,24 @@ const CutOverlay: React.FC<CutOverlayProps> = ({
   editAreaTopOffset,
   config,
   onCut,
+  onModifierChange,
 }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const [blade, setBlade] = useState<BladeState | null>(null);
   const [isModifierHeld, setIsModifierHeld] = useState(false);
+  // Ref so handleMouseMove always reads the latest value without stale closure
+  const isModifierHeldRef = useRef(false);
+  // Ref for onModifierChange so it never needs to be in a useEffect dep array
+  const onModifierChangeRef = useRef(onModifierChange);
+
+  // Keep both refs in sync on every render (no effect needed — runs synchronously)
+  isModifierHeldRef.current = isModifierHeld;
+  onModifierChangeRef.current = onModifierChange;
+
+  // Keep isModifierHeldRef in sync with state for the memoised handleMouseMove callback
+  useEffect(() => {
+    isModifierHeldRef.current = isModifierHeld;
+  }, [isModifierHeld]);
 
   // Merge user config with defaults
   const cfg = { 
@@ -307,16 +336,19 @@ const CutOverlay: React.FC<CutOverlayProps> = ({
     if (!cfg.keyboardModifier) {
       // If no modifier is required, we treat it as always held
       setIsModifierHeld(true);
+      // No need to fire onModifierChange — caller should keep drag disabled
       return;
     }
 
     const modifierTarget = cfg.keyboardModifier.toLowerCase();
-    setIsModifierHeld(false); // Reset when config changes
+    // Modifier just configured — key is not yet held
+    setIsModifierHeld(false);
+    onModifierChangeRef.current?.(false);
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Match key gracefully (e.g. 'c' matches 'C' or 'c')
       if (e.key.toLowerCase() === modifierTarget) {
         setIsModifierHeld(true);
+        onModifierChangeRef.current?.(true);
       }
     };
 
@@ -324,12 +356,14 @@ const CutOverlay: React.FC<CutOverlayProps> = ({
       if (e.key.toLowerCase() === modifierTarget) {
         setIsModifierHeld(false);
         setBlade(null);
+        onModifierChangeRef.current?.(false);
       }
     };
 
     const handleBlur = () => {
       setIsModifierHeld(false);
       setBlade(null);
+      onModifierChangeRef.current?.(false);
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -341,11 +375,11 @@ const CutOverlay: React.FC<CutOverlayProps> = ({
       window.removeEventListener('keyup', handleKeyUp);
       window.removeEventListener('blur', handleBlur);
     };
-  }, [cfg.keyboardModifier]);
+  }, [cfg.keyboardModifier]); // onModifierChange intentionally omitted — accessed via ref
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
-      if (!isModifierHeld) return;
+      if (!isModifierHeldRef.current) return;
 
       const rect = overlayRef.current?.getBoundingClientRect();
       if (!rect) return;
