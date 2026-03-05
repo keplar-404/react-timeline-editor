@@ -1,7 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import './index.less';
 import { mockData, mockEffect } from './mock';
-import { Timeline, CutOverlay, CutOverlayConfig, splitActionInRow } from '@xzdarcy/react-timeline-editor';
+import {
+  Timeline, CutOverlay, CutOverlayConfig, splitActionInRow,
+  LoopZoneOverlay, TimelineState, TransportBar, useTimelinePlayer
+} from '@xzdarcy/react-timeline-editor';
 import { TimelineAction, TimelineRow } from '@xzdarcy/timeline-engine';
 import { cloneDeep } from 'lodash';
 // ─────────────────────────────────────────────
@@ -115,6 +118,7 @@ const MinimalGhostPreview = ({ action }: { action: TimelineAction }) => (
   </div>
 );
 
+
 // ─────────────────────────────────────────────
 // Main demo component
 // ─────────────────────────────────────────────
@@ -123,6 +127,18 @@ const MinimalGhostPreview = ({ action }: { action: TimelineAction }) => (
 type GhostStyle = 'default' | 'custom-rich' | 'custom-minimal';
 
 const FeatureDemo: React.FC = () => {
+  const timelineRef = useRef<TimelineState>(null);
+  // ── Loop zone state ──
+  const [loopEnabled, setLoopEnabled] = useState(false);
+  const [loopStart, setLoopStart]     = useState(1);
+  const [loopEnd, setLoopEnd]         = useState(3);
+  const [scrollLeft, setScrollLeft]   = useState(0);
+
+  // ── Player hook (handles events, state, and loop clock) ──
+  const player = useTimelinePlayer(timelineRef, {
+    loop: { enabled: loopEnabled, start: loopStart, end: loopEnd },
+  });
+
   const [data, setData] = useState<TimelineRow[]>(() => cloneDeep(mockData));
   const [useCustomRender, setUseCustomRender] = useState(false);
   const [ghostStyle, setGhostStyle] = useState<GhostStyle>('default');
@@ -147,10 +163,7 @@ const FeatureDemo: React.FC = () => {
     keyboardModifier: '',
   });
   const [eventLog, setEventLog] = useState<string[]>([]);
-  // When a keyboardModifier is set, drag is only disabled while the key is held.
-  // When no modifier is set (always-cut mode), drag stays permanently disabled.
   const [isDragDisabled, setIsDragDisabled] = useState(false);
-
   const log = useCallback((msg: string) => {
     setEventLog((prev) => [`[${new Date().toLocaleTimeString()}] ${msg}`, ...prev.slice(0, 19)]);
   }, []);
@@ -451,8 +464,21 @@ const FeatureDemo: React.FC = () => {
 
         {/* ── Timeline ── */}
         <main className="demo-main">
+          {/* ── Transport Bar ── */}
+          <TransportBar
+            player={player}
+            loop={{
+              enabled: loopEnabled,
+              start: loopStart,
+              end: loopEnd,
+              onToggle: () => setLoopEnabled((v) => !v),
+              onStartChange: setLoopStart,
+              onEndChange: setLoopEnd,
+            }}
+          />
           <div className="timeline-wrapper">
             <Timeline
+              ref={timelineRef}
               editorData={data}
               effects={mockEffect}
               onChange={(newData) => {
@@ -478,6 +504,7 @@ const FeatureDemo: React.FC = () => {
               hideCursor={false}
               rowHeight={40}
               scaleWidth={160}
+              onScroll={(params) => setScrollLeft(params.scrollLeft)}
               // Custom renderer (when enabled)
               getActionRender={useCustomRender ? CustomBlockRender : undefined}
               // Callbacks — all fire to event log
@@ -504,6 +531,19 @@ const FeatureDemo: React.FC = () => {
                 if (!features.enableCut) log(`Click: ${action.id} in row ${row.id}`);
               }}
             />
+            {/* ── Loop Zone Overlay ── */}
+            {loopEnabled && (
+              <LoopZoneOverlay
+                loopStart={loopStart}
+                loopEnd={loopEnd}
+                startLeft={20}
+                scale={1}
+                scaleWidth={160}
+                scrollLeft={scrollLeft}
+                onLoopStartChange={setLoopStart}
+                onLoopEndChange={setLoopEnd}
+              />
+            )}
             {/* ── Cut Overlay ── */}
             {features.enableCut && (
               <CutOverlay

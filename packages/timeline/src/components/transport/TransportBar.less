@@ -1,0 +1,213 @@
+// TransportBar — default visual styles for the published component.
+// All class names are prefixed with `timeline-transport-` to avoid collisions.
+// Override any class in your own stylesheet to retheme the bar.
+
+.timeline-transport-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 48px;
+  background: rgba(10, 10, 20, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  gap: 16px;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+}
+
+// ── Controls ────────────────────────────────────────────────────────────────
+
+.timeline-transport-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.timeline-transport-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.03);
+  color: #64748b;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  &--primary {
+    color: #c4c9d4;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #e2e8f0;
+    }
+  }
+
+  &--stop {
+    &:hover {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+    }
+  }
+
+  &--loop {
+    font-size: 14px;
+    line-height: 1;
+    width: auto;
+    padding: 0 6px;
+    color: #4b5563;
+
+    &:hover {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #10b981;
+    }
+
+    &-active {
+      background: rgba(16, 185, 129, 0.18) !important;
+      border-color: rgba(16, 185, 129, 0.5) !important;
+      color: #10b981 !important;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.25) !important;
+    }
+  }
+}
+
+// ── Divider ─────────────────────────────────────────────────────────────────
+
+.timeline-transport-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+// ── Loop inputs ─────────────────────────────────────────────────────────────
+
+.timeline-transport-loop-inputs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 4px;
+}
+
+.timeline-transport-loop-input {
+  width: 52px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 5px;
+  color: #10b981;
+  font-size: 12px;
+  font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+  font-weight: 600;
+  padding: 2px 6px;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.12s;
+
+  &:focus {
+    border-color: rgba(16, 185, 129, 0.7);
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.2);
+  }
+
+  // Hide native number spin buttons
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+.timeline-transport-loop-arrow {
+  font-size: 11px;
+  color: #334155;
+}
+
+.timeline-transport-loop-unit {
+  font-size: 10px;
+  color: #334155;
+  font-family: 'SF Mono', 'Cascadia Code', monospace;
+}
+
+// ── Time display ─────────────────────────────────────────────────────────────
+
+.timeline-transport-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  min-width: 100px;
+}
+
+.timeline-transport-time-value {
+  font-size: 22px;
+  font-weight: 700;
+  font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+  color: #e2e8f0;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.timeline-transport-time-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: #475569;
+  text-transform: uppercase;
+}
+
+// ── Playback rate ─────────────────────────────────────────────────────────────
+
+.timeline-transport-rate {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timeline-transport-rate-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: #475569;
+  text-transform: uppercase;
+}
+
+.timeline-transport-rate-buttons {
+  display: flex;
+  gap: 3px;
+}
+
+.timeline-transport-rate-btn {
+  padding: 3px 8px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.03);
+  color: #475569;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'SF Mono', 'Cascadia Code', monospace;
+  cursor: pointer;
+  transition: all 0.12s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.07);
+    color: #94a3b8;
+  }
+
+  &--active {
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.4);
+    color: #3b82f6;
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.15);
+  }
+}
