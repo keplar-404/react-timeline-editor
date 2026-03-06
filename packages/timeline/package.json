@@ -1,7 +1,7 @@
 {
-  "name": "@xzdarcy/react-timeline-editor",
+  "name": "@keplar-404/react-timeline-editor",
   "version": "1.0.0",
-  "author": "xzdarcy",
+  "author": "keplar-404",
   "license": "MIT",
   "keywords": [
     "timeline",
@@ -11,12 +11,12 @@
     "typescript"
   ],
   "bugs": {
-    "url": "https://github.com/xzdarcy/react-timeline-editor/issues"
+    "url": "https://github.com/keplar-404/react-timeline-editor/issues"
   },
-  "homepage": "https://github.com/xzdarcy/react-timeline-editor#readme",
+  "homepage": "https://github.com/keplar-404/react-timeline-editor#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xzdarcy/react-timeline-editor.git"
+    "url": "git+https://github.com/keplar-404/react-timeline-editor.git"
   },
   "scripts": {
     "build": "npm run clean && vite build",
@@ -36,7 +36,7 @@
   "dependencies": {
     "@interactjs/types": "^1.10.11",
     "@types/react-virtualized": "^9.21.14",
-    "@xzdarcy/timeline-engine": "workspace:*",
+    "@keplar-404/timeline-engine": "workspace:*",
     "framework-utils": "^1.1.0",
     "interactjs": "^1.10.11",
     "react-virtualized": "^9.22.3"

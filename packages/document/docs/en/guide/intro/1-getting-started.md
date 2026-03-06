@@ -13,12 +13,12 @@ It can be mainly used to build animation editors, video editors, etc.
 ## Installation
 
 ```
-npm install @xzdarcy/react-timeline-editor
+npm install @keplar-404/react-timeline-editor
 ```
 
 ```tsx | pure
 import React from 'react';
-import { Timeline } from '@xzdarcy/react-timeline-editor';
+import { Timeline } from '@keplar-404/react-timeline-editor';
 
 export const TimelineEditor = () => {
   return (

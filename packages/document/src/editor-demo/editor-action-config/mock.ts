@@ -1,4 +1,4 @@
-import { TimelineEffect, TimelineRow } from '@xzdarcy/timeline-engine';
+import { TimelineEffect, TimelineRow } from '@keplar-404/timeline-engine';
 
 export const mockEffect: Record<string, TimelineEffect> = {
   effect0: {

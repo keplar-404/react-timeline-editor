@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, useRef } from 'react';
-import { TimelineAction, TimelineRow } from '@xzdarcy/timeline-engine';
+import { TimelineAction, TimelineRow } from '@keplar-404/timeline-engine';
 
 // ─────────────────────────────────────────────
 // Types

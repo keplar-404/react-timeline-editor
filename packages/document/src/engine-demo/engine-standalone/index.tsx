@@ -1,5 +1,5 @@
 import { CaretRightOutlined, PauseOutlined } from '@ant-design/icons';
-import { TimelineEngine } from '@xzdarcy/timeline-engine';
+import { TimelineEngine } from '@keplar-404/timeline-engine';
 import { Slider } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.less';

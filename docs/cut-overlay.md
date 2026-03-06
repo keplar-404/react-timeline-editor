@@ -1,6 +1,6 @@
 # Cut Overlay Feature
 
-The `CutOverlay` is a powerful, fully-configurable visual component for `@xzdarcy/react-timeline-editor` that enables a "blade cut" interaction. When integrated, users can hover over timeline action blocks to preview a precise cut point (snapped to the grid) and click to split the block into two.
+The `CutOverlay` is a powerful, fully-configurable visual component for `@keplar-404/react-timeline-editor` that enables a "blade cut" interaction. When integrated, users can hover over timeline action blocks to preview a precise cut point (snapped to the grid) and click to split the block into two.
 
 ## Try it out
 
@@ -22,7 +22,7 @@ The `CutOverlay` should be mounted absolutely as a sibling to your `<Timeline>` 
 Import the `CutOverlay` and render it conditionally when your "cut mode" is active.
 
 ```tsx
-import { Timeline } from '@xzdarcy/react-timeline-editor';
+import { Timeline } from '@keplar-404/react-timeline-editor';
 import CutOverlay, { CutOverlayConfig } from './path-to-your/CutOverlay';
 
 // ... inside your component
@@ -79,7 +79,7 @@ When the user clicks the blade, the `onCut` callback is fired with the `rowId`, 
 Here is a standard utility function to split a block accurately:
 
 ```typescript
-import { TimelineRow } from '@xzdarcy/timeline-engine';
+import { TimelineRow } from '@keplar-404/timeline-engine';
 import { cloneDeep } from 'lodash';
 
 export function splitActionInRow(data: TimelineRow[], rowId: string, actionId: string, cutTime: number): TimelineRow[] {
@@ -141,4 +141,4 @@ All options are optional.
 ## Important Considerations
 
 - **Scrolling:** The `CutOverlay` natively interrogates the `ReactVirtualized__Grid` DOM element to extract horizontal layout offsets (`scrollLeft`). It does not rely on React state scroll tracking, which maintains optimal performance and absolute precision.
-- **Ruler Offset:** The `editAreaTopOffset` prop is critical for accurately mapping mouse coordinates to the active row. The default `@xzdarcy/react-timeline-editor` design reserves `32px` at the top for the time axis ruler. Ensure you adjust this prop if your CSS adds borders, padding, or modifies the ruler height (for example, in the demo project, it is set to `42`).
+- **Ruler Offset:** The `editAreaTopOffset` prop is critical for accurately mapping mouse coordinates to the active row. The default `@keplar-404/react-timeline-editor` design reserves `32px` at the top for the time axis ruler. Ensure you adjust this prop if your CSS adds borders, padding, or modifies the ruler height (for example, in the demo project, it is set to `42`).

@@ -1,4 +1,4 @@
-import { ITimelineEngine, TimelineEngine, TimelineRow } from '@xzdarcy/timeline-engine';
+import { ITimelineEngine, TimelineEngine, TimelineRow } from '@keplar-404/timeline-engine';
 import React, { useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
 import { ScrollSync } from 'react-virtualized';
 import { MIN_SCALE_COUNT, PREFIX, START_CURSOR_TIME } from '../interface/const';

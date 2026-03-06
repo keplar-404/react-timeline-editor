@@ -1,10 +1,10 @@
 {
-  "name": "react-timeline-editor-monorepo",
+  "name": "@keplar-404/react-timeline-editor-monorepo",
   "private": true,
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xzdarcy/react-timeline-editor.git"
+    "url": "git+https://github.com/keplar-404/react-timeline-editor.git"
   },
   "workspaces": {
     "packages": [

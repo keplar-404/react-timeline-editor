@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { TimelineAction, TimelineRow } from '@xzdarcy/timeline-engine';
+import { TimelineAction, TimelineRow } from '@keplar-404/timeline-engine';
 
 export const CustomRender0: FC<{ action: TimelineAction; row: TimelineRow }> =
   ({ action, row }) => {

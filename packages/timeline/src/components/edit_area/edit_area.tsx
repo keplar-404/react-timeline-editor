@@ -7,7 +7,7 @@ import React, {
   useCallback,
 } from 'react';
 import { AutoSizer, Grid, GridCellRenderer, OnScrollParams, ScrollParams } from 'react-virtualized';
-import { TimelineAction, TimelineRow } from '@xzdarcy/timeline-engine';
+import { TimelineAction, TimelineRow } from '@keplar-404/timeline-engine';
 import { CommonProp } from '../../interface/common_prop';
 import { EditData } from '../../interface/timeline';
 import { prefix } from '../../utils/deal_class_prefix';

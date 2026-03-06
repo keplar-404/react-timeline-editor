@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { prefix } from '../../utils/deal_class_prefix';
-import { TimelineRow } from '@xzdarcy/timeline-engine';
+import { TimelineRow } from '@keplar-404/timeline-engine';
 import { calculateInsertionLineTop } from './drag_utils';
 
 interface InsertionLineProps {

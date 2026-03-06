@@ -1,4 +1,4 @@
-import { TimelineAction, TimelineEffect, TimelineRow } from '@xzdarcy/timeline-engine';
+import { TimelineAction, TimelineEffect, TimelineRow } from '@keplar-404/timeline-engine';
 import audioControl from './audioControl';
 import lottieControl from './lottieControl';
 

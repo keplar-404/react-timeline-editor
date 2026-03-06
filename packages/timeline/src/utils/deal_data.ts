@@ -1,4 +1,4 @@
-import { TimelineAction, TimelineRow } from "@xzdarcy/timeline-engine";
+import { TimelineAction, TimelineRow } from "@keplar-404/timeline-engine";
 import { ADD_SCALE_COUNT } from "../interface/const";
 
 /** 时间转像素 */

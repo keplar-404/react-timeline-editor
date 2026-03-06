@@ -51,7 +51,7 @@ export default defineConfig({
       {
         icon: 'github',
         mode: 'link',
-        content: 'https://github.com/xzdarcy/react-timeline-editor',
+        content: 'https://github.com/keplar-404/react-timeline-editor',
       },
     ],
   },
@@ -61,7 +61,7 @@ export default defineConfig({
         builderConfig: {
           resolve: {
             alias: {
-              '@xzdarcy/react-timeline-editor': path.join(__dirname, '../timeline/src/index.tsx'),
+              '@keplar-404/react-timeline-editor': path.join(__dirname, '../timeline/src/index.tsx'),
               '@src': path.join(__dirname, 'src'),
             },
           },
@@ -76,7 +76,7 @@ export default defineConfig({
     },
     resolve: {
       alias: {
-        '@xzdarcy/react-timeline-editor': path.join(__dirname, '../timeline/src/index.tsx'),
+        '@keplar-404/react-timeline-editor': path.join(__dirname, '../timeline/src/index.tsx'),
         '@src': path.join(__dirname, 'src'),
       },
     },

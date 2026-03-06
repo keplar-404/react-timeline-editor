@@ -1,7 +1,7 @@
 # Fix: Grid Snap Not Applied During Cross-Row Block Drag
 
 **Date:** 2026-03-06  
-**Package:** `@xzdarcy/react-timeline-editor` (`packages/timeline`)
+**Package:** `@keplar-404/react-timeline-editor` (`packages/timeline`)
 
 ## Problem
 

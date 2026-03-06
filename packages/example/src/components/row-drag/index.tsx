@@ -4,8 +4,8 @@ import { mockData, mockEffect } from './mock';
 import {
   Timeline, CutOverlay, CutOverlayConfig, splitActionInRow,
   LoopZoneOverlay, TimelineState, TransportBar, useTimelinePlayer
-} from '@xzdarcy/react-timeline-editor';
-import { TimelineAction, TimelineRow } from '@xzdarcy/timeline-engine';
+} from '@keplar-404/react-timeline-editor';
+import { TimelineAction, TimelineRow } from '@keplar-404/timeline-engine';
 import { cloneDeep } from 'lodash';
 // ─────────────────────────────────────────────
 // Feature toggle state

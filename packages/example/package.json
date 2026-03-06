@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@types/react-router-dom": "^5.3.3",
-    "@xzdarcy/react-timeline-editor": "workspace:^",
-    "@xzdarcy/timeline-engine": "workspace:^",
+    "@keplar-404/react-timeline-editor": "workspace:^",
+    "@keplar-404/timeline-engine": "workspace:^",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
