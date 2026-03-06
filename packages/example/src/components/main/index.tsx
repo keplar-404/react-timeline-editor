@@ -6,9 +6,9 @@ import './index.less';
 const MainPage: React.FC = () => {
   const getStatusBadge = (status: 'ready' | 'planned' | 'development') => {
     const statusConfig = {
-      ready: { text: '可用', color: '#28a745', bgColor: '#d4edda' },
-      development: { text: '开发中', color: '#ffc107', bgColor: '#fff3cd' },
-      planned: { text: '计划中', color: '#6c757d', bgColor: '#e9ecef' },
+      ready: { text: 'Available', color: '#28a745', bgColor: '#d4edda' },
+      development: { text: 'In Development', color: '#ffc107', bgColor: '#fff3cd' },
+      planned: { text: 'Planned', color: '#6c757d', bgColor: '#e9ecef' },
     };
 
     const config = statusConfig[status];
@@ -32,26 +32,26 @@ const MainPage: React.FC = () => {
 
   const handleExampleClick = (example: typeof examples[number]) => {
     if (example.status === 'ready') {
-      // 使用React Router进行导航
+      // Navigate using React Router
       navigate(example.route);
     } else {
-      alert(`示例 "${example.title}" 当前不可用或正在开发中。`);
+      alert(`Example "${example.title}" is not yet available.`);
     }
   };
 
   return (
     <div className="main-page">
-      {/* 头部 */}
+      {/* Header */}
       <div className="header">
         <h1>React Timeline Editor</h1>
-        <p>示例项目导航</p>
+        <p>Example project navigator</p>
         <div className="launcher-info">
           <span style={{ marginRight: '8px' }}>🚀</span>
-          使用启动器选择不同的示例进行测试
+          Use the launcher to select different examples to test
         </div>
       </div>
 
-      {/* 示例网格 */}
+      {/* Examples grid */}
       <div className="examples-grid">
         {examples.map((example) => (
           <div
@@ -64,40 +64,40 @@ const MainPage: React.FC = () => {
               } as React.CSSProperties
             }
           >
-            {/* 状态角标 */}
+            {/* Status badge */}
             <div className="status-badge">{getStatusBadge(example.status)}</div>
 
-            {/* 图标 */}
+            {/* Icon */}
             <div className="example-icon">{example.icon}</div>
 
-            {/* 标题 */}
+            {/* Title */}
             <h3 className="example-title">{example.title}</h3>
 
-            {/* 描述 */}
+            {/* Description */}
             <p className="example-description">{example.description}</p>
 
-            {/* 操作按钮 */}
+            {/* Action button */}
             <div className="example-action">
               <button disabled={example.status !== 'ready'} className={example.status === 'ready' ? 'ready' : ''}>
-                {example.status === 'ready' ? '启动示例' : '即将推出'}
+                {example.status === 'ready' ? 'Launch Example' : 'Coming Soon'}
               </button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* 使用说明 */}
+      {/* Instructions */}
       <div className="instructions">
-        <h3>使用说明</h3>
+        <h3>How to Use</h3>
         <div style={{ display: 'grid', gap: '15px' }}>
           <div className="step-item">
             <div className="step-number" style={{ '--step-color': '#007acc' } as React.CSSProperties}>
               1
             </div>
             <div className="step-content">
-              <strong>启动开发服务器</strong>
+              <strong>Start the dev server</strong>
               <p>
-                在项目根目录执行: <code>yarn example run</code>
+                From the project root, run: <code>yarn example run</code>
               </p>
             </div>
           </div>
@@ -107,8 +107,8 @@ const MainPage: React.FC = () => {
               2
             </div>
             <div className="step-content">
-              <strong>选择示例</strong>
-              <p>在启动器中选择要测试的示例页面</p>
+              <strong>Choose an example</strong>
+              <p>Select the example page you want to test from the launcher menu</p>
             </div>
           </div>
 
@@ -117,16 +117,16 @@ const MainPage: React.FC = () => {
               3
             </div>
             <div className="step-content">
-              <strong>开始开发</strong>
-              <p>开发服务器将自动启动，支持热重载</p>
+              <strong>Start developing</strong>
+              <p>The dev server starts automatically with hot reload enabled</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 页脚 */}
+      {/* Footer */}
       <div className="footer">
-        <p>React Timeline Editor Example - 开发测试环境</p>
+        <p>React Timeline Editor — Development Environment</p>
       </div>
     </div>
   );

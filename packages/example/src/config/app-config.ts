@@ -1,5 +1,4 @@
-// 应用配置接口 - 合并了路由和示例的配置
-// 这个接口包含了路由配置和示例展示所需的所有字段
+// App config — unified route + example display configuration
 export interface AppConfig {
   id: string;
   path: string;
@@ -12,14 +11,14 @@ export interface AppConfig {
   status: 'ready' | 'planned' | 'development';
 }
 
-// 应用配置数组 - 统一管理所有示例的路由和展示信息
+// All example configs — single source of truth for routes and display info
 export const appConfigs: AppConfig[] = [
   {
     id: 'row-drag',
     path: '/row-drag',
     componentName: 'RowDrag',
-    title: 'RowDrag',
-    description: 'RowDrag 示例描述',
+    title: 'Row Drag',
+    description: 'Row drag and drop — reorder rows and drag blocks across rows',
     route: '/row-drag',
     icon: '⭐',
     color: '#b15a40',
@@ -29,8 +28,8 @@ export const appConfigs: AppConfig[] = [
     id: 'main',
     path: '/main',
     componentName: 'MainPage',
-    title: '主页面',
-    description: '所有示例的导航页面',
+    title: 'Main Page',
+    description: 'Navigation page for all examples',
     route: '/main',
     icon: '🏠',
     color: '#007acc',
@@ -40,8 +39,8 @@ export const appConfigs: AppConfig[] = [
     id: 'basic',
     path: '/basic',
     componentName: 'BasicExample',
-    title: '基础示例',
-    description: '展示React基础功能和组件交互',
+    title: 'Basic Example',
+    description: 'Basic React functionality and component interactions',
     route: '/basic',
     icon: '⚛️',
     color: '#007acc',
@@ -51,8 +50,8 @@ export const appConfigs: AppConfig[] = [
     id: 'timeline',
     path: '/timeline',
     componentName: 'TimelineExample',
-    title: '时间线编辑器',
-    description: '时间线编辑器的基本功能演示',
+    title: 'Timeline Editor',
+    description: 'Core timeline editor functionality demo',
     route: '/timeline',
     icon: '⏰',
     color: '#ff6b6b',
@@ -62,8 +61,8 @@ export const appConfigs: AppConfig[] = [
   //   id: 'animation',
   //   path: '/animation',
   //   componentName: 'AnimationExample',
-  //   title: '动画示例',
-  //   description: 'CSS动画效果和过渡演示',
+  //   title: 'Animation',
+  //   description: 'CSS animation effects and transitions',
   //   route: '/animation',
   //   icon: '🎬',
   //   color: '#51cf66',
@@ -73,8 +72,8 @@ export const appConfigs: AppConfig[] = [
   //   id: 'advanced',
   //   path: '/advanced',
   //   componentName: 'AdvancedExample',
-  //   title: '高级功能',
-  //   description: '时间线编辑器的高级特性',
+  //   title: 'Advanced Features',
+  //   description: 'Advanced timeline editor capabilities',
   //   route: '/advanced',
   //   icon: '🚀',
   //   color: '#fcc419',
@@ -84,8 +83,8 @@ export const appConfigs: AppConfig[] = [
   //   id: 'integration',
   //   path: '/integration',
   //   componentName: 'IntegrationExample',
-  //   title: '集成示例',
-  //   description: '与其他库的集成演示',
+  //   title: 'Integration',
+  //   description: 'Integration with third-party libraries',
   //   route: '/integration',
   //   icon: '🔗',
   //   color: '#ae3ec9',
@@ -95,8 +94,8 @@ export const appConfigs: AppConfig[] = [
   //   id: 'customization',
   //   path: '/customization',
   //   componentName: 'CustomizationExample',
-  //   title: '自定义主题',
-  //   description: '主题定制和样式扩展',
+  //   title: 'Customization',
+  //   description: 'Theme customization and style extension',
   //   route: '/customization',
   //   icon: '🎨',
   //   color: '#20c997',
@@ -104,22 +103,22 @@ export const appConfigs: AppConfig[] = [
   // },
 ];
 
-// 获取可用的路由配置（状态为ready）
+// Get available route configs (status === ready)
 export const getAvailableRoutes = () => {
   return appConfigs.filter((config) => config.status === 'ready');
 };
 
-// 获取所有示例配置（用于主页面展示）
+// Get all example configs (for the main page display)
 export const getExamples = () => {
   return appConfigs.filter((config) => config.id !== 'main');
 };
 
-// 根据ID查找配置
+// Find config by ID
 export const findConfigById = (id: string) => {
   return appConfigs.find((config) => config.id === id);
 };
 
-// 添加新配置（用于创建示例脚本）
+// Add a new config (used by scaffolding scripts)
 export const addConfig = (configData: Omit<AppConfig, 'componentName' | 'route' | 'path'>) => {
   const newConfig: AppConfig = {
     ...configData,
@@ -132,12 +131,12 @@ export const addConfig = (configData: Omit<AppConfig, 'componentName' | 'route' 
   return newConfig;
 };
 
-// 辅助函数：首字母大写
+// Helper: capitalise first letter
 function capitalizeFirst(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// 导出路由配置（兼容原有接口）
+// Route config export (backwards-compatible)
 export const routes = appConfigs.map((config) => ({
   id: config.id,
   path: config.path,
@@ -147,7 +146,7 @@ export const routes = appConfigs.map((config) => ({
   status: config.status,
 }));
 
-// 导出示例配置（兼容原有接口）
+// Example config export (backwards-compatible)
 export const examples = appConfigs
   .filter((config) => config.id !== 'main')
   .map((config) => ({

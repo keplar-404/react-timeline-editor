@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { routes } from '../config/app-config';
 import { Agentation } from "agentation";
 
-// 导入所有组件
+// Import all components
 import MainPage from '../components/main';
 // import BasicExample from '../components/basic';
 // import TimelineExample from '../components/timeline';
@@ -29,13 +29,13 @@ const App: React.FC = () => {
         {/* Default route goes directly to the feature demo */}
         <Route path="/" element={<Navigate to="/row-drag" replace />} />
 
-        {/* 动态渲染所有路由 */}
+        {/* Dynamically render all routes */}
         {routes.map((route) => {
           const Component = componentMap[route.componentName];
           return Component ? <Route key={route.id} path={route.path} element={<Component />} /> : null;
         })}
 
-        {/* 404路由重定向到主页面 */}
+        {/* 404 redirect to main page */}
         <Route path="*" element={<Navigate to="/main" replace />} />
       </Routes>
     </Router>

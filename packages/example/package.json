@@ -4,16 +4,16 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node scripts/launcher.js",
+    "dev": "node scripts/launcher.js main",
     "run": "node scripts/launcher.js",
     "create": "node scripts/create-example.js",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@types/react-router-dom": "^5.3.3",
     "@keplar-404/react-timeline-editor": "workspace:^",
     "@keplar-404/timeline-engine": "workspace:^",
+    "@types/react-router-dom": "^5.3.3",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

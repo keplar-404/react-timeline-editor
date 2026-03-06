@@ -9,11 +9,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '../');
 
-// 获取所有入口文件
+// Get all entry files
 function getEntryFiles() {
   const entriesDir = path.join(projectRoot, 'src/entries');
   if (!fs.existsSync(entriesDir)) {
-    console.error('❌ 入口文件目录不存在:', entriesDir);
+    console.error('❌ Entries directory not found:', entriesDir);
     process.exit(1);
   }
 
@@ -27,22 +27,22 @@ function getEntryFiles() {
   return files;
 }
 
-// 显示选择菜单
+// Show selection menu
 function showMenu(entries) {
-  console.log('\n🚀 React Timeline Editor - 示例启动器\n');
-  console.log('请选择要启动的示例页面:');
+  console.log('\n🚀 React Timeline Editor - Example Launcher\n');
+  console.log('Select an example to launch:');
   console.log('='.repeat(50));
 
   entries.forEach((entry, index) => {
     console.log(`${index + 1}. ${entry.name}`);
   });
 
-  console.log(`${entries.length + 1}. 主页面 (包含所有示例导航)`);
-  console.log('0. 退出');
+  console.log(`${entries.length + 1}. Main page (all examples)`);
+  console.log('0. Exit');
   console.log('='.repeat(50));
 }
 
-// 获取用户选择
+// Get user selection
 async function getUserChoice(entries) {
   const readline = await import('readline');
   const rl = readline.createInterface({
@@ -51,12 +51,12 @@ async function getUserChoice(entries) {
   });
 
   return new Promise((resolve) => {
-    rl.question('\n请输入选择编号: ', (answer) => {
+    rl.question('\nEnter your choice: ', (answer) => {
       rl.close();
       const choice = parseInt(answer);
 
       if (choice === 0) {
-        console.log('👋 再见!');
+        console.log('👋 Goodbye!');
         process.exit(0);
       }
 
@@ -65,17 +65,17 @@ async function getUserChoice(entries) {
       } else if (choice >= 1 && choice <= entries.length) {
         resolve(entries[choice - 1].name);
       } else {
-        console.log('❌ 无效的选择，请重新输入');
+        console.log('❌ Invalid choice, please try again');
         resolve(null);
       }
     });
   });
 }
 
-// 创建HTML文件
+// Create HTML file
 function createHtmlFile(entryName) {
   const htmlTemplate = `<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
@@ -89,12 +89,12 @@ function createHtmlFile(entryName) {
 </html>`;
 
   fs.writeFileSync(path.join(projectRoot, 'index.html'), htmlTemplate);
-  console.log(`✅ 已创建 ${entryName} 的HTML文件`);
+  console.log(`✅ Created HTML file for: ${entryName}`);
 }
 
-// 启动开发服务器
+// Start dev server
 function startDevServer() {
-  console.log('\n🚀 启动开发服务器...');
+  console.log('\n🚀 Starting dev server...');
   try {
     execSync('yarn vite', {
       cwd: projectRoot,
@@ -102,17 +102,17 @@ function startDevServer() {
       env: { ...process.env, FORCE_COLOR: '1' }
     });
   } catch (error) {
-    console.error('❌ 启动开发服务器失败:', error.message);
+    console.error('❌ Failed to start dev server:', error.message);
     process.exit(1);
   }
 }
 
-// 主函数
+// Main function
 async function main() {
   const entries = getEntryFiles();
 
   if (entries.length === 0) {
-    console.error('❌ 未找到任何入口文件，请先创建示例页面');
+    console.error('❌ No entry files found. Please create an example page first.');
     process.exit(1);
   }
 
@@ -123,33 +123,33 @@ async function main() {
     selectedEntry = await getUserChoice(entries);
   }
 
-  console.log(`\n🎯 选择: ${selectedEntry}`);
+  console.log(`\n🎯 Selected: ${selectedEntry}`);
 
-  // 创建对应的HTML文件
+  // Create the corresponding HTML file
   createHtmlFile(selectedEntry);
 
-  // 启动开发服务器
+  // Start dev server
   startDevServer();
 }
 
-// 处理命令行参数
+// Handle CLI arguments
 if (process.argv.length > 2) {
   const arg = process.argv[2];
   if (arg === '--help' || arg === '-h') {
     console.log(`
-React Timeline Editor 示例启动器
+React Timeline Editor - Example Launcher
 
-用法:
-  yarn example run         启动交互式选择菜单
-  yarn example run <name>  直接启动指定示例
+Usage:
+  yarn example run         Launch interactive selection menu
+  yarn example run <name>  Launch a specific example directly
 
-示例:
-  yarn example run basic    启动基础示例
-  yarn example run main     启动主页面
+Examples:
+  yarn example run basic    Launch the basic example
+  yarn example run main     Launch the main page
     `);
     process.exit(0);
   } else {
-    // 直接启动指定示例
+    // Launch specified example directly
     const entries = getEntryFiles();
     const entryNames = entries.map(e => e.name);
 
@@ -157,12 +157,12 @@ React Timeline Editor 示例启动器
       createHtmlFile(arg);
       startDevServer();
     } else {
-      console.error(`❌ 未找到示例: ${arg}`);
-      console.log('可用的示例:', entryNames.join(', '));
+      console.error(`❌ Example not found: ${arg}`);
+      console.log('Available examples:', entryNames.join(', '));
       process.exit(1);
     }
   }
 } else {
-  // 交互式启动
+  // Interactive launch
   main().catch(console.error);
 }

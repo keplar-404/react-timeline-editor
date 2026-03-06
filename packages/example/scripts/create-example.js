@@ -12,38 +12,38 @@ const componentsDir = path.join(projectRoot, 'src', 'components');
 const entriesDir = path.join(projectRoot, 'src', 'entries');
 const configFile = path.join(projectRoot, 'src', 'config', 'app-config.ts');
 
-// 获取示例名称参数
+// Get the example name from CLI args
 const exampleName = process.argv[2];
 
 if (!exampleName) {
-  console.error('❌ 请提供示例名称，例如: node scripts/create-example.js my-example');
+  console.error('❌ Please provide an example name, e.g.: node scripts/create-example.js my-example');
   process.exit(1);
 }
 
-// 验证示例名称格式
+// Validate example name format
 if (!/^[a-z][a-z0-9-]*$/.test(exampleName)) {
-  console.error('❌ 示例名称只能包含小写字母、数字和连字符，且必须以字母开头');
+  console.error('❌ Example name must contain only lowercase letters, numbers, and hyphens, and must start with a letter');
   process.exit(1);
 }
 
-// 检查示例是否已存在
+// Check if the example already exists
 const exampleDir = path.join(componentsDir, exampleName);
 if (fs.existsSync(exampleDir)) {
-  console.error(`❌ 示例 "${exampleName}" 已存在`);
+  console.error(`❌ Example "${exampleName}" already exists`);
   process.exit(1);
 }
 
-// 创建示例文件夹
+// Create the example folder
 fs.mkdirSync(exampleDir, { recursive: true });
-console.log(`✅ 创建示例文件夹: ${exampleName}`);
+console.log(`✅ Created example folder: ${exampleName}`);
 
-// 创建组件文件
+// Create the component file
 const componentContent = `import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './index.less';
 
 interface ${capitalizeFirst(exampleName)}Props {
-  // 组件属性定义
+  // Component prop definitions
 }
 
 const ${capitalizeFirst(exampleName)}: React.FC<${capitalizeFirst(exampleName)}Props> = () => {
@@ -56,13 +56,13 @@ const ${capitalizeFirst(exampleName)}: React.FC<${capitalizeFirst(exampleName)}P
           className="back-button"
           onClick={() => navigate('/main')}
         >
-          ← 返回主页面
+          ← Back to Main
         </button>
-        <h1>${capitalizeFirst(exampleName)} 示例</h1>
+        <h1>${capitalizeFirst(exampleName)} Example</h1>
       </div>
-      <p>这是 ${exampleName} 示例的占位内容</p>
+      <p>This is the placeholder content for the ${exampleName} example.</p>
       <div className="${exampleName}-content">
-        {/* 示例内容将在这里实现 */}
+        {/* Example content goes here */}
       </div>
     </div>
   );
@@ -72,9 +72,9 @@ export default ${capitalizeFirst(exampleName)};
 `;
 
 fs.writeFileSync(path.join(exampleDir, `index.tsx`), componentContent);
-console.log(`✅ 创建组件文件: ${exampleName}/index.tsx`);
+console.log(`✅ Created component file: ${exampleName}/index.tsx`);
 
-// 创建样式文件
+// Create the style file
 const cssContent = `.${exampleName}-container {
   padding: 20px;
   max-width: 800px;
@@ -123,9 +123,9 @@ const cssContent = `.${exampleName}-container {
 }`;
 
 fs.writeFileSync(path.join(exampleDir, `index.less`), cssContent);
-console.log(`✅ 创建样式文件: ${exampleName}/index.less`);
+console.log(`✅ Created style file: ${exampleName}/index.less`);
 
-// 创建入口文件
+// Create the entry file
 const entryContent = `import React from 'react';
 import ReactDOM from 'react-dom/client';
 import ${capitalizeFirst(exampleName)} from '../components/${exampleName}';
@@ -142,22 +142,22 @@ root.render(
 `;
 
 fs.writeFileSync(path.join(entriesDir, `${exampleName}.tsx`), entryContent);
-console.log(`✅ 创建入口文件: ${exampleName}.tsx`);
+console.log(`✅ Created entry file: ${exampleName}.tsx`);
 
-// 更新统一配置文件
+// Update the unified config file
 updateConfigFile(exampleName);
 
-// 更新主入口文件
+// Update the main entry file
 updateMainEntry(exampleName);
 
-console.log(`\n🎉 示例 "${exampleName}" 创建成功！`);
-console.log(`📁 组件位置: src/components/${exampleName}/`);
-console.log(`📄 入口文件: src/entries/${exampleName}.tsx`);
-console.log(`🔧 配置已自动添加到 src/config/app-config.ts`);
-console.log(`🚀 主入口文件已自动更新`);
+console.log(`\n🎉 Example "${exampleName}" created successfully!`);
+console.log(`📁 Component: src/components/${exampleName}/`);
+console.log(`📄 Entry file: src/entries/${exampleName}.tsx`);
+console.log(`🔧 Config auto-added to src/config/app-config.ts`);
+console.log(`🚀 Main entry file updated automatically`);
 
 function capitalizeFirst(str) {
-  // 将连字符分隔的单词转换为驼峰命名法
+  // Convert hyphen-separated words to PascalCase
   return str
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -167,21 +167,21 @@ function capitalizeFirst(str) {
 function updateConfigFile(exampleName) {
   const configContent = fs.readFileSync(configFile, 'utf8');
 
-  // 找到应用配置数组的结束位置
+  // Find the end of the appConfigs array
   const configsEndIndex = configContent.lastIndexOf('\n];');
   if (configsEndIndex === -1) {
-    console.error('❌ 无法找到配置文件中的应用配置数组');
+    console.error('❌ Could not find the appConfigs array in the config file');
     return;
   }
 
-  // 在数组结束前插入新配置
+  // Insert the new config before the end of the array
   const newConfig = `
   {
     id: '${exampleName}',
     path: '/${exampleName}',
     componentName: '${capitalizeFirst(exampleName)}',
     title: '${capitalizeFirst(exampleName)}',
-    description: '${capitalizeFirst(exampleName)} 示例描述',
+    description: '${capitalizeFirst(exampleName)} example',
     route: '/${exampleName}',
     icon: '⭐',
     color: '#${Math.floor(Math.random()*16777215).toString(16)}',
@@ -191,30 +191,26 @@ function updateConfigFile(exampleName) {
   const updatedContent = configContent.slice(0, configsEndIndex) + newConfig + configContent.slice(configsEndIndex);
 
   fs.writeFileSync(configFile, updatedContent);
-  console.log(`✅ 更新配置文件: app-config.ts`);
+  console.log(`✅ Updated config file: app-config.ts`);
 }
-
-
 
 function updateMainEntry(exampleName) {
   const mainEntryFile = path.join(projectRoot, 'src', 'entries', 'main.tsx');
   let mainEntryContent = fs.readFileSync(mainEntryFile, 'utf8');
 
-  // 在组件导入部分添加新组件的导入语句
+  // Add import for the new component after the last import statement
   const importStatement = `import ${capitalizeFirst(exampleName)} from '../components/${exampleName}';`;
 
-  // 找到最后一个import语句的位置
+  // Find the position after the last import statement
   const lastImportIndex = mainEntryContent.lastIndexOf('import');
   const nextLineAfterLastImport = mainEntryContent.indexOf('\n', lastImportIndex) + 1;
 
-  // 在最后一个import语句后插入新import
   mainEntryContent = mainEntryContent.slice(0, nextLineAfterLastImport) + '\n' + importStatement + mainEntryContent.slice(nextLineAfterLastImport);
 
-  // 在组件映射表中添加新组件
+  // Add the new component to the component map
   const componentMapStart = mainEntryContent.indexOf('const componentMap: Record<string, React.FC> = {');
   const componentMapEnd = mainEntryContent.indexOf('};', componentMapStart) + 2;
 
-  // 在组件映射表结束前插入新组件
   const componentMapContent = mainEntryContent.slice(componentMapStart, componentMapEnd);
   const lastComponentIndex = componentMapContent.lastIndexOf(',');
   const newComponentMapContent = componentMapContent.slice(0, lastComponentIndex + 1) + `\n  ${capitalizeFirst(exampleName)},` + componentMapContent.slice(lastComponentIndex + 1);
@@ -222,5 +218,5 @@ function updateMainEntry(exampleName) {
   mainEntryContent = mainEntryContent.slice(0, componentMapStart) + newComponentMapContent + mainEntryContent.slice(componentMapEnd);
 
   fs.writeFileSync(mainEntryFile, mainEntryContent);
-  console.log(`✅ 更新主入口文件: main.tsx`);
+  console.log(`✅ Updated main entry file: main.tsx`);
 }

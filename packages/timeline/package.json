@@ -35,8 +35,8 @@
   },
   "dependencies": {
     "@interactjs/types": "^1.10.11",
-    "@types/react-virtualized": "^9.21.14",
     "@keplar-404/timeline-engine": "workspace:*",
+    "@types/react-virtualized": "^9.21.14",
     "framework-utils": "^1.1.0",
     "interactjs": "^1.10.11",
     "react-virtualized": "^9.22.3"
