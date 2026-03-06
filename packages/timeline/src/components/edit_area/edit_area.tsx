@@ -89,10 +89,12 @@ const EditAreaInner = React.forwardRef<EditAreaState, EditAreaProps>((props, ref
     rowHeight,
     scaleWidth,
     scaleCount,
+    scaleSplitCount,
     startLeft,
     scrollLeft,
     scrollTop,
     scale,
+    gridSnap,
     hideCursor = false,
     cursorTime,
     onScroll,
@@ -152,20 +154,33 @@ const EditAreaInner = React.forwardRef<EditAreaState, EditAreaProps>((props, ref
   /**
    * Given a clientX position, compute new start/end times for the action placed
    * into the target row.
+   *
+   * When `gridSnap` is enabled the start time is rounded to the nearest grid
+   * unit (`scale / scaleSplitCount`) — the same snapping applied by `RowDnd`
+   * during same-row drags.  The end time is always derived as `start + duration`
+   * so the block length is preserved exactly.
    */
   const resolveNewTimes = useCallback(
-    (clientX: number, action: TimelineAction, grabOffsetX: number) => {
+    (clientX: number, action: TimelineAction, grabOffsetX: number): { newStart: number; newEnd: number } => {
       if (!editAreaRef.current) return { newStart: action.start, newEnd: action.end };
 
       const rect = editAreaRef.current.getBoundingClientRect();
       // x relative to the edit area (accounting for current horizontal scroll)
       const x = clientX - rect.left + scrollToPositionRef.current.scrollLeft - grabOffsetX;
-      const newStart = parserPixelToTime(x, { startLeft, scale, scaleWidth });
-      const duration = action.end - action.start;
-      const newEnd = newStart + duration;
-      return { newStart: Math.max(0, newStart), newEnd: Math.max(duration, newEnd) };
+      const rawStart = parserPixelToTime(x, { startLeft, scale, scaleWidth });
+
+      // Apply the same grid-snap rounding that RowDnd uses during same-row drags
+      const gridUnit: number = scale / scaleSplitCount;
+      const snappedStart: number = gridSnap
+        ? Math.round(rawStart / gridUnit) * gridUnit
+        : rawStart;
+
+      const duration: number = action.end - action.start;
+      const newStart = Math.max(0, snappedStart);
+      const newEnd = Math.max(duration, newStart + duration);
+      return { newStart, newEnd };
     },
-    [startLeft, scale, scaleWidth],
+    [startLeft, scale, scaleWidth, gridSnap, scaleSplitCount],
   );
 
   /**
