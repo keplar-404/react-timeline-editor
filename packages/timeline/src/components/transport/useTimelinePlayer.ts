@@ -252,6 +252,16 @@ export function useTimelinePlayer(
 
   // ── Control callbacks ──
   const play = useCallback(() => {
+    // When loop is enabled, playback must always start inside the loop zone.
+    // If the cursor is sitting before loopStart, snap it there first so the
+    // engine starts from the correct position (the tick handler already handles
+    // the case where the cursor is past loopEnd).
+    if (loopEnabledRef.current) {
+      const currentTime = ref.current?.getTime() ?? 0;
+      if (currentTime < loopStartRef.current) {
+        ref.current?.setTime(loopStartRef.current);
+      }
+    }
     ref.current?.play({ autoEnd: true });
   }, [ref]);
 
