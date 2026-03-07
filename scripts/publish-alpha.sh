@@ -32,3 +32,4 @@ bun run build
 bunx npm publish --access public --tag next
 
 echo "==== ✅ Publish alpha version completed, version: $AFTER_VERSION ===="
+

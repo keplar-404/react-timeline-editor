@@ -1,4 +1,4 @@
-# Cut Overlay Feature
+# Cut Overlay (Blade Mode)
 
 The `CutOverlay` is a powerful, fully-configurable visual component for `@keplar-404/react-timeline-editor` that enables a "blade cut" interaction. When integrated, users can hover over timeline action blocks to preview a precise cut point (snapped to the grid) and click to split the block into two.
 

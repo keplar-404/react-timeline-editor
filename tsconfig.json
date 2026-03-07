@@ -2,5 +2,10 @@
   "compilerOptions": {
     "jsx": "react",
     "target": "esnext"
-  }
+  },
+  "files": [],
+  "references": [
+    { "path": "./packages/timeline" },
+    { "path": "./packages/engine" }
+  ]
 }
