@@ -1,5 +1,7 @@
 # React Timeline Editor
 
+> **Note:** This package is built on top of `@xzdarcy/react-timeline-editor` so all credit goes to @xzdarcy. This is just an extended version.
+
 [![npm version](https://img.shields.io/npm/v/@keplar-404/react-timeline-editor.svg?style=flat-square)](https://www.npmjs.com/package/@keplar-404/react-timeline-editor)
 [![npm downloads](https://img.shields.io/npm/dm/@keplar-404/react-timeline-editor.svg?style=flat-square)](https://www.npmjs.com/package/@keplar-404/react-timeline-editor)
 
