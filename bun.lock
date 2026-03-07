@@ -29,6 +29,7 @@
       },
       "devDependencies": {
         "@rsbuild/core": "^1.7.3",
+        "@rsbuild/plugin-less": "^1.6.0",
         "@rsbuild/plugin-react": "^1.4.5",
         "@rsbuild/plugin-sass": "^1.5.0",
         "@rspress/core": "1.47.1",
@@ -51,7 +52,7 @@
     },
     "packages/engine": {
       "name": "@keplar-404/timeline-engine",
-      "version": "1.0.0",
+      "version": "1.0.4",
       "devDependencies": {
         "@rollup/plugin-commonjs": "^25.0.7",
         "@rollup/plugin-node-resolve": "^15.2.3",
@@ -86,7 +87,7 @@
     },
     "packages/timeline": {
       "name": "@keplar-404/react-timeline-editor",
-      "version": "1.0.0",
+      "version": "1.0.4",
       "dependencies": {
         "@interactjs/types": "^1.10.11",
         "@keplar-404/timeline-engine": "workspace:*",
@@ -470,7 +471,7 @@
 
     "@rsbuild/core": ["@rsbuild/core@1.7.3", "", { "dependencies": { "@rspack/core": "~1.7.5", "@rspack/lite-tapable": "~1.1.0", "@swc/helpers": "^0.5.18", "core-js": "~3.47.0", "jiti": "^2.6.1" }, "bin": { "rsbuild": "bin/rsbuild.js" } }, "sha512-kI1oQvCXbQYxUvQPnDLdjSX4gFsbrFNpuUj6jXEJ7IcJ74Q+n4oeFj74/8tKerhxhe0L90m/ZQfzLeN5ORGA9w=="],
 
-    "@rsbuild/plugin-less": ["@rsbuild/plugin-less@1.2.5", "", { "dependencies": { "deepmerge": "^4.3.1", "reduce-configs": "^1.1.0" }, "peerDependencies": { "@rsbuild/core": "1.x" } }, "sha512-NWl4nloYxxlWWO4Y+JldUjmli2nNoki8jc3ymumsvUBCICIB0xHhTh2BMaFhwUR/zjH6cg0zozCAWWFZ60qdwA=="],
+    "@rsbuild/plugin-less": ["@rsbuild/plugin-less@1.6.0", "", { "dependencies": { "deepmerge": "^4.3.1", "reduce-configs": "^1.1.1" }, "peerDependencies": { "@rsbuild/core": "^1.3.0 || ^2.0.0-0" } }, "sha512-LridpH/ai10eyN7jlEPfmNiv8Kc9+eDggZkXIMYXcccpdQsc+ZvuuOWMugbyyiZ2j56uCuhvS4fG6UYL8QmL6A=="],
 
     "@rsbuild/plugin-react": ["@rsbuild/plugin-react@1.4.5", "", { "dependencies": { "@rspack/plugin-react-refresh": "^1.6.0", "react-refresh": "^0.18.0" }, "peerDependencies": { "@rsbuild/core": "^1.0.0 || ^2.0.0-0" } }, "sha512-eS2sXCedgGA/7bLu8yVtn48eE/GyPbXx4Q7OcutB01IQ1D2y8WSMBys4nwfrecy19utvw4NPn4gYDy52316+vg=="],
 
@@ -2329,6 +2330,8 @@
     "@rsbuild/plugin-react/react-refresh": ["react-refresh@0.18.0", "", {}, "sha512-QgT5//D3jfjJb6Gsjxv0Slpj23ip+HtOpnNgnb2S5zU3CB26G/IDPGoy4RJB42wzFE46DRsstbW6tKHoKbhAxw=="],
 
     "@rspress/core/@rsbuild/core": ["@rsbuild/core@1.3.22", "", { "dependencies": { "@rspack/core": "1.3.12", "@rspack/lite-tapable": "~1.0.1", "@swc/helpers": "^0.5.17", "core-js": "~3.42.0", "jiti": "^2.4.2" }, "bin": { "rsbuild": "bin/rsbuild.js" } }, "sha512-FGB7m8Tn/uiOhvqk0lw+NRMyD+VYJ+eBqVfpn0X11spkJDiPWn8UkMRvfzCX4XFcNZwRKYuuKJaZK1DNU8UG+w=="],
+
+    "@rspress/core/@rsbuild/plugin-less": ["@rsbuild/plugin-less@1.2.5", "", { "dependencies": { "deepmerge": "^4.3.1", "reduce-configs": "^1.1.0" }, "peerDependencies": { "@rsbuild/core": "1.x" } }, "sha512-NWl4nloYxxlWWO4Y+JldUjmli2nNoki8jc3ymumsvUBCICIB0xHhTh2BMaFhwUR/zjH6cg0zozCAWWFZ60qdwA=="],
 
     "@rspress/core/@rsbuild/plugin-react": ["@rsbuild/plugin-react@1.3.5", "", { "dependencies": { "@rspack/plugin-react-refresh": "~1.4.3", "react-refresh": "^0.17.0" }, "peerDependencies": { "@rsbuild/core": "1.x" } }, "sha512-L/GoHgJV4j+EQbI4KOhe5EscM0OHgnSat1eR0Nt5P3JZxpJV2ryO5Yfx5jElPWOkYZZCuk+EWhHWDQ4CkeC5BQ=="],
 

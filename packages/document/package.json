@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@rsbuild/core": "^1.7.3",
+    "@rsbuild/plugin-less": "^1.6.0",
     "@rsbuild/plugin-react": "^1.4.5",
     "@rsbuild/plugin-sass": "^1.5.0",
     "@rspress/core": "1.47.1",
@@ -44,4 +45,3 @@
     "unist-util-visit": "^5.1.0"
   }
 }
-
