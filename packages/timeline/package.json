@@ -19,7 +19,7 @@
     "url": "git+https://github.com/keplar-404/react-timeline-editor.git"
   },
   "scripts": {
-    "build": "npm run clean && vite build",
+    "build": "bun run clean && vite build",
     "clean": "rm -rf dist"
   },
   "files": [

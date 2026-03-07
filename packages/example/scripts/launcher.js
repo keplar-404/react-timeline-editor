@@ -135,6 +135,8 @@ async function main() {
 // Handle CLI arguments
 if (process.argv.length > 2) {
   const arg = process.argv[2];
+  const isBuildOnly = process.argv.includes('--build-only');
+
   if (arg === '--help' || arg === '-h') {
     console.log(`
 React Timeline Editor - Example Launcher
@@ -155,7 +157,9 @@ Examples:
 
     if (entryNames.includes(arg) || arg === 'main') {
       createHtmlFile(arg);
-      startDevServer();
+      if (!isBuildOnly) {
+        startDevServer();
+      }
     } else {
       console.error(`❌ Example not found: ${arg}`);
       console.log('Available examples:', entryNames.join(', '));

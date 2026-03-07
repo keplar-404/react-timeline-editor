@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run clean && npm run build:rollup",
+    "build": "bun run clean && bun run build:rollup",
     "build:rollup": "cross-env NODE_ENV=production rollup -c",
     "build:dts": "tsc --project tsconfig.build.json --emitDeclarationOnly --outDir dist && node fix-dts-imports.cjs",
     "clean": "rm -rf dist"

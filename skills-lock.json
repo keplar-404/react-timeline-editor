@@ -15,6 +15,11 @@
       "source": "vercel-labs/skills",
       "sourceType": "github",
       "computedHash": "6412eb4eb3b91595ebab937f0c69501240e7ba761b3d82510b5cf506ec5c7adc"
-    } 
+    },
+    "npm-publisher": {
+      "source": "klaudworks/universal-skills",
+      "sourceType": "github",
+      "computedHash": "ae2ad206a80ff2216e51d3a62cab61f13b2f2153e3e071a18742ec3d16bfe009"
+    }
   }
 }

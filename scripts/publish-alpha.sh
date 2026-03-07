@@ -18,7 +18,7 @@ echo "Version: alpha.$GIT_SHA"
 
 BEFORE_VERSION=$(cat packages/timeline/package.json | grep version | cut -d '"' -f 4)
 
-bunx npm version prerelease --preid=alpha.$GIT_SHA
+bunx --bun npm version prerelease --preid=alpha.$GIT_SHA
 
 AFTER_VERSION=$(cat packages/timeline/package.json | grep version | cut -d '"' -f 4)
 
@@ -29,7 +29,7 @@ echo "==== Version Change Completed ===="
 bun install
 # clean \build
 bun run build
-bunx npm publish --access public --tag next
+bun publish --access public --tag next
 
 echo "==== ✅ Publish alpha version completed, version: $AFTER_VERSION ===="
 

@@ -10,7 +10,7 @@
 ## Getting Started
 
 ```bash
-npm install @keplar-404/react-timeline-editor
+bun add @keplar-404/react-timeline-editor
 ```
 
 ```ts
