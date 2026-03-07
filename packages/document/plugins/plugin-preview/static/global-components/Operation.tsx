@@ -3,14 +3,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import IconCode from './icons/Code';
 import IconLaunch from './icons/Launch';
 import IconRefresh from './icons/Refresh';
-import './Operation.less';
+import './Operation.css';
 
 const locales = {
-  zh: {
-    refresh: '刷新页面',
-    goBack: '返回',
-    open: '在新页面打开',
-  },
   en: {
     refresh: 'Refresh',
     goBack: 'Go back',
@@ -23,7 +18,7 @@ const MobileOperation = (props: { url: string; changeCodeVisible: () => void; re
   const [showQRCode, setShowQRCode] = useState(false);
   const lang = useLang();
   const triggerRef = useRef(null);
-  const t = lang === 'zh' ? locales.zh : locales.en;
+  const t = locales.en;
 
   const openNewPage = () => {
     window.open(url);

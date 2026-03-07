@@ -48,7 +48,6 @@
     "@umijs/test": "^3.0.5",
     "@vitejs/plugin-react": "^4.2.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
-    "less": "^4.4.0",
     "lint-staged": "^10.0.7",
     "lodash": "^4.17.21",
     "prettier": "^2.2.1",

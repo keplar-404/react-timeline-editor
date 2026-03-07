@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import './index.less';
+import './index.css';
 import { mockData, mockEffect } from './mock';
 import {
   Timeline, CutOverlay, CutOverlayConfig, splitActionInRow,

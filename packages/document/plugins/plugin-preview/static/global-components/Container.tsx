@@ -1,7 +1,7 @@
 import { NoSSR, usePageData, withBase } from '@rspress/core/runtime';
 import { useCallback, useState } from 'react';
-import { Tab, Tabs } from 'rspress/theme';
-import './Container.less';
+import { Tabs } from 'antd';
+import './Container.css';
 import MobileOperation from './Operation';
 
 type ContainerProps = {
@@ -52,9 +52,9 @@ const Container: React.FC<ContainerProps> = (props) => {
             <Tabs>
               {codes.map((item, index) => {
                 return (
-                  <Tab key={nameArr[index]} label={nameArr[index]}>
+                  <Tabs.TabPane key={nameArr[index]} tab={nameArr[index]}>
                     {item}
-                  </Tab>
+                  </Tabs.TabPane>
                 );
               })}
             </Tabs>

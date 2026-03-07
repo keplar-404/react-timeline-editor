@@ -40,7 +40,7 @@ console.log(`✅ Created example folder: ${exampleName}`);
 // Create the component file
 const componentContent = `import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './index.less';
+import './index.css';
 
 interface ${capitalizeFirst(exampleName)}Props {
   // Component prop definitions
@@ -122,8 +122,8 @@ const cssContent = `.${exampleName}-container {
   min-height: 200px;
 }`;
 
-fs.writeFileSync(path.join(exampleDir, `index.less`), cssContent);
-console.log(`✅ Created style file: ${exampleName}/index.less`);
+fs.writeFileSync(path.join(exampleDir, `index.css`), cssContent);
+console.log(`✅ Created style file: ${exampleName}/index.css`);
 
 // Create the entry file
 const entryContent = `import React from 'react';

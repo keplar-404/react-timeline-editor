@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { examples } from '../../config/app-config';
-import './index.less';
+import './index.css';
 
 const MainPage: React.FC = () => {
   const getStatusBadge = (status: 'ready' | 'planned' | 'development') => {
@@ -96,9 +96,9 @@ const MainPage: React.FC = () => {
             </div>
             <div className="step-content">
               <strong>Start the dev server</strong>
-              <p>
-                From the project root, run: <code>yarn example run</code>
-              </p>
+              <div className="launch-instructions">
+                From the project root, run: <code>bun run dev</code> (in packages/example)
+              </div>
             </div>
           </div>
 

@@ -5,7 +5,7 @@ import { prefix } from '../../utils/deal_class_prefix';
 import { parserPixelToTime } from '../../utils/deal_data';
 import { DragLineData } from './drag_lines';
 import { EditAction } from './edit_action';
-import './edit_row.less';
+import './edit_row.css';
 
 export type EditRowProps = CommonProp & {
   areaRef: React.RefObject<HTMLDivElement>;

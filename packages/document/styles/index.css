@@ -42,9 +42,9 @@
     --rp-c-dark-light-4: #5c5c5c;
     --rp-c-dark-light-5: #6b6b6b;
 
-    /* 修改代码块标题背景 */
+    /* Modify code block title background */
     /* --rp-code-title-bg: rgba(250, 192, 61, 0.15); */
-    /* 修改代码块内容背景 */
+    /* Modify code block content background */
     /* --rp-code-block-bg: rgba(214, 188, 70, 0.05); */
 
     --rp-radius: 1rem;
@@ -68,7 +68,7 @@
     --rp-z-index-sidebar: 40;
 
 
-    /** 阴影 */
+    /** Shadow */
     --rp-shadow-1: 0 1px 4px rgba(0, 0, 0, 0.02), 0 1px 0 rgba(0, 0, 0, 0.06);
     --rp-shadow-2: 0 3px 12px rgba(0, 0, 0, 0.07), 0 1px 4px rgba(0, 0, 0, 0.07);
     --rp-shadow-3: 0 12px 32px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08);
@@ -77,7 +77,7 @@
         0 18px 56px rgba(0, 0, 0, 0.16), 0 4px 12px rgba(0, 0, 0, 0.16);
 
 
-    /** 首页 */
+    /** Home page */
     --rp-home-hero-name-color: transparent;
     --rp-home-hero-name-background: -webkit-linear-gradient(120deg,
             var(--rp-c-brand) 30%,

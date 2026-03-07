@@ -8,6 +8,7 @@
     "preview": "rspress preview"
   },
   "dependencies": {
+    "@ant-design/icons": "^6.1.0",
     "@babel/parser": "^7.25.0",
     "@babel/traverse": "^7.25.0",
     "@babel/types": "^7.25.0",
@@ -15,17 +16,31 @@
     "@keplar-404/timeline-engine": "workspace:*",
     "antd": "^4.16.13",
     "howler": "^2.2.3",
+    "lodash": "^4.17.23",
     "lottie-web": "^5.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rspress": "^1.45.1"
+    "rspress": "1.47.1"
   },
   "devDependencies": {
+    "@rsbuild/core": "^1.7.3",
+    "@rsbuild/plugin-react": "^1.4.5",
+    "@rsbuild/plugin-sass": "^1.5.0",
+    "@rspress/core": "1.47.1",
+    "@rspress/shared": "1.47.1",
+    "@rspress/theme-default": "1.47.1",
+    "@types/babel__traverse": "^7.28.0",
     "@types/fs-extra": "^11.0.4",
     "@types/howler": "^2.2.4",
+    "@types/lodash": "^4.17.24",
     "@types/node": "^18.11.17",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "fs-extra": "^11.3.2"
+    "fs-extra": "^11.3.2",
+    "mdast": "^3.0.0",
+    "mdast-util-mdx-jsx": "^3.2.0",
+    "mdast-util-mdxjs-esm": "^2.0.1",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.1.0"
   }
 }

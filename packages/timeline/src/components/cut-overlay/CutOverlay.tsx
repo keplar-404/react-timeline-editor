@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { TimelineAction, TimelineRow } from '@keplar-404/timeline-engine';
-import './CutOverlay.less';
+import './CutOverlay.css';
 
 // ─────────────────────────────────────────────
 // Helpers

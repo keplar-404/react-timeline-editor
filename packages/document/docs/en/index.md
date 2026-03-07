@@ -10,7 +10,6 @@ hero:
     - theme: brand
       text: Getting Started
       link: /en/guide/intro/1-getting-started
-      
 
 features:
   - title: 'Rich Timeline Interaction Features'
@@ -20,6 +19,6 @@ features:
     details: Support for custom styles; Support for extending interaction behavior through hook functions; Support for custom runtime performance
     icon: 🚀
   - title: 'Independent Runner Capability'
-    details: In addition to being used in conjunction with the editor, the runner also supports independent operation脱离 the editor
+    details: In addition to being used in conjunction with the editor, the runner also supports independent operation apart from the editor
     icon: 🕹
 ---

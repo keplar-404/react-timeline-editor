@@ -2,16 +2,16 @@ import React, { FC } from 'react';
 import { prefix } from '../../utils/deal_class_prefix';
 
 interface DragPreviewProps {
-  /** 预览元素顶部位置 */
+  /** Top position of the preview element */
   top: number;
-  /** 预览元素高度 */
+  /** Height of the preview element */
   height: number;
-  /** 预览元素是否可见 */
+  /** Whether the preview element is visible */
   visible: boolean;
 }
 
 /**
- * 拖拽预览组件 - 显示拖拽中的行预览
+ * Drag preview component - displays a preview of the row being dragged
  */
 export const DragPreview: FC<DragPreviewProps> = ({ top, height, visible }) => {
   if (!visible) {
@@ -43,7 +43,7 @@ export const DragPreview: FC<DragPreviewProps> = ({ top, height, visible }) => {
           fontWeight: 'bold',
         }}
       >
-        拖拽中...
+        Dragging...
       </div>
     </div>
   );

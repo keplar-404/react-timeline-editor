@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import './LoopZoneOverlay.less';
+import './LoopZoneOverlay.css';
 
 // ─────────────────────────────────────────────
 // Public Types

@@ -4,10 +4,10 @@ import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 
 export default defineConfig({
-  // 配置使用的插件列表
+  // Plugin list
   plugins: [
     react(), 
-    // 使用 dts 插件生成 TypeScript 声明文件
+    // Use dts plugin to generate TypeScript declaration files
     dts({ 
       include: ['src/**/*'], 
       outDir: 'dist', 
@@ -18,24 +18,24 @@ export default defineConfig({
       } 
     })
   ],
-  // 配置路径别名
+  // Path alias
   resolve: {
   },
-  // 构建配置
+  // Build config
   build: {
-    // 库模式配置
+    // Library mode config
     lib: {
       entry: path.resolve(__dirname, 'src/index.tsx'),
       name: 'react-timeline-editor',
       formats: ['es', 'umd', 'cjs'],
       fileName: (format) => `index.${format}.js`,
     },
-    // Rollup 打包选项
+    // Rollup build options
     rollupOptions: {
-      // 确保外部化处理那些你不想打包进库的依赖
+      // Externalize dependencies that should not be bundled
       external: ['react', 'react-dom', 'react/jsx-runtime'],
       output: {
-        // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
+        // Provide global variables for externalized dependencies in UMD build
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',

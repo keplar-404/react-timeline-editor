@@ -21,50 +21,50 @@ export class Events {
 
 export interface EventTypes {
   /**
-   * 设置时间前(手动)
+   * Before setting time (manual)
    * @type {{ time: number, engine: TimelineEngine }}
    * @memberof EventTypes
    */
   beforeSetTime: { time: number; engine: TimelineEngine };
   /**
-   * 设置时间后(手动)
+   * After setting time (manual)
    * @type {{ time: number, engine: TimelineEngine }}
    * @memberof EventTypes
    */
   afterSetTime: { time: number; engine: TimelineEngine };
   /**
-   * tick设置时间后
+   * After tick sets time
    * @type {{ time: number, engine: TimelineEngine }}
    * @memberof EventTypes
    */
   setTimeByTick: { time: number; engine: TimelineEngine };
   /**
-   * 设置运行速率前
-   * return false 将阻止设置速率
+   * Before setting playback rate
+   * return false will prevent setting the rate
    * @type {{ speed: number, engine: TimelineEngine }}
    * @memberof EventTypes
    */
   beforeSetPlayRate: { rate: number; engine: TimelineEngine };
   /**
-   * 设置运行速率后
+   * After setting playback rate
    * @type {{ speed: number, engine: TimelineEngine }}
    * @memberof EventTypes
    */
   afterSetPlayRate: { rate: number; engine: TimelineEngine };
   /**
-   * 运行
+   * Run
    * @type {{engine: TimelineEngine}}
    * @memberof EventTypes
    */
   play: { engine: TimelineEngine };
   /**
-   * 停止
+   * Stop
    * @type {{ engine: TimelineEngine }}
    * @memberof EventTypes
    */
   paused: { engine: TimelineEngine };
   /**
-   * 运行结束
+   * Run ended
    * @type {{ engine: TimelineEngine }}
    * @memberof EventTypes
    */

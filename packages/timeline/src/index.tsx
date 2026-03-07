@@ -13,4 +13,5 @@ export type {
 } from './components/transport/useTimelinePlayer';
 export { splitActionInRow } from './utils/deal_data';
 export * from './interface/timeline';
+export * from '@keplar-404/timeline-engine';
 

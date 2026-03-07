@@ -46,7 +46,7 @@ export const RowDnd = React.forwardRef<RowRndApi, RowRndProps>(
       };
     }, []);
 
-    //#region [rgba(100,120,156,0.08)] 赋值相关api
+    //#region [rgba(100,120,156,0.08)] Assignment related APIs
     useImperativeHandle(ref, () => ({
       updateLeft: (left) => handleUpdateLeft(left || 0, false),
       updateWidth: (width) => handleUpdateWidth(width, false),
@@ -85,7 +85,7 @@ export const RowDnd = React.forwardRef<RowRndApi, RowRndProps>(
     };
     //#endregion
 
-    //#region [rgba(188,188,120,0.05)] 回调api
+    //#region [rgba(188,188,120,0.05)] Callback APIs
     const handleMoveStart = (e: DragEvent) => {
       deltaX.current = 0;
       isAdsorption.current = false;
@@ -100,7 +100,7 @@ export const RowDnd = React.forwardRef<RowRndApi, RowRndProps>(
         const count = parseInt(deltaX.current / distance + '');
         let curLeft = preLeft + count * distance;
 
-        // 控制吸附
+        // Control adsorption
         let adsorption = curLeft;
         let minDis = Number.MAX_SAFE_INTEGER;
         adsorptionPositions.forEach((item) => {
@@ -111,11 +111,11 @@ export const RowDnd = React.forwardRef<RowRndApi, RowRndProps>(
         });
 
         if (adsorption !== curLeft) {
-          // 采用吸附数据
+          // Use adsorption data
           isAdsorption.current = true;
           curLeft = adsorption;
         } else {
-          // 控制网格
+          // Control grid
           if ((curLeft - start) % grid !== 0) {
             curLeft = start + grid * Math.round((curLeft - start) / grid);
           }
@@ -123,7 +123,7 @@ export const RowDnd = React.forwardRef<RowRndApi, RowRndProps>(
         }
         deltaX.current = deltaX.current % distance;
 
-        // 控制bounds
+        // Control bounds
         if (curLeft < bounds.left) curLeft = bounds.left;
         else if (curLeft + preWidth > bounds.right) curLeft = bounds.right - preWidth;
 
@@ -192,12 +192,12 @@ export const RowDnd = React.forwardRef<RowRndApi, RowRndProps>(
       const distance = isAdsorption.current ? adsorptionDistance : grid;
 
       if (dir === 'left') {
-        // 拖动左侧
+        // Dragging left side
         if (Math.abs(deltaX.current) >= distance) {
           const count = parseInt(deltaX.current / distance + '');
           let curLeft = preLeft + count * distance;
 
-          // 控制吸附
+          // Control adsorption
           let adsorption = curLeft;
           let minDis = Number.MAX_SAFE_INTEGER;
           adsorptionPositions.forEach((item) => {
@@ -206,11 +206,11 @@ export const RowDnd = React.forwardRef<RowRndApi, RowRndProps>(
           });
 
           if (adsorption !== curLeft) {
-            // 采用吸附数据
+            // Use adsorption data
             isAdsorption.current = true;
             curLeft = adsorption;
           } else {
-            // 控制grid网格
+            // Control grid
             if ((curLeft - start) % grid !== 0) {
               curLeft = start + grid * Math.round((curLeft - start) / grid);
             }
@@ -218,7 +218,7 @@ export const RowDnd = React.forwardRef<RowRndApi, RowRndProps>(
           }
           deltaX.current = deltaX.current % distance;
 
-          // 控制bounds
+          // Control bounds
           const tempRight = preLeft + preWidth;
           if (curLeft < bounds.left) curLeft = bounds.left;
           const curWidth = tempRight - curLeft;
@@ -237,12 +237,12 @@ export const RowDnd = React.forwardRef<RowRndApi, RowRndProps>(
           handleUpdateWidth(curWidth, false);
         }
       } else if (dir === 'right') {
-        // 拖动右侧
+        // Dragging right side
         if (Math.abs(deltaX.current) >= distance) {
           const count = parseInt(deltaX.current / grid + '');
           let curWidth = preWidth + count * grid;
 
-          // 控制吸附
+          // Control adsorption
           let adsorption = preLeft + curWidth;
           let minDis = Number.MAX_SAFE_INTEGER;
           adsorptionPositions.forEach((item) => {
@@ -251,11 +251,11 @@ export const RowDnd = React.forwardRef<RowRndApi, RowRndProps>(
           });
 
           if (adsorption !== preLeft + curWidth) {
-            // 采用吸附数据
+            // Use adsorption data
             isAdsorption.current = true;
             curWidth = adsorption - preLeft;
           } else {
-            // 控制grid网格
+            // Control grid
             let tempRight = preLeft + curWidth;
             if ((tempRight - start) % grid !== 0) {
               tempRight = start + grid * Math.round((tempRight - start) / grid);
@@ -265,7 +265,7 @@ export const RowDnd = React.forwardRef<RowRndApi, RowRndProps>(
           }
           deltaX.current = deltaX.current % distance;
 
-          // 控制bounds
+          // Control bounds
           if (preLeft + curWidth > bounds.right) curWidth = bounds.right - preLeft;
 
           if (onResize) {

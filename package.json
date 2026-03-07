@@ -6,19 +6,13 @@
     "type": "git",
     "url": "git+https://github.com/keplar-404/react-timeline-editor.git"
   },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
-  },
-  "installConfig": {
-    "hoistingLimits": "workspaces"
-  },
-  "packageManager": "yarn@4.9.2",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "docs": "yarn workspace docs run",
-    "example": "yarn workspace example run",
-    "build": "yarn workspaces foreach -ptvA --no-private --include='packages/**' run build || exit 1",
+    "docs": "bun --filter docs run",
+    "example": "bun --filter example run",
+    "build": "bun --filter '*' build || exit 1",
     "publish:alpha": "bash scripts/publish-alpha.sh",
     "publish:release": "bash scripts/publish-release.sh"
   },

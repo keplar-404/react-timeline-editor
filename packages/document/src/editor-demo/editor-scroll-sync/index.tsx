@@ -1,7 +1,7 @@
 import { Timeline, TimelineState } from '@keplar-404/react-timeline-editor';
 import { cloneDeep } from 'lodash';
 import React, { useRef, useState } from 'react';
-import './index.less';
+import './index.css';
 import { mockData, mockEffect } from './mock';
 
 const defaultEditorData = cloneDeep(mockData);

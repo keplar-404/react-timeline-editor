@@ -18,7 +18,7 @@ echo "Version: alpha.$GIT_SHA"
 
 BEFORE_VERSION=$(cat packages/timeline/package.json | grep version | cut -d '"' -f 4)
 
-yarn version apply --all --json --prerelease=alpha.$GIT_SHA
+bunx npm version prerelease --preid=alpha.$GIT_SHA
 
 AFTER_VERSION=$(cat packages/timeline/package.json | grep version | cut -d '"' -f 4)
 
@@ -26,11 +26,9 @@ BEFORE_VERSION=$BEFORE_VERSION AFTER_VERSION=$AFTER_VERSION npx zx scripts/relea
 
 echo "==== Version Change Completed ===="
 
-yarn 
-
-yarn build
-
-yarn workspaces foreach -ptvA --no-private \
-  npm publish --tolerate-republish --tag alpha --access public
+bun install
+# clean \build
+bun run build
+bunx npm publish --access public --tag next
 
 echo "==== ✅ Publish alpha version completed, version: $AFTER_VERSION ===="

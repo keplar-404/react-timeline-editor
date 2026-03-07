@@ -1,0 +1,68 @@
+@import "~antd/dist/antd.css";
+.timeline-editor-example8 .timeline-editor {
+  width: 100%;
+  max-width: 800px;
+  height: 300px;
+}
+.timeline-editor-example8 .timeline-editor-action {
+  height: 28px !important;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.timeline-editor-example8 .timeline-editor-action-effect-effect0 {
+  cursor: pointer;
+  background-color: #cd9541;
+  background-image: url("./soundWave.png");
+  background-position: bottom;
+  background-repeat: repeat-x;
+}
+.timeline-editor-example8 .timeline-editor-action-effect-effect0 .effect0 {
+  width: 100%;
+  height: 100%;
+  font-size: 10px;
+  color: #fff;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.timeline-editor-example8 .timeline-editor-action-effect-effect0 .effect0-text {
+  margin-left: 4px;
+  flex: 1 1 auto;
+  text-align: center;
+  display: flex;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+.timeline-editor-example8 .timeline-editor-action-effect-effect0 .timeline-editor-action-left-stretch,
+.timeline-editor-example8 .timeline-editor-action-effect-effect0 .timeline-editor-action-right-stretch {
+  overflow: inherit;
+}
+.timeline-editor-example8 .timeline-editor-action-effect-effect0 .timeline-editor-action-left-stretch::after,
+.timeline-editor-example8 .timeline-editor-action-effect-effect0 .timeline-editor-action-right-stretch::after {
+  width: 18px;
+  height: 18px;
+  transform: rotate(45deg) scale(0.8);
+  background: #aabbcc;
+  border: none;
+}
+.timeline-editor-example8 .timeline-editor-action-effect-effect0 .timeline-editor-action-left-stretch::after {
+  left: -9px;
+}
+.timeline-editor-example8 .timeline-editor-action-effect-effect0 .timeline-editor-action-right-stretch::after {
+  right: -9px;
+}
+.timeline-editor-example8 .timeline-editor-action .effect1 {
+  width: 25px;
+  height: 28px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.timeline-editor-example8 .timeline-editor-action .effect1 img {
+  width: 100%;
+  height: 100%;
+}

@@ -5,19 +5,19 @@ import { prefix } from '../../utils/deal_class_prefix';
 import { parserPixelToTime, parserTimeToPixel } from '../../utils/deal_data';
 import { RowDnd } from '../row_rnd/row_rnd';
 import { RowRndApi } from '../row_rnd/row_rnd_interface';
-import './cursor.less';
+import './cursor.css';
 
-/** 动画时间轴组件参数 */
+/** Animation timeline component parameters */
 export type CursorProps = CommonProp & {
-  /** 距离左侧滚动距离 */
+  /** Scroll distance from left */
   scrollLeft: number;
-  /** 设置光标位置 */
+  /** Set cursor position */
   setCursor: (param: { left?: number; time?: number }) => boolean;
-  /** 时间轴区域dom ref */
+  /** Timeline area DOM ref */
   areaRef: React.RefObject<HTMLDivElement>;
-  /** 设置scroll left */
+  /** Set scroll left */
   deltaScrollLeft?: (delta: number) => void;
-  /** 滚动同步ref（TODO: 该数据用于临时解决scrollLeft拖住时不同步问题） */
+  /** Scroll sync ref (TODO: This data is used to temporarily solve the out-of-sync issue when scrollLeft is dragged) */
   scrollSync: React.RefObject<ScrollSync>;
 };
 
@@ -43,7 +43,7 @@ export const Cursor: FC<CursorProps> = ({
 
   useEffect(() => {
     if (typeof draggingLeft.current === 'undefined') {
-      // 非dragging时，根据穿参更新cursor刻度
+      // When not dragging, update cursor scale according to parameters
       rowRnd.current?.updateLeft(parserTimeToPixel(cursorTime, { startLeft, scaleWidth, scale }) - scrollLeft);
     }
   }, [cursorTime, startLeft, scaleWidth, scale, scrollLeft]);
@@ -75,11 +75,11 @@ export const Cursor: FC<CursorProps> = ({
         const scrollLeft = scrollSync.current?.state.scrollLeft || 0;
 
         if (!scroll || scrollLeft === 0) {
-          // 拖拽时，如果当前left < left min，将数值设置为 left min
+          // When dragging, if current left < min left, set value to min left
           if (left < startLeft - scrollLeft) draggingLeft.current = startLeft - scrollLeft;
           else draggingLeft.current = left;
         } else {
-          // 自动滚动时，如果当前left < left min，将数值设置为 left min
+          // During auto-scrolling, if current left < min left, set value to min left
           if ((draggingLeft.current || 0) < startLeft - scrollLeft - scroll) {
             draggingLeft.current = startLeft - scrollLeft - scroll;
           }

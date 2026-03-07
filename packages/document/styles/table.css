@@ -1,4 +1,4 @@
-/* 通用表格样式 */
+/* Common table styles */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -17,7 +17,7 @@ table span.deprecated {
     margin-right: 5px;
 }
 
-/* 表头样式 */
+/* Header styles */
 table th {
     background-color: var(--rp-c-brand-tint);
     color: #333;
@@ -25,27 +25,27 @@ table th {
     text-align: left;
     padding: 12px 16px;
     border-bottom: 1px solid var(--rp-c-divider);
-    /* 使用主题色作为分隔线 */
+    /* Use theme color as divider */
     white-space: nowrap;
 }
 
-/* 单元格样式 */
+/* Cell styles */
 table td {
     padding: 12px 16px;
     border-bottom: 1px solid var(--rp-c-divider-light);
     vertical-align: top;
 }
 
-/* 表格主体悬停效果 */
+/* Table body hover effect */
 table tbody tr:hover {
 }
 
-/* 最后一行去除底部分隔线 */
+/* Last row removes bottom divider */
 table tbody tr:last-child td {
     border-bottom: none;
 }
 
-/* 代码样式 */
+/* Code styles */
 table code {
     background-color: var(--rp-c-text-code-bg);
     padding: 2px 6px;
@@ -54,7 +54,7 @@ table code {
     font-size: 13px;
 }
 
-/* 链接样式 */
+/* Link styles */
 table a {
     color: var(--rp-c-brand);
     text-decoration: none;
@@ -64,7 +64,7 @@ table a:hover {
     text-decoration: underline;
 }
 
-/* 响应式表格 */
+/* Responsive table */
 @media (max-width: 768px) {
     table {
         display: block;
@@ -72,7 +72,7 @@ table a:hover {
     }
 }
 
-/* 表格容器 */
+/* Table container */
 .table-container {
     overflow-x: auto;
     margin: 24px 0;

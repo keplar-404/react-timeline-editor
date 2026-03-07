@@ -21,7 +21,7 @@ export function useAutoScroll(target: React.RefObject<HTMLDivElement>) {
   };
 
   const dealDragAutoScroll = (e: DragEvent, deltaScroll?: (delta: number) => void) => {
-    // 超出
+    // Out of bounds
     if (e.clientX >= rightBoundRef.current || e.clientX <= leftBoundRef.current) {
       frame.current && cancelAnimationFrame(frame.current);
       const over = Math.abs(e.clientX >= rightBoundRef.current ? e.clientX - rightBoundRef.current : e.clientX - leftBoundRef.current);

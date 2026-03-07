@@ -4,21 +4,21 @@ import { TimelineRow } from '@keplar-404/timeline-engine';
 import { calculateInsertionLineTop } from './drag_utils';
 
 interface InsertionLineProps {
-  /** 距离顶部高度 */
+  /** Distance from top */
   top: number;
-  /** 插入线是否可见 */
+  /** Whether the insertion line is visible */
   visible: boolean;
 }
 
 /**
- * 插入线组件 - 显示拖拽插入位置
+ * Insertion line component - displays the drag insertion position
  */
 export const InsertionLine: FC<InsertionLineProps> = ({ top, visible }) => {
   if (!visible || top < 0) {
     return null;
   }
 
-  // 计算插入线位置
+  // Calculate insertion line position
   // const top = calculateInsertionLineTop(editorData, insertionLineIndex, rowHeight);
 
   return (

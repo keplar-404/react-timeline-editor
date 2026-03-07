@@ -1,11 +1,11 @@
 import { TimelineRow } from '@keplar-404/timeline-engine';
 
 /**
- * 计算行的累计高度
- * @param editorData 编辑器数据
- * @param rowIndex 目标行索引
- * @param defaultRowHeight 默认行高
- * @returns 累计高度
+ * Calculate the accumulated height of rows
+ * @param editorData Editor data
+ * @param rowIndex Target row index
+ * @param defaultRowHeight Default row height
+ * @returns Accumulated height
  */
 export const calculateRowAccumulatedHeight = (
   editorData: TimelineRow[],
@@ -20,10 +20,10 @@ export const calculateRowAccumulatedHeight = (
 };
 
 /**
- * 计算所有行的总高度
- * @param editorData 编辑器数据
- * @param defaultRowHeight 默认行高
- * @returns 总高度
+ * Calculate total height of all rows
+ * @param editorData Editor data
+ * @param defaultRowHeight Default row height
+ * @returns Total height
  */
 export const calculateTotalHeight = (
   editorData: TimelineRow[],
@@ -33,10 +33,10 @@ export const calculateTotalHeight = (
 };
 
 /**
- * 获取每行的实际高度数组
- * @param editorData 编辑器数据
- * @param defaultRowHeight 默认行高
- * @returns 高度数组
+ * Get an array of actual heights for each row
+ * @param editorData Editor data
+ * @param defaultRowHeight Default row height
+ * @returns Height array
  */
 export const getRowHeights = (
   editorData: TimelineRow[],
@@ -46,11 +46,11 @@ export const getRowHeights = (
 };
 
 /**
- * 计算插入线的位置
- * @param editorData 编辑器数据
- * @param targetIndex 目标索引
- * @param defaultRowHeight 默认行高
- * @returns 插入线顶部位置
+ * Calculate the position of the insertion line
+ * @param editorData Editor data
+ * @param targetIndex Target index
+ * @param defaultRowHeight Default row height
+ * @returns Insertion line top position
  */
 export const calculateInsertionLineTop = (
   editorData: TimelineRow[],
@@ -61,17 +61,17 @@ export const calculateInsertionLineTop = (
 };
 
 /**
- * 验证拖拽目标索引是否有效
- * @param targetIndex 目标索引
- * @param draggedIndex 被拖拽行索引
- * @param totalRows 总行数
- * @returns 是否有效
+ * Validate whether the drag target index is valid
+ * @param targetIndex Target index
+ * @param draggedIndex Index of the row being dragged
+ * @param totalRows Total number of rows
+ * @returns Whether it is valid
  */
 export const isValidDragTarget = (
   targetIndex: number,
   draggedIndex: number,
   totalRows: number
 ): boolean => {
-  // 允许拖拽到最后一行（targetIndex = totalRows）
+  // Allow dragging to the last row (targetIndex = totalRows)
   return targetIndex >= 0 && targetIndex <= totalRows && targetIndex !== draggedIndex;
 };

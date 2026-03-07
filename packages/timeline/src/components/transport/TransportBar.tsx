@@ -1,6 +1,6 @@
 import React from 'react';
 import { TimelinePlayerState, formatTime } from './useTimelinePlayer';
-import './TransportBar.less';
+import './TransportBar.css';
 
 // ─────────────────────────────────────────────
 // Public Types

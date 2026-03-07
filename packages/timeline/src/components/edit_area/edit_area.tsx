@@ -13,7 +13,7 @@ import { EditData } from '../../interface/timeline';
 import { prefix } from '../../utils/deal_class_prefix';
 import { parserPixelToTime, parserTimeToPixel } from '../../utils/deal_data';
 import { DragLines } from './drag_lines';
-import './edit_area.less';
+import './edit_area.css';
 import { EditRow } from './edit_row';
 import { useDragLine } from './hooks/use_drag_line';
 import { calculateTotalHeight, getRowHeights, isValidDragTarget } from './drag_utils';

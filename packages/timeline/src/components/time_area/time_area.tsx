@@ -3,25 +3,25 @@ import { AutoSizer, Grid, GridCellRenderer, OnScrollParams } from 'react-virtual
 import { CommonProp } from '../../interface/common_prop';
 import { prefix } from '../../utils/deal_class_prefix';
 import { parserPixelToTime } from '../../utils/deal_data';
-import './time_area.less';
+import './time_area.css';
 
-/** 动画时间轴组件参数 */
+/** Animation timeline component parameters */
 export type TimeAreaProps = CommonProp & {
-  /** 左侧滚动距离 */
+  /** Scroll distance from left */
   scrollLeft: number;
-  /** 滚动回调，用于同步滚动 */
+  /** Scroll callback, used for synchronous scrolling */
   onScroll: (params: OnScrollParams) => void;
-  /** 设置光标位置 */
+  /** Set cursor position */
   setCursor: (param: { left?: number; time?: number }) => void;
 };
 
-/** 动画时间轴组件 */
+/** Animation timeline component */
 export const TimeArea: FC<TimeAreaProps> = ({ setCursor, maxScaleCount, hideCursor, scale, scaleWidth, scaleCount, scaleSplitCount, startLeft, scrollLeft, onClickTimeArea, getScaleRender }) => {
   const gridRef = useRef<Grid>(null);
-  /** 是否显示细分刻度 */
+  /** Whether to show subdivision marks */
   const showUnit = scaleSplitCount > 0;
 
-  /** 获取每个cell渲染内容 */
+  /** Get rendering content for each cell */
   const cellRenderer: GridCellRenderer = ({ columnIndex, key, style }) => {
     const isShowScale = showUnit ? columnIndex % scaleSplitCount === 0 : true;
     const classNames = ['time-unit'];
@@ -38,7 +38,7 @@ export const TimeArea: FC<TimeAreaProps> = ({ setCursor, maxScaleCount, hideCurs
     gridRef.current?.recomputeGridSize();
   }, [scaleWidth, startLeft]);
 
-  /** 获取列宽 */
+  /** Get column width */
   const getColumnWidth = (data: { index: number }) => {
     switch (data.index) {
       case 0:
@@ -79,7 +79,7 @@ export const TimeArea: FC<TimeAreaProps> = ({ setCursor, maxScaleCount, hideCurs
 
                   const time = parserPixelToTime(left, { startLeft, scale, scaleWidth });
                   const result = onClickTimeArea && onClickTimeArea(time, e);
-                  if (result === false) return; // 返回false时阻止设置时间
+                  if (result === false) return; // Prevent setting time when false is returned
                   setCursor({ time });
                 }}
                 className={prefix('time-area-interact')}

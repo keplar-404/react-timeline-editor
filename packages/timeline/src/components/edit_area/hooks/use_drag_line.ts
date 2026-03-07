@@ -6,7 +6,7 @@ import { DragLineData } from "../drag_lines";
 export function useDragLine() {
   const [dragLineData, setDragLineData] = useState<DragLineData>({ isMoving: false, movePositions: [], assistPositions: [] });
 
-  /** 获取辅助线 */
+  /** Get auxiliary lines */
   const defaultGetAssistPosition = (data: {
     editorData: TimelineRow[];
     assistActionIds?: string[];
@@ -48,7 +48,7 @@ export function useDragLine() {
     return positions;
   };
 
-  /** 获取当前移动标记 */
+  /** Get current movement markers */
   const defaultGetMovePosition = (data: { start: number; end: number; dir?: "right" | "left"; startLeft: number; scale: number; scaleWidth: number }) => {
     const { start, end, dir, scale, scaleWidth, startLeft } = data;
     const { left, width } = parserTimeToTransform({ start, end }, { startLeft, scaleWidth, scale });
@@ -56,7 +56,7 @@ export function useDragLine() {
     return dir === "right" ? [left + width] : [left];
   };
 
-  /** 初始化draglines */
+  /** Initialize drag lines */
   const initDragLine = (data: { movePositions?: number[]; assistPositions?: number[] }) => {
     const { movePositions, assistPositions } = data;
 
@@ -67,7 +67,7 @@ export function useDragLine() {
     });
   };
 
-  /** 更新dragline */
+  /** Update drag line */
   const updateDragLine = (data: { movePositions?: number[]; assistPositions?: number[] }) => {
     const { movePositions, assistPositions } = data;
     setDragLineData((pre) => ({
@@ -77,7 +77,7 @@ export function useDragLine() {
     }));
   };
 
-  /** 释放draglines */
+  /** Dispose drag lines */
   const disposeDragLine = () => {
     setDragLineData({ isMoving: false, movePositions: [], assistPositions: [] });
   };

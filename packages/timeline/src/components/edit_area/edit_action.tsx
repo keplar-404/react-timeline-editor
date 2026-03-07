@@ -16,7 +16,7 @@ import {
 } from '../row_rnd/row_rnd_interface';
 import { DragLineData } from './drag_lines';
 import { useCrossRowDrag } from './cross_row_drag';
-import './edit_action.less';
+import './edit_action.css';
 
 export type EditActionProps = CommonProp & {
   row: TimelineRow;

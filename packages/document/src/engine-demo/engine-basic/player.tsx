@@ -39,7 +39,7 @@ const TimelinePlayer: FC<{
     };
   }, []);
 
-  // 开始或暂停
+  // Start or pause
   const handlePlayOrPause = () => {
     if (!timelineState.current) return;
     if (timelineState.current.isPlaying) {
@@ -49,13 +49,13 @@ const TimelinePlayer: FC<{
     }
   };
 
-  // 设置播放速率
+  // Set playback rate
   const handleRateChange = (rate: number) => {
     if (!timelineState.current) return;
     timelineState.current.setPlayRate(rate);
   };
 
-  // 时间展示
+  // Time display
   const timeRender = (time: number) => {
     const float = (parseInt((time % 1) * 100 + '') + '').padStart(2, '0');
     const min = (parseInt(time / 60 + '') + '').padStart(2, '0');

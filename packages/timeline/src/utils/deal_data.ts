@@ -1,7 +1,7 @@
 import { TimelineAction, TimelineRow } from "@keplar-404/timeline-engine";
 import { ADD_SCALE_COUNT } from "../interface/const";
 
-/** 时间转像素 */
+/** Time to pixel */
 export function parserTimeToPixel(
   data: number,
   param: {
@@ -14,7 +14,7 @@ export function parserTimeToPixel(
   return startLeft + (data / scale) * scaleWidth;
 }
 
-/** 像素转时间 */
+/** Pixel to time */
 export function parserPixelToTime(
   data: number,
   param: {
@@ -27,7 +27,7 @@ export function parserPixelToTime(
   return ((data - startLeft) / scaleWidth) * scale;
 }
 
-/** 位置 + 宽度 转 start + end */
+/** Position + Width to Start + End */
 export function parserTransformToTime(
   data: {
     left: number;
@@ -48,7 +48,7 @@ export function parserTransformToTime(
   };
 }
 
-/** start + end 转 位置 + 宽度 */
+/** Start + End to Position + Width */
 export function parserTimeToTransform(
   data: {
     start: number;
@@ -69,7 +69,7 @@ export function parserTimeToTransform(
   };
 }
 
-/** 根据数据获取刻度个数 */
+/** Get number of scale marks based on data */
 export function getScaleCountByRows(data: TimelineRow[], param: { scale: number }) {
   let max = 0;
   data.forEach((row) => {
@@ -81,7 +81,7 @@ export function getScaleCountByRows(data: TimelineRow[], param: { scale: number 
   return count + ADD_SCALE_COUNT;
 }
 
-/** 根据时间获取目前刻度数 */
+/** Get current number of scale marks based on time */
 export function getScaleCountByPixel(
   data: number,
   param: {
@@ -95,7 +95,7 @@ export function getScaleCountByPixel(
   return Math.max(count + ADD_SCALE_COUNT, param.scaleCount);
 }
 
-/** 获取动作全部时间的位置集合 */
+/** Get collection of positions for all action times */
 export function parserActionsToPositions(
   actions: TimelineAction[],
   param: {

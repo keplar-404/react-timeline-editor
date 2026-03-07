@@ -1,0 +1,65 @@
+.loop-zone-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;
+  overflow: visible;
+}
+.loop-zone-band {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  pointer-events: none;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  border-top: 2px solid transparent;
+}
+.loop-zone-handle {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  user-select: none;
+}
+.loop-zone-handle__line {
+  position: absolute;
+  top: 32px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  pointer-events: none;
+  border-left: 1px dashed transparent;
+  background: currentColor;
+  opacity: 0.5;
+}
+.loop-zone-handle__grip {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: auto;
+  cursor: ew-resize;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 7px;
+  border-radius: 5px;
+  transition: filter 0.12s, transform 0.1s;
+}
+.loop-zone-handle__grip:hover {
+  filter: brightness(1.2);
+  transform: translateX(-50%) scaleY(1.1);
+}
+.loop-zone-handle__grip:active {
+  transform: translateX(-50%) scale(0.94);
+}
+.loop-zone-handle__grip svg {
+  display: block;
+  flex-shrink: 0;
+}

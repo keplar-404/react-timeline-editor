@@ -1,0 +1,26 @@
+.custom-preview {
+  border: 1px solid rgba(200, 200, 200, 0.2);
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+.custom-preview .custom-preview-device {
+  padding: 24px;
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+}
+.custom-preview .custom-preview-device iframe {
+  min-height: 300px;
+  width: 100%;
+}
+.custom-preview .custom-preview-device iframe body {
+  width: 10px;
+}
+.custom-preview .custom-preview-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.custom-preview .custom-preview-code > div {
+  margin: 0;
+}

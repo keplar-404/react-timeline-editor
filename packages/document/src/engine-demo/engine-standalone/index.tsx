@@ -2,7 +2,7 @@ import { CaretRightOutlined, PauseOutlined } from '@ant-design/icons';
 import { TimelineEngine } from '@keplar-404/timeline-engine';
 import { Slider } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import './index.less';
+import './index.css';
 import { mockData, mockEffect } from './mock';
 import lottieControl from './lottieControl';
 
@@ -11,7 +11,7 @@ const TimelineEditor = () => {
   const [duration, setDuration] = useState(0);
   const [time, setTime] = useState(0);
   const timelineEngine = useRef<TimelineEngine>();
-  const playerPanel = useRef<HTMLDivElement>();
+  const playerPanel = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const engine = new TimelineEngine();
@@ -37,7 +37,7 @@ const TimelineEditor = () => {
     };
   }, []);
 
-  // 开始或暂停
+  // Start or pause
   const handlePlayOrPause = () => {
     if (!timelineEngine.current) return;
     if (timelineEngine.current.isPlaying) {
@@ -48,11 +48,12 @@ const TimelineEditor = () => {
   };
 
   const handleSetTime = (value: number) => {
+    if (!timelineEngine.current) return;
     timelineEngine.current.setTime(Number(value));
     timelineEngine.current.reRender();
   }
 
-  // 时间展示
+  // Time display
   const timeRender = (time: number) => {
     const float = (parseInt((time % 1) * 100 + '') + '').padStart(2, '0');
     const min = (parseInt(time / 60 + '') + '').padStart(2, '0');

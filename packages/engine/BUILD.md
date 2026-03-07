@@ -1,16 +1,16 @@
 # @keplar-404/timeline-engine
 
-时间轴动画运行器
+Timeline animation runner
 
-## 打包构建
+## Build
 
 ```bash
-# 生产模式打包（压缩，移除console）
+# Production mode build (compressed, console removed)
 npm run build
 ```
 
-## 依赖说明
+## Dependencies
 
-- **外部依赖**：React被标记为外部依赖，不会被打包
-- **Tree-shaking**：支持ES模块的tree-shaking优化
-- **类型支持**：自动生成TypeScript声明文件
+- **External Dependencies**: React is marked as an external dependency and will not be packaged
+- **Tree-shaking**: Supports ES module tree-shaking optimization
+- **Type Support**: Automatically generates TypeScript declaration files

@@ -3,7 +3,7 @@ import { Switch } from 'antd';
 import { cloneDeep } from 'lodash';
 import React, { useRef, useState } from 'react';
 import { CustomRender0, CustomRender1 } from './custom';
-import './index.less';
+import './index.css';
 import { CustomTimelineAction, CusTomTimelineRow, mockData, mockEffect, scale, scaleWidth, startLeft } from './mock';
 import TimelinePlayer from './player';
 

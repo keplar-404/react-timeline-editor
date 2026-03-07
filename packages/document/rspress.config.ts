@@ -21,16 +21,10 @@ export default defineConfig({
   locales: [
     {
       lang: 'en',
-      // 导航栏切换语言的标签
+      // Nav bar language toggle label
       label: 'English',
       title: 'Rspress',
       description: 'Static Site Generator',
-    },
-    {
-      lang: 'zh',
-      label: '简体中文',
-      title: 'Rspress',
-      description: '静态网站生成器',
     },
   ],
   themeConfig: {
@@ -39,11 +33,6 @@ export default defineConfig({
         lang: 'en',
         label: 'English',
         searchPlaceholderText: 'Search Docs',
-      },
-      {
-        lang: 'zh',
-        label: '简体中文',
-        searchPlaceholderText: '搜索文档',
       },
     ],
     darkMode: false,
@@ -63,6 +52,13 @@ export default defineConfig({
             alias: {
               '@keplar-404/react-timeline-editor': path.join(__dirname, '../timeline/src/index.tsx'),
               '@src': path.join(__dirname, 'src'),
+              '@theme': path.join(__dirname, 'plugins/plugin-preview/static/dummy.js'),
+              '@rspress/theme-default': path.join(__dirname, 'plugins/plugin-preview/static/dummy.js'),
+              '@theme-assets': path.join(__dirname, 'plugins/plugin-preview/static/dummy.js'),
+              'virtual-search-hooks': path.join(__dirname, 'plugins/plugin-preview/static/dummy.js'),
+              'virtual-global-styles': path.join(__dirname, 'plugins/plugin-preview/static/dummy.css'),
+              'rspress/runtime': path.join(__dirname, 'node_modules/@rspress/core/dist/runtime/index.js'),
+              '@rspress/core/runtime': path.join(__dirname, 'node_modules/@rspress/core/dist/runtime/index.js'),
             },
           },
         },

@@ -5,7 +5,7 @@ import terser from '@rollup/plugin-terser';
 
 const isDev = process.env.NODE_ENV === 'development';
 
-// 共享配置
+// Shared configuration
 const sharedConfig = {
   input: 'src/index.ts',
   plugins: [
@@ -19,9 +19,9 @@ const sharedConfig = {
   ],
 };
 
-// 开发模式配置
+// Development mode configuration
 const devConfig = [
-  // ES模块版本
+  // ES module version
   {
     ...sharedConfig,
     output: {
@@ -33,7 +33,7 @@ const devConfig = [
       ...sharedConfig.plugins,
       typescript({
         tsconfig: './tsconfig.build.json',
-        declaration: false, // 禁用Rollup生成声明文件，使用tsc单独生成
+        declaration: false, // Disable Rollup declaration file generation, use tsc separately
         sourceMap: true,
         inlineSources: true,
       }),
@@ -42,7 +42,7 @@ const devConfig = [
       include: 'src/**',
     },
   },
-  // CommonJS版本
+  // CommonJS version
   {
     ...sharedConfig,
     output: {
@@ -56,9 +56,9 @@ const devConfig = [
   },
 ];
 
-// 生产模式配置
+// Production mode configuration
 const prodConfig = [
-  // ES模块版本
+  // ES module version
   {
     ...sharedConfig,
     output: {
@@ -70,7 +70,7 @@ const prodConfig = [
       ...sharedConfig.plugins,
       typescript({
         tsconfig: './tsconfig.build.json',
-        declaration: false, // 禁用Rollup生成声明文件，使用tsc单独生成
+        declaration: false, // Disable Rollup declaration file generation, use tsc separately
         sourceMap: false,
       }),
       terser({
@@ -80,7 +80,7 @@ const prodConfig = [
       }),
     ],
   },
-  // CommonJS版本
+  // CommonJS version
   {
     ...sharedConfig,
     output: {
@@ -97,7 +97,7 @@ const prodConfig = [
       }),
     ],
   },
-  // UMD版本
+  // UMD version
   {
     ...sharedConfig,
     output: {
@@ -115,7 +115,7 @@ const prodConfig = [
       }),
     ],
   },
-  // UMD压缩版本
+  // UMD minified version
   {
     ...sharedConfig,
     output: {

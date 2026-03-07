@@ -8,7 +8,7 @@ Run the example project locally to see the Cut Overlay in action and experiment 
 
 ```bash
 cd packages/example
-yarn dev
+bun run dev
 ```
 
 Enable the **"Blade Cut Mode"** toggle in the sidebar.

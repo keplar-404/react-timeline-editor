@@ -8,7 +8,7 @@ import { getScaleCountByRows, parserPixelToTime, parserTimeToPixel } from '../ut
 import { Cursor } from './cursor/cursor';
 import { EditArea } from './edit_area/edit_area';
 import { TimeArea } from './time_area/time_area';
-import './timeline.less';
+import './timeline.css';
 
 export const Timeline = React.forwardRef<TimelineState, TimelineEditor>((props, ref) => {
   const checkedProps = checkProps(props);
@@ -37,18 +37,18 @@ export const Timeline = React.forwardRef<TimelineState, TimelineEditor>((props, 
 
   const scrollSync = useRef<ScrollSync>(null);
 
-  // 编辑器数据
+  // Editor data
   const [editorData, setEditorData] = useState(data);
-  // scale数量
+  // Scale count
   const [scaleCount, setScaleCount] = useState(MIN_SCALE_COUNT);
-  // 光标距离
+  // Cursor time
   const [cursorTime, setCursorTime] = useState(START_CURSOR_TIME);
-  // 是否正在运行
+  // Whether it is currently playing
   const [isPlaying, setIsPlaying] = useState(false);
-  // 当前时间轴宽度
+  // Current timeline width
   const [width, setWidth] = useState(Number.MAX_SAFE_INTEGER);
 
-  /** 监听数据变化 */
+  /** Listen for data changes */
   useLayoutEffect(() => {
     handleSetScaleCount(getScaleCountByRows(data, { scale }));
     setEditorData(data);
@@ -71,13 +71,13 @@ export const Timeline = React.forwardRef<TimelineState, TimelineEditor>((props, 
     scrollSync.current && scrollSync.current.setState({ scrollTop: scrollTop });
   }, [scrollTop]);
 
-  /** 动态设置scale count */
+  /** Dynamically set scale count */
   const handleSetScaleCount = (value: number) => {
     const data = Math.min(maxScaleCount, Math.max(minScaleCount, value));
     setScaleCount(data);
   };
 
-  /** 处理主动数据变化 */
+  /** Handle active data changes */
   const handleEditorDataChange = (editorData: TimelineRow[]) => {
     const result = onChange?.(editorData);
     if (result !== false) {
@@ -86,7 +86,7 @@ export const Timeline = React.forwardRef<TimelineState, TimelineEditor>((props, 
     }
   };
 
-  /** 处理光标 */
+  /** Handle cursor */
   const handleSetCursor = (param: { left?: number; time?: number; updateTime?: boolean }) => {
     let { left, time = 0, updateTime = true } = param;
     if (typeof left === 'undefined' && typeof time === 'undefined') return false;
@@ -105,15 +105,15 @@ export const Timeline = React.forwardRef<TimelineState, TimelineEditor>((props, 
     return result;
   };
 
-  /** 设置scrollLeft */
+  /** Set scrollLeft */
   const handleDeltaScrollLeft = (delta: number) => {
-    // 当超过最大距离时，禁止自动滚动
+    // When exceeding the maximum distance, prohibit automatic scrolling
     const data = (scrollSync.current?.state?.scrollLeft ?? 0) + delta;
     if (data > scaleCount * (scaleWidth - 1) + startLeft - width) return;
     scrollSync.current && scrollSync.current.setState({ scrollLeft: Math.max(scrollSync.current.state.scrollLeft + delta, 0) });
   };
 
-  // 处理运行器相关数据
+  // Handle engine-related data
   useEffect(() => {
     const handleTime = ({ time }: { time: number }) => {
       handleSetCursor({ time, updateTime: false });
@@ -125,7 +125,7 @@ export const Timeline = React.forwardRef<TimelineState, TimelineEditor>((props, 
     engineRef.current.on('paused', handlePaused);
   }, []);
 
-  // ref 数据
+  // ref data
   useImperativeHandle(ref, () => ({
     get target() {
       return domRef.current;
@@ -154,7 +154,7 @@ export const Timeline = React.forwardRef<TimelineState, TimelineEditor>((props, 
     },
   }));
 
-  // 监听timeline区域宽度变化
+  // Listen for width changes in the timeline area
   useEffect(() => {
     if (areaRef.current) {
       const resizeObserver = new ResizeObserver(() => {
@@ -188,7 +188,7 @@ export const Timeline = React.forwardRef<TimelineState, TimelineEditor>((props, 
             <EditArea
               {...checkedProps}
               timelineWidth={width}
-              ref={(ref) => ((areaRef.current as any) = ref?.domRef.current)}
+              ref={(ref) => { (areaRef.current as any) = ref?.domRef.current; }}
               disableDrag={disableDrag || isPlaying}
               editorData={editorData}
               cursorTime={cursorTime}

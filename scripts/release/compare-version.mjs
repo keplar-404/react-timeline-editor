@@ -7,7 +7,7 @@ async function main() {
   const afterSemver = semver.coerce(AFTER_VERSION);
   const result = afterSemver.compare(beforeSemver);
   if (result === -1) {
-    console.error(`💢 请检查下 stableVersion 和 yarn version strategy, 版本发生降级 BEFORE_VERSION=${BEFORE_VERSION}, AFTER_VERSION=${AFTER_VERSION}`);
+    console.error(`💢 Please check the stableVersion and the bun version strategy, the version was downgraded. BEFORE_VERSION=${BEFORE_VERSION}, AFTER_VERSION=${AFTER_VERSION}`);
     process.exit(1);
   } else {
     process.exit(0);

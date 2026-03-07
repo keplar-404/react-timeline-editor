@@ -3,15 +3,15 @@ import { TimelineEffect, TimelineRow } from '@keplar-404/timeline-engine';
 export const mockEffect: Record<string, TimelineEffect> = {
   effect0: {
     id: "effect0",
-    name: "效果0",
+    name: "Effect0",
   },
   effect1: {
     id: "effect1",
-    name: "效果1",
+    name: "Effect1",
   },
   effect2: {
     id: "effect2",
-    name: "效果2",
+    name: "Effect2",
   },
 };
 

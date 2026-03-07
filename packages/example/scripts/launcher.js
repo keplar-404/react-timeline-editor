@@ -96,7 +96,7 @@ function createHtmlFile(entryName) {
 function startDevServer() {
   console.log('\n🚀 Starting dev server...');
   try {
-    execSync('yarn vite', {
+    execSync('bunx --bun vite', {
       cwd: projectRoot,
       stdio: 'inherit',
       env: { ...process.env, FORCE_COLOR: '1' }
@@ -140,12 +140,12 @@ if (process.argv.length > 2) {
 React Timeline Editor - Example Launcher
 
 Usage:
-  yarn example run         Launch interactive selection menu
-  yarn example run <name>  Launch a specific example directly
+  bun run dev         Launch interactive selection menu
+  bun run dev <name>  Launch a specific example directly
 
 Examples:
-  yarn example run basic    Launch the basic example
-  yarn example run main     Launch the main page
+  bun run dev basic    Launch the basic example
+  bun run dev main     Launch the main page
     `);
     process.exit(0);
   } else {

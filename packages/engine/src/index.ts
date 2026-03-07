@@ -1,11 +1,11 @@
-// 导出所有engine相关的内容
+// Export all engine-related content
 export * from './core/engine';
 export * from './core/events';
 export * from './core/emitter';
 export * from './interface/action';
 export * from './interface/effect';
 
-// 显式导出所有接口，确保它们能被正确识别
+// Explicitly export all interfaces to ensure they are correctly recognized
 export type { TimelineAction, TimelineRow } from './interface/action';
 export type { TimelineEffect } from './interface/effect';
 export type { ITimelineEngine } from './core/engine';

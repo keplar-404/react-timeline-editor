@@ -24,7 +24,6 @@
     "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^4.2.0",
     "agentation": "^2.2.1",
-    "less": "^4.4.2",
     "typescript": "^5.0.0",
     "vite": "^7.0.0"
   }

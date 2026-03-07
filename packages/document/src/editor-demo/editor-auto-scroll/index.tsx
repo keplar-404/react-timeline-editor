@@ -2,7 +2,7 @@ import { Timeline } from '@keplar-404/react-timeline-editor';
 import { Switch } from 'antd';
 import { cloneDeep } from 'lodash';
 import React, { useState } from 'react';
-import './index.less';
+import './index.css';
 import { mockData, mockEffect } from './mock';
 
 const defaultEditorData = cloneDeep(mockData);
@@ -14,8 +14,8 @@ const TimelineEditor = () => {
   return (
     <div className="timeline-editor-example9">
       <Switch
-        checkedChildren="开启自动滚动"
-        unCheckedChildren="禁用自动滚动"
+        checkedChildren="Enable Auto Scroll"
+        unCheckedChildren="Disable Auto Scroll"
         checked={autoScroll}
         onChange={(e) => setAutoScroll(e)}
         style={{ marginBottom: 20 }}

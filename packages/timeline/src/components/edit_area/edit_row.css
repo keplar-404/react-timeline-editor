@@ -1,0 +1,78 @@
+.timeline-editor-edit-row-dragging {
+  opacity: 0.5;
+}
+.timeline-editor-edit-row {
+  background-repeat: no-repeat, repeat;
+  background-image: linear-gradient(#191b1d, #191b1d), linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 0);
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  position: relative;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.timeline-editor-edit-row-drag-handle {
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 12px;
+  user-select: none;
+  z-index: 10;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+.timeline-editor-edit-row-drag-handle:hover {
+  opacity: 1;
+  color: #999;
+}
+.timeline-editor-edit-row-drag-handle:active {
+  cursor: grabbing;
+}
+.timeline-editor-edit-row-dragged {
+  opacity: 0.5;
+  transform: scale(0.98);
+  pointer-events: none;
+  z-index: 1000;
+  position: relative;
+}
+.timeline-editor-edit-row-dragging {
+  cursor: grabbing;
+}
+.timeline-editor-edit-row-placeholder {
+  background: rgba(74, 144, 226, 0.1);
+  border: 2px dashed #4a90e2;
+  height: 4px;
+  min-height: 4px;
+  margin: 2px 0;
+  opacity: 0.8;
+}
+.timeline-editor-edit-row-placeholder .timeline-editor-edit-row-drag-handle,
+.timeline-editor-edit-row-placeholder .timeline-editor-edit-action {
+  display: none;
+}
+.timeline-editor-edit-row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #4a90e2;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.timeline-editor-edit-row[data-insert-position="top"]::before {
+  top: -1px;
+  opacity: 1;
+}
+.timeline-editor-edit-row[data-insert-position="bottom"]::before {
+  bottom: -1px;
+  opacity: 1;
+}

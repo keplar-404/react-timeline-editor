@@ -1,7 +1,7 @@
 import { Events } from './events';
 
 /**
- * 事件派发器
+ * Event Emitter
  */
 export class Emitter<EventTypes> {
   events: { [key: string]: CallableFunction[] } = {};
