@@ -1,6 +1,6 @@
 {
   "name": "@keplar-404/timeline-engine",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "Timeline engine for react-timeline-editor",
   "main": "src/index.ts",
@@ -41,4 +41,3 @@
     ]
   }
 }
-

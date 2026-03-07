@@ -1,6 +1,6 @@
 {
   "name": "@keplar-404/react-timeline-editor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "keplar-404",
   "license": "MIT",
   "keywords": [
@@ -68,4 +68,3 @@
     ]
   }
 }
-
