@@ -13,7 +13,6 @@
     "docs": "bun --filter docs run",
     "example": "bun --filter example run",
     "build": "bun --filter '*' build || exit 1",
-    "lint": "eslint packages/*/src --ext .ts,.tsx",
     "publish:alpha": "bash scripts/publish-alpha.sh",
     "publish:release": "bash scripts/publish-release.sh"
   },
