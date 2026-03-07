@@ -30,11 +30,11 @@ jobs:
         run: bun run build
 
       - name: Publish Engine Package
-        run: cd packages/engine && bun publish --access public
+        run: cd packages/engine && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish Timeline Package
-        run: cd packages/timeline && bun publish --access public
+        run: cd packages/timeline && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
