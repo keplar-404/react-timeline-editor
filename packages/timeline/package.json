@@ -1,6 +1,6 @@
 {
   "name": "@keplar-404/react-timeline-editor",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "author": "keplar-404",
   "license": "MIT",
   "keywords": [
@@ -33,6 +33,10 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.es.js",
       "require": "./dist/index.cjs.js"
+    },
+    "./dist/react-timeline-editor.css": {
+      "style": "./dist/react-timeline-editor.css",
+      "default": "./dist/react-timeline-editor.css"
     }
   },
   "peerDependencies": {
@@ -64,6 +68,6 @@
     "yorkie": "^2.0.0"
   },
   "sideEffects": [
-    "dist/react-timeline-editor.css"
+    "./dist/react-timeline-editor.css"
   ]
 }

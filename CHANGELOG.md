@@ -7,7 +7,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.10] - 2026-03-13
+
+### Fixed
+
+- **CSS import broken in Tailwind v4 (PostCSS) and other CSS-resolving tools** —
+  `@keplar-404/react-timeline-editor` ships a stylesheet at
+  `dist/react-timeline-editor.css`. Tools that resolve CSS via the package `exports`
+  field (notably Tailwind v4's PostCSS plugin using the `"style"` condition) failed to
+  find the file because no CSS subpath export was defined.
+
+  Added a dedicated subpath export entry:
+
+  ```json
+  "./dist/react-timeline-editor.css": {
+    "style":   "./dist/react-timeline-editor.css",
+    "default": "./dist/react-timeline-editor.css"
+  }
+  ```
+
+  - The `"style"` condition is consumed by **Tailwind v4 PostCSS**, **Lightning CSS**,
+    and any other CSS-aware bundler plugin.
+  - The `"default"` condition is consumed by **Vite**, **webpack**, **Rollup**, and any
+    other general-purpose bundler.
+  - **Direct path imports** (`../node_modules/...`) continue to work as before,
+    requiring no change on the consumer side.
+
+  All three of the following now work without any workaround:
+
+  ```css
+  /* Tailwind v4 / PostCSS — uses "style" condition */
+  @import '@keplar-404/react-timeline-editor/dist/react-timeline-editor.css';
+
+  /* Vite / webpack / Rollup — uses "default" condition */
+  @import '@keplar-404/react-timeline-editor/dist/react-timeline-editor.css';
+
+  /* Direct path — bypasses exports entirely (always worked) */
+  @import '../node_modules/@keplar-404/react-timeline-editor/dist/react-timeline-editor.css';
+  ```
+
+- Corrected `sideEffects` path to use relative `./` prefix (`"./dist/react-timeline-editor.css"`)
+  so webpack resolves it correctly against the package root.
+
+---
+
 ## [1.0.9] - 2026-03-13
+
 
 ### Fixed
 
@@ -109,6 +154,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Standalone `@keplar-404/timeline-engine` playback engine decoupled from React DOM.
 - Rspress-based documentation site.
 
+[1.0.10]: https://github.com/keplar-404/react-timeline-editor/compare/v1.0.9...v1.0.10
 [1.0.9]: https://github.com/keplar-404/react-timeline-editor/compare/v1.0.8...v1.0.9
 [1.0.8]: https://github.com/keplar-404/react-timeline-editor/compare/v1.0.6...v1.0.8
 [1.0.6]: https://github.com/keplar-404/react-timeline-editor/compare/v1.0.5...v1.0.6
