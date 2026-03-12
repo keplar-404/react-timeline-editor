@@ -7,7 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.11] - 2026-03-13
+
+### Fixed
+
+- **CI: duplicate-version publish no longer fails the entire workflow** — The GitHub Actions
+  publish workflow previously used a bare `npm publish` call. If a version had already been
+  published (e.g. from a prior tag) the command exited with code 1, which halted all subsequent
+  steps and prevented the sibling package from publishing. The workflow now checks whether the
+  current `package.json` version already exists on the npm registry before running `npm publish`,
+  and gracefully skips with a warning message instead of failing.
+
+- **Version skew between engine and timeline** — `v1.0.9` was released with both packages at
+  `1.0.9`. The `v1.0.10` release only bumped the timeline package; the engine remained at `1.0.9`,
+  causing a `403 You cannot publish over previously published versions` error in CI. Both packages
+  are now kept in lockstep at the same version (`1.0.11`) to prevent this class of error.
+
+### Changed
+
+- **GitHub Actions workflow** (`npm-publish.yml`) — replaced bare `npm publish` with a
+  version-existence check before publishing each package. Future retries and re-triggered
+  workflows will skip already-published versions cleanly without failing.
+- **`@keplar-404/timeline-engine`** bumped to `1.0.11`.
+- **`@keplar-404/react-timeline-editor`** bumped to `1.0.11`; engine peer dependency updated
+  to `^1.0.11`.
+
+---
+
 ## [1.0.10] - 2026-03-13
+
 
 ### Fixed
 
@@ -154,6 +182,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Standalone `@keplar-404/timeline-engine` playback engine decoupled from React DOM.
 - Rspress-based documentation site.
 
+[1.0.11]: https://github.com/keplar-404/react-timeline-editor/compare/v1.0.10...v1.0.11
 [1.0.10]: https://github.com/keplar-404/react-timeline-editor/compare/v1.0.9...v1.0.10
 [1.0.9]: https://github.com/keplar-404/react-timeline-editor/compare/v1.0.8...v1.0.9
 [1.0.8]: https://github.com/keplar-404/react-timeline-editor/compare/v1.0.6...v1.0.8

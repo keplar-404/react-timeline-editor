@@ -1,6 +1,6 @@
 {
   "name": "@keplar-404/react-timeline-editor",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "author": "keplar-404",
   "license": "MIT",
   "keywords": [
@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@interactjs/types": "^1.10.11",
-    "@keplar-404/timeline-engine": "^1.0.9",
+    "@keplar-404/timeline-engine": "^1.0.11",
     "@types/react-virtualized": "^9.21.14",
     "framework-utils": "^1.1.0",
     "interactjs": "^1.10.11",

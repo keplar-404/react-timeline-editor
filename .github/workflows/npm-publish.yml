@@ -30,11 +30,29 @@ jobs:
         run: bun run build
 
       - name: Publish Engine Package
-        run: cd packages/engine && npm publish --access public
+        run: |
+          cd packages/engine
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          PUBLISHED=$(npm view @keplar-404/timeline-engine versions --json 2>/dev/null | grep "\"${CURRENT_VERSION}\"" || true)
+          if [ -z "$PUBLISHED" ]; then
+            echo "Publishing @keplar-404/timeline-engine@${CURRENT_VERSION} ..."
+            npm publish --access public
+          else
+            echo "⚠️  @keplar-404/timeline-engine@${CURRENT_VERSION} is already published — skipping."
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish Timeline Package
-        run: cd packages/timeline && npm publish --access public
+        run: |
+          cd packages/timeline
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          PUBLISHED=$(npm view @keplar-404/react-timeline-editor versions --json 2>/dev/null | grep "\"${CURRENT_VERSION}\"" || true)
+          if [ -z "$PUBLISHED" ]; then
+            echo "Publishing @keplar-404/react-timeline-editor@${CURRENT_VERSION} ..."
+            npm publish --access public
+          else
+            echo "⚠️  @keplar-404/react-timeline-editor@${CURRENT_VERSION} is already published — skipping."
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
