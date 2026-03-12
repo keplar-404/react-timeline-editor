@@ -1,5 +1,5 @@
 [
-   {
+  {
     "type": "dir",
     "name": "intro",
     "label": "Introduction",
@@ -9,7 +9,14 @@
   {
     "type": "dir",
     "name": "editor",
-    "label": "Editor Examples",
+    "label": "Editor Features",
+    "collapsible": true,
+    "collapsed": false
+  },
+  {
+    "type": "dir",
+    "name": "custom",
+    "label": "Custom & Advanced",
     "collapsible": true,
     "collapsed": false
   },

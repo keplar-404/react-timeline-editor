@@ -1,131 +1,137 @@
-<![CDATA[<div align="center">
+<div align="center">
 
-<img src="https://github.com/keplar-404/react-timeline-editor/blob/f79d85eee8a723e5210c04232daf2c51888418c0/public/assets/timeline.gif" alt="React Timeline Editor Demo" width="100%" />
+<img src="https://github.com/keplar-404/react-timeline-editor/blob/main/public/assets/timeline.gif?raw=true" alt="React Timeline Editor Demo" width="100%" />
 
 <h1>React Timeline Editor</h1>
 
-<p>A high-performance, feature-rich timeline editor for React — built for animation editors, video production tools, and any time-based UI.</p>
+<p>
+  <strong>A powerful, extensible React component library for building professional timeline animation and video editors.</strong>
+</p>
 
-[![npm version](https://img.shields.io/npm/v/@keplar-404/react-timeline-editor?style=flat-square&color=6366f1&label=react-timeline-editor)](https://www.npmjs.com/package/@keplar-404/react-timeline-editor)
-[![npm version](https://img.shields.io/npm/v/@keplar-404/timeline-engine?style=flat-square&color=8b5cf6&label=timeline-engine)](https://www.npmjs.com/package/@keplar-404/timeline-engine)
-[![npm downloads](https://img.shields.io/npm/dm/@keplar-404/react-timeline-editor?style=flat-square&color=06b6d4)](https://www.npmjs.com/package/@keplar-404/react-timeline-editor)
-[![License: MIT](https://img.shields.io/badge/license-MIT-22c55e?style=flat-square)](https://github.com/keplar-404/react-timeline-editor/blob/main/LICENSE)
-[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+<p>
+  <a href="https://www.npmjs.com/package/@keplar-404/react-timeline-editor">
+    <img src="https://img.shields.io/npm/v/@keplar-404/react-timeline-editor.svg?style=for-the-badge&logo=npm&color=CB3837" alt="npm version" />
+  </a>
+  <a href="https://www.npmjs.com/package/@keplar-404/react-timeline-editor">
+    <img src="https://img.shields.io/npm/dm/@keplar-404/react-timeline-editor.svg?style=for-the-badge&logo=npm&color=CB3837" alt="npm downloads" />
+  </a>
+  <a href="https://www.npmjs.com/package/@keplar-404/timeline-engine">
+    <img src="https://img.shields.io/npm/v/@keplar-404/timeline-engine.svg?style=for-the-badge&logo=npm&label=engine&color=3178C6" alt="engine version" />
+  </a>
+  <a href="https://github.com/keplar-404/react-timeline-editor/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/keplar-404/react-timeline-editor?style=for-the-badge&color=22c55e" alt="License: MIT" />
+  </a>
+  <a href="https://github.com/keplar-404/react-timeline-editor/actions/workflows/npm-publish.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/keplar-404/react-timeline-editor/npm-publish.yml?style=for-the-badge&logo=github-actions&label=publish" alt="Publish Status" />
+  </a>
+  <img src="https://img.shields.io/badge/TypeScript-Ready-3178C6?style=for-the-badge&logo=typescript" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/React-18%2B-61DAFB?style=for-the-badge&logo=react" alt="React 18+" />
+</p>
 
-**[📖 Documentation](https://github.com/keplar-404/react-timeline-editor)** · **[📦 npm](https://www.npmjs.com/package/@keplar-404/react-timeline-editor)** · **[🐛 Report a Bug](https://github.com/keplar-404/react-timeline-editor/issues)** · **[💡 Request a Feature](https://github.com/keplar-404/react-timeline-editor/issues)**
+<p>
+  <a href="#-quick-start">Quick Start</a> ·
+  <a href="#-features">Features</a> ·
+  <a href="#-documentation">Docs</a> ·
+  <a href="#-packages">Packages</a> ·
+  <a href="./CHANGELOG.md">Changelog</a> ·
+  <a href="#-contributing">Contributing</a>
+</p>
 
-> ⚠️ **Beta Software** — This package is actively developed. APIs are stabilizing but may have minor changes before `v2.0`. Please pin your version and check the [CHANGELOG](./CHANGELOG.md) when upgrading.
+> **Beta Release** — Core API is stable and used in production. Some advanced features are still being refined. Feedback and contributions are very welcome.
 
 </div>
 
 ---
 
-## ✨ What's Included
+## ✨ Features
 
-This is a **monorepo** containing two packages:
+| Feature | Description |
+|---|---|
+| 🎛 **Timeline Editor** | Drag, resize, and reorder action blocks across multiple tracks |
+| 🔍 **Scalable Zoom** | Configurable scale width, split counts, and snap-to-grid |
+| 🧲 **Smart Snapping** | Both CSS grid snapping and auxiliary drag-line snapping |
+| ↕️ **Row Reordering** | Drag entire tracks up and down to reorder |
+| 🔀 **Cross-Row Drag** | Move action blocks between rows with a live ghost preview |
+| ✂️ **Cut & Split** | Built-in scissors tool to slice action blocks at the cursor |
+| 🔁 **Loop Zone** | Draggable loop region overlay rendered on the timeline |
+| 🎮 **Transport Bar** | Production-ready playback controls (play/pause/seek/rate) |
+| ⚙️ **Standalone Engine** | `@keplar-404/timeline-engine` runs headlessly — no React required |
+| 🎨 **Fully Customisable** | Custom block renderers, scale renderers, and CSS theming |
+| 📦 **TypeScript First** | Complete type definitions for all props, hooks, and engine APIs |
+
+---
+
+## 📦 Packages
+
+This monorepo publishes two independent packages:
 
 | Package | Version | Description |
 |---|---|---|
-| [`@keplar-404/react-timeline-editor`](./packages/timeline) | ![npm](https://img.shields.io/npm/v/@keplar-404/react-timeline-editor?style=flat-square) | The React `<Timeline />` UI component |
-| [`@keplar-404/timeline-engine`](./packages/engine) | ![npm](https://img.shields.io/npm/v/@keplar-404/timeline-engine?style=flat-square) | The standalone, headless playback engine |
+| [`@keplar-404/react-timeline-editor`](https://www.npmjs.com/package/@keplar-404/react-timeline-editor) | [![npm](https://img.shields.io/npm/v/@keplar-404/react-timeline-editor?style=flat-square)](https://www.npmjs.com/package/@keplar-404/react-timeline-editor) | React UI component with all visual editor features |
+| [`@keplar-404/timeline-engine`](https://www.npmjs.com/package/@keplar-404/timeline-engine) | [![npm](https://img.shields.io/npm/v/@keplar-404/timeline-engine?style=flat-square)](https://www.npmjs.com/package/@keplar-404/timeline-engine) | Framework-agnostic playback engine (no React dependency) |
 
 ---
 
-## 🚀 Features
+## 🚀 Quick Start
 
-- **⚡ High Performance** — Virtualized rows handle thousands of action blocks without lag
-- **🎯 Precision Snapping** — Grid snap and auxiliary drag-line snap for frame-accurate editing
-- **↕️ Row Drag Sorting** — Drag and reorder entire tracks vertically with smooth ghost previews
-- **↔️ Cross-Row Dragging** — Move action blocks between different tracks seamlessly
-- **✂️ Blade / Cut Tool** — Slice and split timeline actions dynamically at any point
-- **🎛️ Transport Controls** — Pre-built `<TransportBar />` with Play, Pause, Seek, and Loop controls
-- **🔁 Loop Zones** — `<LoopZoneOverlay />` for draggable repeat regions
-- **🎨 Custom Renderers** — Full control over how action blocks look with `getActionRender`
-- **📐 Scale Customization** — Configurable zoom level, scale width, and split count
-- **🔗 Engine Decoupled** — Use `@keplar-404/timeline-engine` headlessly with any rendering layer
-- **📦 TypeScript First** — Full type definitions included
-
-> **Attribution:** This package is built on top of and derived from the excellent work by [@xzdarcy/react-timeline-editor](https://github.com/xzdarcy/react-timeline-editor). Full credit for the fundamental engine and architecture goes to [@xzdarcy](https://github.com/xzdarcy). This fork by [@keplar-404](https://github.com/keplar-404) introduces major new capabilities.
-
----
-
-## 📦 Installation
-
-Both packages are required. The engine powers the playback logic shared by the React component.
+### Installation
 
 ```bash
 # npm
 npm install @keplar-404/react-timeline-editor @keplar-404/timeline-engine
 
-# bun
-bun add @keplar-404/react-timeline-editor @keplar-404/timeline-engine
-
-# pnpm
-pnpm add @keplar-404/react-timeline-editor @keplar-404/timeline-engine
-
 # yarn
 yarn add @keplar-404/react-timeline-editor @keplar-404/timeline-engine
+
+# bun (recommended for speed)
+bun add @keplar-404/react-timeline-editor @keplar-404/timeline-engine
 ```
 
----
-
-## 🎨 Import the Stylesheet
-
-The component requires its stylesheet. Import it **once** in your app — either in your global CSS or directly in a component:
+### Import the CSS
 
 ```css
-/* global.css / app.css */
+/* In your global stylesheet or entry file */
 @import '@keplar-404/react-timeline-editor/dist/react-timeline-editor.css';
 ```
 
-or in a TypeScript/JavaScript file:
-
-```ts
-import '@keplar-404/react-timeline-editor/dist/react-timeline-editor.css';
-```
-
-> **Note:** Skipping this will result in an unstyled, broken-looking timeline.
-
----
-
-## ⚡ Quick Start
+### Basic Usage
 
 ```tsx
 import React, { useState } from 'react';
-import { Timeline } from '@keplar-404/react-timeline-editor';
-import type { TimelineRow, TimelineEffect } from '@keplar-404/react-timeline-editor';
+import { Timeline, TimelineRow, TimelineEffect } from '@keplar-404/react-timeline-editor';
 import '@keplar-404/react-timeline-editor/dist/react-timeline-editor.css';
 
-const rows: TimelineRow[] = [
+const effects: Record<string, TimelineEffect> = {
+  'clip': { id: 'clip', name: 'Video Clip' },
+  'audio': { id: 'audio', name: 'Audio Track' },
+};
+
+const initialData: TimelineRow[] = [
   {
-    id: 'track-1',
+    id: 'video-track',
     actions: [
-      { id: 'clip-1', start: 0, end: 3, effectId: 'video' },
-      { id: 'clip-2', start: 4, end: 7, effectId: 'audio' },
+      { id: 'clip-1', start: 0, end: 3, effectId: 'clip' },
+      { id: 'clip-2', start: 4, end: 7, effectId: 'clip' },
     ],
   },
   {
-    id: 'track-2',
+    id: 'audio-track',
     actions: [
-      { id: 'clip-3', start: 1, end: 5, effectId: 'video' },
+      { id: 'audio-1', start: 0, end: 7, effectId: 'audio' },
     ],
   },
 ];
 
-const effects: Record<string, TimelineEffect> = {
-  video: { id: 'video', name: 'Video' },
-  audio: { id: 'audio', name: 'Audio' },
-};
-
-export function MyEditor() {
-  const [data, setData] = useState(rows);
+export default function MyEditor() {
+  const [data, setData] = useState<TimelineRow[]>(initialData);
 
   return (
     <Timeline
       editorData={data}
       effects={effects}
       onChange={(newData) => setData(newData)}
-      autoScroll={true}
+      autoScroll
+      gridSnap
     />
   );
 }
@@ -133,33 +139,53 @@ export function MyEditor() {
 
 ---
 
-## 🎮 Playback Controls (via Ref)
+## 🎮 Playback Control with `useTimelinePlayer`
 
-For programmatic play/pause/seek, use the `ref` prop:
+The built-in `useTimelinePlayer` hook wires up the engine to a `ref` and gives you a clean playback API:
 
 ```tsx
-import React, { useRef, useState } from 'react';
-import { Timeline } from '@keplar-404/react-timeline-editor';
-import type { TimelineState, TimelineRow, TimelineEffect } from '@keplar-404/react-timeline-editor';
-import '@keplar-404/react-timeline-editor/dist/react-timeline-editor.css';
+import React, { useRef } from 'react';
+import { Timeline, TimelineState, useTimelinePlayer, formatTime } from '@keplar-404/react-timeline-editor';
 
-export function PlayerExample() {
+export default function EditorWithPlayer() {
   const timelineRef = useRef<TimelineState>(null);
-  const [data] = useState<TimelineRow[]>([ /* your rows */ ]);
-  const effects: Record<string, TimelineEffect> = { /* your effects */ };
+  const { play, pause, toggle, seek, state } = useTimelinePlayer(timelineRef, {
+    loop: { enabled: true, start: 0, end: 10 },
+  });
 
   return (
     <div>
-      <button onClick={() => timelineRef.current?.play({ autoEnd: true })}>▶ Play</button>
-      <button onClick={() => timelineRef.current?.pause()}>⏸ Pause</button>
-      <button onClick={() => timelineRef.current?.setTime(0)}>⏮ Rewind</button>
+      {/* Custom controls */}
+      <div style={{ display: 'flex', gap: 8, padding: 8 }}>
+        <button onClick={toggle}>{state.isPlaying ? '⏸ Pause' : '▶ Play'}</button>
+        <button onClick={() => seek(0)}>⏮ Reset</button>
+        <span>{formatTime(state.currentTime)} / {formatTime(state.duration)}</span>
+      </div>
 
       <Timeline
         ref={timelineRef}
-        editorData={data}
-        effects={effects}
-        onChange={() => {}}
+        editorData={[]}
+        effects={{}}
+        autoScroll
       />
+    </div>
+  );
+}
+```
+
+Or use the pre-built `TransportBar` component directly:
+
+```tsx
+import { Timeline, TransportBar, TimelineState } from '@keplar-404/react-timeline-editor';
+import { useRef } from 'react';
+
+export default function EditorWithTransportBar() {
+  const timelineRef = useRef<TimelineState>(null);
+
+  return (
+    <div>
+      <TransportBar timelineRef={timelineRef} />
+      <Timeline ref={timelineRef} editorData={[]} effects={{}} />
     </div>
   );
 }
@@ -167,100 +193,149 @@ export function PlayerExample() {
 
 ---
 
-## 🔑 Key Props
+## ⚙️ Standalone Engine (No React)
+
+`@keplar-404/timeline-engine` can drive any output — audio, animations, video — completely independently of React:
+
+```typescript
+import { TimelineEngine } from '@keplar-404/timeline-engine';
+
+const engine = new TimelineEngine();
+
+engine.effects = {
+  highlight: {
+    id: 'highlight',
+    source: {
+      enter: ({ action, time }) => console.log(`▶ ${action.id} at ${time}s`),
+      update: ({ time }) => { /* update DOM / canvas every frame */ },
+      leave: ({ action }) => console.log(`⏹ ${action.id} left`),
+    },
+  },
+};
+
+engine.data = [
+  {
+    id: 'track-1',
+    actions: [{ id: 'a1', start: 0, end: 5, effectId: 'highlight' }],
+  },
+];
+
+// Listen to events
+engine.on('setTimeByTick', ({ time }) => {
+  document.getElementById('clock')!.textContent = `${time.toFixed(2)}s`;
+});
+
+engine.play({ autoEnd: true });
+```
+
+**Effect lifecycle hooks:**
+
+| Hook | When it fires |
+|---|---|
+| `start` | Engine starts playing while already inside the action range |
+| `enter` | Playhead crosses into the action |
+| `update` | Every animation frame while inside the action |
+| `leave` | Playhead crosses out of the action |
+| `stop` | Engine pauses while inside the action range |
+
+---
+
+## 📐 Key Props Reference
+
+### `<Timeline />` — Core Props
 
 | Prop | Type | Default | Description |
 |---|---|---|---|
-| `editorData` | `TimelineRow[]` | **required** | The array of track rows and their action blocks |
-| `effects` | `Record<string, TimelineEffect>` | **required** | Map of effect definitions keyed by ID |
-| `onChange` | `(rows: TimelineRow[]) => void` | — | Called whenever actions are dragged or resized |
-| `autoScroll` | `boolean` | `false` | Pan the timeline when dragging near the edges |
-| `gridSnap` | `boolean` | `false` | Snap actions to the time grid |
-| `dragLine` | `boolean` | `false` | Show auxiliary snap lines between actions |
-| `scale` | `number` | `1` | Number of seconds per scale unit |
-| `scaleWidth` | `number` | `160` | Pixel width of each scale unit |
-| `scaleSplitCount` | `number` | `10` | Number of subdivisions within each scale unit |
-| `disableDrag` | `boolean` | `false` | Lock the timeline — no user interaction |
-| `hideCursor` | `boolean` | `false` | Hide the playback cursor line |
-| `enableRowDrag` | `boolean` | `false` | Enable drag-to-reorder of rows |
-| `getActionRender` | `(action) => ReactNode` | — | Custom renderer for action block content |
-| `ref` | `RefObject<TimelineState>` | — | Imperative handle for play/pause/seek |
+| `editorData` | `TimelineRow[]` | required | The track/action data |
+| `effects` | `Record<string, TimelineEffect>` | required | Effect definitions |
+| `onChange` | `(data: TimelineRow[]) => void` | — | Called when data changes |
+| `scale` | `number` | `1` | Seconds per scale mark |
+| `scaleWidth` | `number` | `160` | Pixel width of each scale mark |
+| `rowHeight` | `number` | `32` | Default row height in px |
+| `autoScroll` | `boolean` | `false` | Auto-scroll during drag near edges |
+| `gridSnap` | `boolean` | `false` | Snap actions to the grid |
+| `dragLine` | `boolean` | `false` | Show auxiliary snapping lines |
+| `disableDrag` | `boolean` | `false` | Lock all action movement |
+| `hideCursor` | `boolean` | `false` | Hide the playhead cursor |
+| `enableRowDrag` | `boolean` | `false` | Allow row reordering |
+| `enableCrossRowDrag` | `boolean` | `false` | Allow dragging blocks between rows |
+
+> 📖 See the [full API reference in the docs](https://github.com/keplar-404/react-timeline-editor/tree/main/packages/document/docs/en/guide) for all props, events, and TypeScript types.
 
 ---
 
-## 📐 Data Interfaces
-
-```ts
-interface TimelineRow {
-  id: string;
-  actions: TimelineAction[];
-  /** Optional: lock all actions in this row */
-  rowLock?: boolean;
-}
-
-interface TimelineAction {
-  id: string;
-  start: number;        // Start time in seconds
-  end: number;          // End time in seconds
-  effectId: string;     // References a key in your effects map
-  movable?: boolean;    // Can the user drag this action? (default: true)
-  flexible?: boolean;   // Can the user resize this action? (default: true)
-}
-
-interface TimelineEffect {
-  id: string;
-  name: string;
-}
-```
-
----
-
-## 🔄 Releases & Changelog
-
-See the full [CHANGELOG.md](./CHANGELOG.md) for a detailed history of every release.
-
-| Version | Date | Highlights |
-|---|---|---|
-| **[1.0.11](./CHANGELOG.md#10111---2026-03-13)** | 2026-03-13 | Idempotent CI publish; lockstep engine+timeline versioning |
-| **[1.0.10](./CHANGELOG.md#10101---2026-03-13)** | 2026-03-13 | Fixed CSS `@import` via `"style"` export condition (Tailwind v4, webpack) |
-| **[1.0.9](./CHANGELOG.md#109---2026-03-13)** | 2026-03-13 | Fixed broken npm install (entry points now point to compiled `dist/`) |
-| **[1.0.8](./CHANGELOG.md#108---2026-03-12)** | 2026-03-12 | Fixed `workspace:*` to resolvable version ranges for npm consumers |
-| **[1.0.0](./CHANGELOG.md#100---2026-03-09)** | 2026-03-09 | Initial public release |
-
----
-
-## 🏗️ Monorepo Structure
+## 🏗 Architecture
 
 ```
-react-timeline-editor/
+react-timeline-editor/              # Monorepo root
 ├── packages/
-│   ├── timeline/       # @keplar-404/react-timeline-editor (React component)
-│   ├── engine/         # @keplar-404/timeline-engine (headless playback engine)
-│   ├── document/       # Documentation site source
-│   └── example/        # Example app
-├── scripts/            # Release automation scripts
-├── CHANGELOG.md
-└── package.json        # Workspace root
+│   ├── timeline/                   # @keplar-404/react-timeline-editor
+│   │   └── src/
+│   │       ├── components/
+│   │       │   ├── timeline.tsx    # Core <Timeline /> component
+│   │       │   ├── transport/      # TransportBar + useTimelinePlayer
+│   │       │   ├── cut-overlay/    # CutOverlay scissors tool
+│   │       │   └── loop-zone/      # LoopZoneOverlay
+│   │       └── interface/
+│   │           └── timeline.ts     # All TypeScript interfaces
+│   ├── engine/                     # @keplar-404/timeline-engine
+│   │   └── src/
+│   │       ├── core/               # Engine, Emitter, Events
+│   │       └── interface/          # TimelineAction, TimelineEffect
+│   ├── document/                   # Rspress documentation site
+│   └── example/                    # Interactive demo app
+└── CHANGELOG.md
 ```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions, bug reports, and feature requests are welcome!
+Contributions, issues, and feature requests are welcome!
 
 1. **Fork** this repository
 2. **Create** a feature branch: `git checkout -b feat/my-feature`
-3. **Commit** your changes with a descriptive message
-4. **Open a Pull Request** against `main`
+3. **Commit** your changes using [Conventional Commits](https://www.conventionalcommits.org/): `git commit -m "feat: add my feature"`
+4. **Push** and open a **Pull Request**
 
-Please check the [open issues](https://github.com/keplar-404/react-timeline-editor/issues) before submitting a duplicate.
+Please check the [open issues](https://github.com/keplar-404/react-timeline-editor/issues) before starting work on something new.
+
+### Development Setup
+
+```bash
+# Clone the repo
+git clone https://github.com/keplar-404/react-timeline-editor.git
+cd react-timeline-editor
+
+# Install all workspace dependencies
+bun install
+
+# Run the docs site locally
+bun --filter docs dev
+
+# Run the example app
+bun --filter example dev
+
+# Build all packages
+bun run build
+```
+
+---
+
+## 📜 Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for a full history of releases and changes.
+
+---
+
+## 🙏 Acknowledgements
+
+This package is built on top of and derived from [@xzdarcy/react-timeline-editor](https://github.com/xzdarcy/react-timeline-editor).  
+All credit for the original architecture and engine goes to [@xzdarcy](https://github.com/xzdarcy).  
+This repository is a heavily extended fork with major new capabilities introduced by [@keplar-404](https://github.com/keplar-404).
 
 ---
 
 ## 📄 License
 
-MIT © [keplar-404](https://github.com/keplar-404)
-
-Original work by [@xzdarcy](https://github.com/xzdarcy) — [MIT License](https://github.com/xzdarcy/react-timeline-editor/blob/main/LICENSE)
-]]>
+[MIT](./LICENSE) © [keplar-404](https://github.com/keplar-404)
