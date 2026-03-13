@@ -96,7 +96,7 @@ function createHtmlFile(entryName) {
 function startDevServer() {
   console.log('\n🚀 Starting dev server...');
   try {
-    execSync('bunx --bun vite', {
+    execSync('bunx vite', {
       cwd: projectRoot,
       stdio: 'inherit',
       env: { ...process.env, FORCE_COLOR: '1' }

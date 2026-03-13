@@ -5,6 +5,7 @@ import {
   Timeline, CutOverlay, CutOverlayConfig, splitActionInRow,
   LoopZoneOverlay, TimelineState, TransportBar, useTimelinePlayer
 } from '@keplar-404/react-timeline-editor';
+import '@keplar-404/react-timeline-editor/dist/react-timeline-editor.css';
 import { TimelineAction, TimelineRow } from '@keplar-404/timeline-engine';
 import { cloneDeep } from 'lodash';
 // ─────────────────────────────────────────────

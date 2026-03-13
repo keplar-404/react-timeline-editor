@@ -14,6 +14,7 @@
   "dependencies": {
     "@keplar-404/react-timeline-editor": "workspace:^",
     "@keplar-404/timeline-engine": "workspace:^",
+    "@types/node": "^25.5.0",
     "@types/react-router-dom": "^5.3.3",
     "lodash": "^4.17.21",
     "react": "^18.2.0",

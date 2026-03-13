@@ -411,7 +411,7 @@
   color: #334155;
   font-family: 'SF Mono', 'Cascadia Code', monospace;
 }
-.feature-demo .transport-bar {
+.feature-demo .timeline-transport-bar {
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -422,12 +422,12 @@
   background: linear-gradient(180deg, #0f1117 0%, #0d0f14 100%);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
-.feature-demo .transport-controls {
+.feature-demo .timeline-transport-controls {
   display: flex;
   align-items: center;
   gap: 4px;
 }
-.feature-demo .transport-btn {
+.feature-demo .timeline-transport-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -440,18 +440,18 @@
   cursor: pointer;
   transition: all 0.15s;
 }
-.feature-demo .transport-btn:hover {
+.feature-demo .timeline-transport-btn:hover {
   background: rgba(255, 255, 255, 0.09);
   color: #cbd5e1;
   border-color: rgba(255, 255, 255, 0.15);
 }
-.feature-demo .transport-btn:active {
+.feature-demo .timeline-transport-btn:active {
   transform: scale(0.92);
 }
-.feature-demo .transport-btn svg {
+.feature-demo .timeline-transport-btn svg {
   flex-shrink: 0;
 }
-.feature-demo .transport-btn--primary {
+.feature-demo .timeline-transport-btn--primary {
   background: rgba(59, 130, 246, 0.15);
   border-color: rgba(59, 130, 246, 0.4);
   color: #3b82f6;
@@ -460,21 +460,21 @@
   border-radius: 50%;
   box-shadow: 0 0 12px rgba(59, 130, 246, 0.2);
 }
-.feature-demo .transport-btn--primary:hover {
+.feature-demo .timeline-transport-btn--primary:hover {
   background: rgba(59, 130, 246, 0.28);
   border-color: rgba(59, 130, 246, 0.7);
   color: #60a5fa;
   box-shadow: 0 0 18px rgba(59, 130, 246, 0.4);
 }
-.feature-demo .transport-btn--stop {
+.feature-demo .timeline-transport-btn--stop {
   color: #4b5563;
 }
-.feature-demo .transport-btn--stop:hover {
+.feature-demo .timeline-transport-btn--stop:hover {
   color: #ef4444;
   background: rgba(239, 68, 68, 0.1);
   border-color: rgba(239, 68, 68, 0.3);
 }
-.feature-demo .transport-time {
+.feature-demo .timeline-transport-time {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -484,7 +484,7 @@
   border-radius: 8px;
   padding: 4px 16px;
 }
-.feature-demo .transport-time-value {
+.feature-demo .timeline-transport-time-value {
   font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
   font-size: 18px;
   font-weight: 600;
@@ -492,7 +492,7 @@
   letter-spacing: 0.05em;
   line-height: 1;
 }
-.feature-demo .transport-time-label {
+.feature-demo .timeline-transport-time-label {
   font-size: 8px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -500,12 +500,12 @@
   text-transform: uppercase;
   line-height: 1;
 }
-.feature-demo .transport-rate {
+.feature-demo .timeline-transport-rate {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.feature-demo .transport-rate-label {
+.feature-demo .timeline-transport-rate-label {
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -513,11 +513,11 @@
   text-transform: uppercase;
   white-space: nowrap;
 }
-.feature-demo .transport-rate-buttons {
+.feature-demo .timeline-transport-rate-buttons {
   display: flex;
   gap: 3px;
 }
-.feature-demo .transport-rate-btn {
+.feature-demo .timeline-transport-rate-btn {
   padding: 3px 8px;
   border-radius: 5px;
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -529,46 +529,46 @@
   cursor: pointer;
   transition: all 0.12s;
 }
-.feature-demo .transport-rate-btn:hover {
+.feature-demo .timeline-transport-rate-btn:hover {
   background: rgba(255, 255, 255, 0.07);
   color: #94a3b8;
 }
-.feature-demo .transport-rate-btn--active {
+.feature-demo .timeline-transport-rate-btn--active {
   background: rgba(59, 130, 246, 0.15);
   border-color: rgba(59, 130, 246, 0.4);
   color: #3b82f6;
   box-shadow: 0 0 6px rgba(59, 130, 246, 0.15);
 }
-.feature-demo .transport-divider {
+.feature-demo .timeline-transport-divider {
   width: 1px;
   height: 20px;
   background: rgba(255, 255, 255, 0.08);
   margin: 0 4px;
   flex-shrink: 0;
 }
-.feature-demo .transport-btn--loop {
+.feature-demo .timeline-transport-btn--loop {
   font-size: 14px;
   line-height: 1;
   color: #4b5563;
 }
-.feature-demo .transport-btn--loop:hover {
+.feature-demo .timeline-transport-btn--loop:hover {
   background: rgba(16, 185, 129, 0.1);
   border-color: rgba(16, 185, 129, 0.3);
   color: #10b981;
 }
-.feature-demo .transport-btn--loop-active {
+.feature-demo .timeline-transport-btn--loop-active {
   background: rgba(16, 185, 129, 0.18) !important;
   border-color: rgba(16, 185, 129, 0.5) !important;
   color: #10b981 !important;
   box-shadow: 0 0 10px rgba(16, 185, 129, 0.25) !important;
 }
-.feature-demo .transport-loop-inputs {
+.feature-demo .timeline-transport-loop-inputs {
   display: flex;
   align-items: center;
   gap: 4px;
   margin-left: 4px;
 }
-.feature-demo .transport-loop-input {
+.feature-demo .timeline-transport-loop-input {
   width: 52px;
   background: rgba(0, 0, 0, 0.35);
   border: 1px solid rgba(16, 185, 129, 0.3);
@@ -582,20 +582,20 @@
   outline: none;
   transition: border-color 0.12s;
 }
-.feature-demo .transport-loop-input:focus {
+.feature-demo .timeline-transport-loop-input:focus {
   border-color: rgba(16, 185, 129, 0.7);
   box-shadow: 0 0 6px rgba(16, 185, 129, 0.2);
 }
-.feature-demo .transport-loop-input::-webkit-inner-spin-button,
-.feature-demo .transport-loop-input::-webkit-outer-spin-button {
+.feature-demo .timeline-transport-loop-input::-webkit-inner-spin-button,
+.feature-demo .timeline-transport-loop-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.feature-demo .transport-loop-arrow {
+.feature-demo .timeline-transport-loop-arrow {
   font-size: 11px;
   color: #334155;
 }
-.feature-demo .transport-loop-unit {
+.feature-demo .timeline-transport-loop-unit {
   font-size: 10px;
   color: #334155;
   font-family: 'SF Mono', 'Cascadia Code', monospace;
